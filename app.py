@@ -53,7 +53,7 @@ print("**********************************\n")
 
 
 
-plt.plot(['Training','Validation', 'Testing'], [n_train, n_validation, n_test])
+plt.hist(['Training','Validation', 'Testing'], [n_train, n_validation, n_test])
 plt.xlabel('Datasets')
 plt.ylabel('Images')
 plt.savefig('plots/Examples.png')
