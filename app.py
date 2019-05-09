@@ -1,8 +1,8 @@
 import pickle
 
-training_file = ../data/train.p
-validation_file= ../data/valid.p
-testing_file = ../data/test.p
+training_file = '../data/train.p'
+validation_file= '../data/valid.p'
+testing_file = '../data/test.p'
 
 with open(training_file, mode='rb') as f:
     train = pickle.load(f)
