@@ -51,7 +51,9 @@ print("\n")
 
 print("**********************************\n")
 
-plt.plot([0, 1, 2, 3, 4], [0, 3, 5, 9, 11])
-plt.xlabel('Months')
-plt.ylabel('Books Read')
-plt.savefig('plots/test.png')
+
+
+plt.plot(['Training','Validation', 'Testing'], [n_train, n_validation, n_test])
+plt.xlabel('Datasets')
+plt.ylabel('Images')
+plt.savefig('plots/.png')
