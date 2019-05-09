@@ -21,19 +21,19 @@ print("Dataset Loaded")
 
 
 # TODO: Number of training examples
-n_train = np.shape(X_train)
+n_train = np.shape(X_train)[0]
 
 # TODO: Number of validation examples
-n_validation = np.shape(X_valid)
+n_validation = np.shape(X_valid)[0]
 
 # TODO: Number of testing examples.
-n_test = np.shape(X_test)
+n_test = np.shape(X_test)[0]
 
 # TODO: What's the shape of an traffic sign image?
-image_shape = X_test
+image_shape = (np.shape(X_train)[1], np.shape(X_train)[2])
 
 # TODO: How many unique classes/labels there are in the dataset.
-n_classes = X_test
+n_classes = np.shape(y_train)
 
 print("Number of training examples =", n_train)
 print("Number of testing examples =", n_test)
