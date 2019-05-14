@@ -9,7 +9,7 @@ from tqdm import tqdm
 PREVIEW = False  # Plot Preview On/Off
 
 
-EPOCHS = 20
+EPOCHS = 100
 BATCH_SIZE = 128
 
 rate = 0.001
