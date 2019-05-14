@@ -5,7 +5,7 @@ def LeNet(x, image_shape, n_classes, keep_prob = None,  mu = 0 , sigma = 0.1):
     
     conv1_filterShape = 5
     conv1_inputDepth = image_shape[2]
-    conv1_filters = 6
+    conv1_filters = 12
 
     # SOLUTION: Layer 1: Convolutional. Input = 32x32x1. Output = 28x28x6.
     conv1_W = tf.Variable(tf.truncated_normal(shape=(conv1_filterShape, conv1_filterShape, conv1_inputDepth, conv1_filters), mean = mu, stddev = sigma))
