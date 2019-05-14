@@ -1,7 +1,7 @@
 import tensorflow as tf
 from tensorflow.contrib.layers import flatten
 
-def LeNet(x, image_shape, n_classes, keep_prob = None,  mu = 0 , sigma = 1):    
+def LeNet(x, image_shape, n_classes, keep_prob = None,  mu = 0 , sigma = 0.1):    
     
     conv1_filterShape = 5
     conv1_inputDepth = image_shape[2]
@@ -45,7 +45,7 @@ def LeNet(x, image_shape, n_classes, keep_prob = None,  mu = 0 , sigma = 1):
     
     # SOLUTION: Activation.
     fc1    = tf.nn.relu(fc1)
-    #fc1 = tf.nn.dropout(fc1, keep_prob)
+    fc1 = tf.nn.dropout(fc1, keep_prob)
 
     # SOLUTION: Layer 4: Fully Connected. Input = 120. Output = 84.
     fc2_W  = tf.Variable(tf.truncated_normal(shape=(120, 84), mean = mu, stddev = sigma))
@@ -54,7 +54,7 @@ def LeNet(x, image_shape, n_classes, keep_prob = None,  mu = 0 , sigma = 1):
     
     # SOLUTION: Activation.
     fc2    = tf.nn.relu(fc2)
-    #fc2 = tf.nn.dropout(fc2, keep_prob)
+    fc2 = tf.nn.dropout(fc2, keep_prob)
 
     # SOLUTION: Layer 5: Fully Connected. Input = 84. Output = n_classes.
     fc3_W  = tf.Variable(tf.truncated_normal(shape=(84, n_classes), mean = mu, stddev = sigma))
