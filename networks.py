@@ -3,10 +3,13 @@ from tensorflow.contrib.layers import flatten
 
 def LeNet(x, image_shape, n_classes, keep_prob = None,  mu = 0 , sigma = 0.1):    
     
+    conv1_filterShape = 5
+    conv1_inputDepth = image_shape[2]
+    conv1_filters = 6
 
     # SOLUTION: Layer 1: Convolutional. Input = 32x32x1. Output = 28x28x6.
-    conv1_W = tf.Variable(tf.truncated_normal(shape=(5, 5, image_shape[2], 18), mean = mu, stddev = sigma))
-    conv1_b = tf.Variable(tf.zeros(18))
+    conv1_W = tf.Variable(tf.truncated_normal(shape=(conv1_filterShape, conv1_filterShape, conv1_inputDepth, conv1_filters), mean = mu, stddev = sigma))
+    conv1_b = tf.Variable(tf.zeros(conv1_filters))
     conv1   = tf.nn.conv2d(x, conv1_W, strides=[1, 1, 1, 1], padding='VALID') + conv1_b
 
     # SOLUTION: Activation.
@@ -15,9 +18,15 @@ def LeNet(x, image_shape, n_classes, keep_prob = None,  mu = 0 , sigma = 0.1):
     # SOLUTION: Pooling. Input = 28x28x6. Output = 14x14x6.
     conv1 = tf.nn.max_pool(conv1, ksize=[1, 2, 2, 1], strides=[1, 2, 2, 1], padding='VALID')
 
+
     # SOLUTION: Layer 2: Convolutional. Output = 10x10x16.
-    conv2_W = tf.Variable(tf.truncated_normal(shape=(5, 5, 18, 16), mean = mu, stddev = sigma))
-    conv2_b = tf.Variable(tf.zeros(16))
+
+    conv2_filterShape = 5
+    conv2_inputDepth = conv1_filters
+    conv2_filters = 16
+
+    conv2_W = tf.Variable(tf.truncated_normal(shape=(conv2_filterShape, conv2_filterShape, conv2_inputDepth, conv2_filters), mean = mu, stddev = sigma))
+    conv2_b = tf.Variable(tf.zeros(conv2_filters))
     conv2   = tf.nn.conv2d(conv1, conv2_W, strides=[1, 1, 1, 1], padding='VALID') + conv2_b
     
     # SOLUTION: Activation.
@@ -36,7 +45,7 @@ def LeNet(x, image_shape, n_classes, keep_prob = None,  mu = 0 , sigma = 0.1):
     
     # SOLUTION: Activation.
     fc1    = tf.nn.relu(fc1)
-    fc1 = tf.nn.dropout(fc1, keep_prob)
+    #fc1 = tf.nn.dropout(fc1, keep_prob)
 
     # SOLUTION: Layer 4: Fully Connected. Input = 120. Output = 84.
     fc2_W  = tf.Variable(tf.truncated_normal(shape=(120, 84), mean = mu, stddev = sigma))
