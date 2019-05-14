@@ -5,6 +5,7 @@ import tensorflow as tf
 from sklearn.utils import shuffle
 import networks as nn
 from tqdm import tqdm
+import sys
 
 PREVIEW = False  # Plot Preview On/Off
 
@@ -111,8 +112,33 @@ print('Plots Done')
 
 print("**********************************\n")
 
+print('Start Preprocessing')
 
 
+X_train = np.array(X_train, dtype = np.float32)
+X_valid = np.array(X_valid, dtype = np.float32)
+X_test = np.array(X_test, dtype = np.float32)
+
+print('Normalizing Training Set')
+for i in tqdm(range(np.shape(X_train)[0])):
+    X_train[i] = (X_train[i] - 128.0) / 128.0
+
+print('Normalizing Validation Set')
+for i in tqdm(range(np.shape(X_valid)[0])):
+    X_valid[i] = (X_valid[i] -128.0) / 128.0
+
+print('Normalizing Testing Set')
+for i in tqdm(range(np.shape(X_test)[0])):
+    X_test[i] = (X_test[i] -128.0) / 128.0
+
+
+
+
+
+
+
+print('Preprocessing Done')
+print("**********************************\n")
 
 
 x = tf.placeholder(tf.float32,(None, image_shape[0], image_shape[1], image_shape[2]))
