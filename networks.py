@@ -1,7 +1,7 @@
 import tensorflow as tf
 from tensorflow.contrib.layers import flatten
 
-def LeNet(x, image_shape, n_classes, keep_prob = None,  mu = 0 , sigma = 0.1):    
+def LeNet(x, image_shape, n_classes, keep_prob = None,  mu = 0 , sigma = 1):    
     
     conv1_filterShape = 5
     conv1_inputDepth = image_shape[2]
