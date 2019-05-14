@@ -1,8 +1,9 @@
 import tensorflow as tf
 from tensorflow.contrib.layers import flatten
 
-def LeNet(x, image_shape, n_classes,  mu = 0 , sigma = 0.1):    
+def LeNet(x, image_shape, n_classes, keep_prob = None,  mu = 0 , sigma = 0.1):    
     
+
     # SOLUTION: Layer 1: Convolutional. Input = 32x32x1. Output = 28x28x6.
     conv1_W = tf.Variable(tf.truncated_normal(shape=(5, 5, image_shape[2], 6), mean = mu, stddev = sigma))
     conv1_b = tf.Variable(tf.zeros(6))
@@ -10,6 +11,7 @@ def LeNet(x, image_shape, n_classes,  mu = 0 , sigma = 0.1):
 
     # SOLUTION: Activation.
     conv1 = tf.nn.relu(conv1)
+    conv1 = tf.nn.dropout(conv1, keep_prob)
 
     # SOLUTION: Pooling. Input = 28x28x6. Output = 14x14x6.
     conv1 = tf.nn.max_pool(conv1, ksize=[1, 2, 2, 1], strides=[1, 2, 2, 1], padding='VALID')
@@ -21,6 +23,7 @@ def LeNet(x, image_shape, n_classes,  mu = 0 , sigma = 0.1):
     
     # SOLUTION: Activation.
     conv2 = tf.nn.relu(conv2)
+    conv2 = tf.nn.dropout(conv2, keep_prob)
 
     # SOLUTION: Pooling. Input = 10x10x16. Output = 5x5x16.
     conv2 = tf.nn.max_pool(conv2, ksize=[1, 2, 2, 1], strides=[1, 2, 2, 1], padding='VALID')
@@ -35,6 +38,7 @@ def LeNet(x, image_shape, n_classes,  mu = 0 , sigma = 0.1):
     
     # SOLUTION: Activation.
     fc1    = tf.nn.relu(fc1)
+    fc1 = tf.nn.dropout(fc1, keep_prob)
 
     # SOLUTION: Layer 4: Fully Connected. Input = 120. Output = 84.
     fc2_W  = tf.Variable(tf.truncated_normal(shape=(120, 84), mean = mu, stddev = sigma))
@@ -43,6 +47,7 @@ def LeNet(x, image_shape, n_classes,  mu = 0 , sigma = 0.1):
     
     # SOLUTION: Activation.
     fc2    = tf.nn.relu(fc2)
+    fc2 = tf.nn.dropout(fc2, keep_prob)
 
     # SOLUTION: Layer 5: Fully Connected. Input = 84. Output = n_classes.
     fc3_W  = tf.Variable(tf.truncated_normal(shape=(84, n_classes), mean = mu, stddev = sigma))

@@ -119,7 +119,7 @@ x = tf.placeholder(tf.float32,(None, image_shape[0], image_shape[1], image_shape
 y = tf.placeholder(tf.int32, (None))
 one_hot_y = tf.one_hot(y, n_classes)
 
-logits = nn.LeNet(x, image_shape, n_classes)
+logits = nn.LeNet(x, image_shape, n_classes, keep_prob = 0.5)
 
 print('Tensors Defined')
 
