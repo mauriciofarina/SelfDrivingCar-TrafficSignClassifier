@@ -10,7 +10,7 @@ import sys
 PREVIEW = False  # Plot Preview On/Off
 
 
-EPOCHS = 20
+EPOCHS = 30
 BATCH_SIZE = 128
 
 rate = 0.001
