@@ -6,6 +6,7 @@ from sklearn.utils import shuffle
 import networks as nn
 from tqdm import tqdm
 import sys
+import matplotlib.pyplot as plt
 
 PREVIEW = False  # Plot Preview On/Off
 
@@ -114,7 +115,6 @@ print("**********************************\n")
 
 print('Start Preprocessing')
 
-
 X_train = np.array(X_train, dtype = np.float32)
 X_valid = np.array(X_valid, dtype = np.float32)
 X_test = np.array(X_test, dtype = np.float32)
@@ -136,7 +136,6 @@ for i in tqdm(range(np.shape(X_test)[0])):
 
 
 
-
 print('Preprocessing Done')
 print("**********************************\n")
 
@@ -145,7 +144,8 @@ x = tf.placeholder(tf.float32,(None, image_shape[0], image_shape[1], image_shape
 y = tf.placeholder(tf.int32, (None))
 one_hot_y = tf.one_hot(y, n_classes)
 
-logits = nn.LeNet(x, image_shape, n_classes, keep_prob = 0.5)
+#logits = nn.LeNet(x, image_shape, n_classes, keep_prob = 0.5)
+logits = nn.LeNetModified(x, image_shape, n_classes, keep_prob = 0.5)
 
 print('Tensors Defined')
 
