@@ -16,7 +16,7 @@ def LeNetModified(inputData, inputShape, outputClasses):
 
     convolutionOutuput = flatten(maxPool2)
     convolutionOutputSize = maxPool2Shape[0] * maxPool2Shape[1] * maxPool2Shape[2]
-
+    
 
 
     fullyConn1, fullyConn1Shape = fullyConnectedLayer(convolutionOutuput, shape = (convolutionOutputSize, 120) )
@@ -44,7 +44,6 @@ def convLayer(inputData, inputShape, filterShape, strides=[1, 1, 1, 1], padding=
     outputDepth = filterShape[2]
 
     outputShape = (int(outputWidth), int(outputHeight), int(outputDepth))
-
 
     if(relu):
         output = tf.nn.relu(output)
@@ -82,7 +81,6 @@ def fullyConnectedLayer(inputData, shape, mu = 0 , sigma = 0.1, relu = True, dro
 
     if(dropout):
         output = tf.nn.dropout(output, dropoutKeepProb)
-        print('Dropout')
 
     return output, outputShape
 

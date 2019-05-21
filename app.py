@@ -154,9 +154,86 @@ x = tf.placeholder(tf.float32,(None, imageShape[0], imageShape[1], imageShape[2]
 y = tf.placeholder(tf.int32, (None))
 oneHotY = tf.one_hot(y, classesSize)
 
-logits = nn.LeNet(x, imageShape, classesSize)
-#logits = nn.LeNetModified(x, imageShape, classesSize)
 
+
+
+
+
+
+
+
+logits = nn.LeNet(x, imageShape, classesSize)
+
+
+
+print('Tensors Defined')
+
+
+
+crossEntropy = tf.nn.softmax_cross_entropy_with_logits(labels=oneHotY, logits=logits)
+lossOperation = tf.reduce_mean(crossEntropy)
+optimizer = tf.train.AdamOptimizer(learning_rate = LEARNING_RATE)
+trainingOperation = optimizer.minimize(lossOperation)
+
+print('Training Process Defined')
+
+correctPrediction = tf.equal(tf.argmax(logits, 1), tf.argmax(oneHotY, 1))
+accuracyOperation = tf.reduce_mean(tf.cast(correctPrediction, tf.float32))
+
+
+def evaluate(xData, yData):
+    examplesSize = len(xData)
+    totalAccuracy = 0
+    sess = tf.get_default_session()
+    for offset in range(0, examplesSize, BATCH_SIZE):
+        batchX, batchY = xData[offset:offset+BATCH_SIZE], yData[offset:offset+BATCH_SIZE]
+        accuracy = sess.run(accuracyOperation, feed_dict={x: batchX, y: batchY})
+        totalAccuracy += (accuracy * len(batchX))
+    return totalAccuracy / examplesSize
+
+print('Validation Check Defined')
+
+
+saver = tf.train.Saver()
+
+
+print("**********************************\n")
+
+print("Start Training\n")
+
+
+with tf.Session() as sess:
+    sess.run(tf.global_variables_initializer())
+    examplesSize = len(xTrain)
+    
+    print("Training...\n")
+
+    for i in (range(EPOCHS)):
+        xTrain, yTrain = shuffle(xTrain, yTrain)
+        for offset in (range(0, examplesSize, BATCH_SIZE)):
+            end = offset + BATCH_SIZE
+            batchX, batchY = xTrain[offset:end], yTrain[offset:end]
+            sess.run(trainingOperation, feed_dict={x: batchX, y: batchY})
+            
+        validationAccuracy = evaluate(xValid,yValid)
+        print("EPOCH {} ...".format(i+1))
+        print("Validation Accuracy = {:.3f}\n".format(validationAccuracy))
+        
+    saver.save(sess, './lenet')
+    print("Model saved")
+
+
+
+
+
+
+
+
+
+
+
+
+logits = nn.LeNetModified(x, imageShape, classesSize)
 
 print('Tensors Defined')
 
