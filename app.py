@@ -154,8 +154,9 @@ x = tf.placeholder(tf.float32,(None, imageShape[0], imageShape[1], imageShape[2]
 y = tf.placeholder(tf.int32, (None))
 oneHotY = tf.one_hot(y, classesSize)
 
-#logits = nn.LeNet(x, imageShape, classesSize, keep_prob = 0.5)
-logits = nn.LeNetModified(x, imageShape, classesSize)
+logits = nn.LeNet(x, imageShape, classesSize)
+#logits = nn.LeNetModified(x, imageShape, classesSize)
+
 
 print('Tensors Defined')
 
