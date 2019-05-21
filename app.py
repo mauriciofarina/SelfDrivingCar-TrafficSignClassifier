@@ -12,7 +12,7 @@ import networks as nn
 from tqdm import tqdm
 import sys
 import matplotlib.pyplot as plt
-import matplotlib.color as clr
+import matplotlib.colors as clr
 
 
 
@@ -124,9 +124,19 @@ print("**********************************\n")
 print('Start Preprocessing\n')
 
 
-xTrain = clr.rgb_to_hsv(xTrain)
-xValid = clr.rgb_to_hsv(xValid)
-xTest = clr.rgb_to_hsv(xTest)
+
+print('Changing Training Set Color Space')
+for i in (range(np.shape(xTrain)[0])):
+    xTrain[i] = clr.rgb_to_hsv(xTrain[i])
+
+print('Changing Validation Set Color Space')
+for i in (range(np.shape(xValid)[0])):
+    xValid[i] = clr.rgb_to_hsv(xValid[i])
+
+print('Changing Testing Set Color Space')
+for i in (range(np.shape(xTest)[0])):
+    xTest[i] = clr.rgb_to_hsv(xTest[i])
+
 
 
 
