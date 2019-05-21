@@ -82,5 +82,6 @@ def fullyConnectedLayer(inputData, shape, mu = 0 , sigma = 0.1, relu = True, dro
 
     if(dropout):
         output = tf.nn.dropout(output, dropoutKeepProb)
+        printt('Dropout')
 
     return output, outputShape
