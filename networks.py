@@ -2,15 +2,21 @@ import tensorflow as tf
 from tensorflow.contrib.layers import flatten
 
 
-def LeNetModified(inputData, inputShape, outputClasses):    
+def LeNetModified2(inputData, inputShape, outputClasses):    
 
     weights1 = tf.Variable(tf.truncated_normal(shape=(5, 5, 3, 6), mean = 0, stddev = 0.1))
     biases1 = tf.Variable(tf.zeros(6))
     output1   = tf.nn.conv2d(inputData, weights1, strides=[1, 1, 1, 1], padding='VALID') + biases1
 
+
     output1 = tf.nn.relu(output1)
 
     output1 = tf.nn.max_pool(output1, ksize=[1, 2, 2, 1], strides=[1, 2, 2, 1], padding='VALID')
+
+
+
+
+
 
 
 
@@ -25,24 +31,49 @@ def LeNetModified(inputData, inputShape, outputClasses):
 
     fc0   = flatten(output2)
 
+
+
+
+
+
+
+
+
+
+
     weights3 = tf.Variable(tf.truncated_normal(shape=(400, 120), mean = 0, stddev = 0.1))
     biases3 = tf.Variable(tf.zeros(120))
     output3   = tf.matmul(fc0, weights3) + biases3
 
     output3 = tf.nn.relu(output3)
 
+
+
+
+
+
+
+
+
     weights4 = tf.Variable(tf.truncated_normal(shape=(120, 84), mean = 0, stddev = 0.1))
     biases4 = tf.Variable(tf.zeros(84))
-    output4   = tf.matmul(output3, weights4) + biases4
+    output4 = tf.matmul(output3, weights4) + biases4
 
     output4 = tf.nn.relu(output4)
+
+
+
+
+
+
 
 
     weights5 = tf.Variable(tf.truncated_normal(shape=(84, outputClasses), mean = 0, stddev = 0.1))
     biases5 = tf.Variable(tf.zeros(outputClasses))
     output5   = tf.matmul(output4, weights5) + biases5
 
-    output5 = tf.nn.relu(output5)
+    
+
 
     logits = output5
 
@@ -50,7 +81,7 @@ def LeNetModified(inputData, inputShape, outputClasses):
     return logits
 
 
-def LeNetModified2(inputData, inputShape, outputClasses):    
+def LeNetModified(inputData, inputShape, outputClasses):    
     
     conv1, conv1Shape = convLayer(inputData, inputShape, filterShape = (5,5,6) )
 
@@ -71,7 +102,7 @@ def LeNetModified2(inputData, inputShape, outputClasses):
 
     fullyConn2, fullyConn2Shape = fullyConnectedLayer(fullyConn1, shape = (fullyConn1Shape, 84) )
 
-    fullyConn3, fullyConn3Shape = fullyConnectedLayer(fullyConn2, shape = (fullyConn2Shape, outputClasses) )
+    fullyConn3, fullyConn3Shape = fullyConnectedLayer(fullyConn2, shape = (fullyConn2Shape, outputClasses), relu = False)
 
     logits = fullyConn3
 
