@@ -206,9 +206,9 @@ with tf.Session() as sess:
             batchX, batchY = xTrain[offset:end], yTrain[offset:end]
             sess.run(trainingOperation, feed_dict={x: batchX, y: batchY})
             
-        validation_accuracy = evaluate(xValid,V)
+        validationAccuracy = evaluate(xValid,yValid)
         print("EPOCH {} ...".format(i+1))
-        print("Validation Accuracy = {:.3f}\n".format(validation_accuracy))
+        print("Validation Accuracy = {:.3f}\n".format(validationAccuracy))
         
     saver.save(sess, './lenet')
     print("Model saved")
