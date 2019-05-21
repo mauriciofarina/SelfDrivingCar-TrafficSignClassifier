@@ -160,9 +160,9 @@ oneHotY = tf.one_hot(y, classesSize)
 
 
 
+logits = nn.LeNetModified(x, imageShape, classesSize)
 
 
-logits = nn.LeNet(x, imageShape, classesSize)
 
 
 
@@ -233,7 +233,7 @@ with tf.Session() as sess:
 
 
 
-logits = nn.LeNetModified(x, imageShape, classesSize)
+logits = nn.LeNet(x, imageShape, classesSize)
 
 print('Tensors Defined')
 
