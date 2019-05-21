@@ -3,8 +3,35 @@ from tensorflow.contrib.layers import flatten
 
 
 
-
 def LeNetModified(inputData, inputShape, outputClasses):    
+    
+    conv1, conv1Shape = convLayer(inputData, inputShape, filterShape = (5,5,6) )
+
+    maxPool1, maxPool1Shape = maxPool(conv1, conv1Shape)
+
+
+    conv2, conv2Shape = convLayer(maxPool1, maxPool1Shape, filterShape = (5,5,16) )
+
+    maxPool2, maxPool2Shape = maxPool(conv2, conv2Shape)
+
+
+    convolutionOutuput = flatten(maxPool2)
+    convolutionOutputSize = maxPool2Shape[0] * maxPool2Shape[1] * maxPool2Shape[2]
+    
+
+
+    fullyConn1, fullyConn1Shape = fullyConnectedLayer(convolutionOutuput, shape = (convolutionOutputSize, 120) )
+
+    fullyConn2, fullyConn2Shape = fullyConnectedLayer(fullyConn1, shape = (fullyConn1Shape, 84) )
+
+    fullyConn3, fullyConn3Shape = fullyConnectedLayer(fullyConn2, shape = (fullyConn2Shape, outputClasses), relu = False)
+
+    logits = fullyConn3
+
+    return logits
+
+
+def LeNet(inputData, inputShape, outputClasses):    
     
     conv1, conv1Shape = convLayer(inputData, inputShape, filterShape = (5,5,6) )
 

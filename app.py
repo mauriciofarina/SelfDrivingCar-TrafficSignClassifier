@@ -12,6 +12,7 @@ import networks as nn
 from tqdm import tqdm
 import sys
 import matplotlib.pyplot as plt
+import matplotlib.image as mpimg
 
 
 
@@ -121,6 +122,13 @@ print('Plots Done')
 print("**********************************\n")
 
 print('Start Preprocessing\n')
+
+
+xTrain = matplotlib.colors.rgb_to_hsv(xTrain)
+xValid = matplotlib.colors.rgb_to_hsv(xValid)
+xTest = matplotlib.colors.rgb_to_hsv(xTest)
+
+
 
 xTrain = np.array(xTrain, dtype = np.float32)
 xValid = np.array(xValid, dtype = np.float32)
