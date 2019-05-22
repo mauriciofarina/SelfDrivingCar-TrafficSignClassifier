@@ -233,14 +233,17 @@ with tf.Session() as sess:
         validationAccuracy = evaluate(xValid,yValid)
         print("EPOCH {} ...".format(i+1))
         print("Validation Accuracy = {:.3f}\n".format(validationAccuracy))
-        tempVal = "{:.3f}".format(validationAccuracy)
-        #terminalPlot.append(float(tempVal))
         terminalPlot.append(validationAccuracy)
         
     saver.save(sess, './lenet')
     print("Model saved")
 
     print("Max Accuracy: " + str(max(terminalPlot)))
+    
+
+    terminalPlot = int(terminalPlot*100)
+
+    print(terminalPlot)
 
     termplot.plot(terminalPlot, plot_height=20, plot_char='.')
 
