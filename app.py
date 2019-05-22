@@ -27,7 +27,7 @@ PREVIEW = False  # Plot Preview On/Off
 EPOCHS = 20
 BATCH_SIZE = 128
 LEARNING_RATE = 0.001
-
+PLOT_HIGHT=30
 
 for index, value in enumerate(sys.argv):
     
@@ -39,6 +39,9 @@ for index, value in enumerate(sys.argv):
 
     elif value == "-l":
         LEARNING_RATE = sys.argv[index+1]
+    elif value == "-p":
+        PLOT_HIGHT = sys.argv[index+1]
+
 
 
 
@@ -260,14 +263,12 @@ with tf.Session() as sess:
     print("Max Accuracy: " + str(max(terminalPlot)))
     
 
-    terminalPlot = np.array(terminalPlot)
-
-    terminalPlot = (terminalPlot*100)
+    
 
 
 
 
-    plot.plotTerminal(terminalPlot, plot_height=20)
+    plot.plotTerminal(terminalPlot, plot_height=PLOT_HIGHT)
 
 
 

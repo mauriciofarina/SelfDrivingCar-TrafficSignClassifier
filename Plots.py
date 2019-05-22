@@ -66,6 +66,10 @@ def plotTerminal(x, plot_height=10, plot_char='.... '):
     result = []
 
     max_pos = 100
+
+    x = np.array(x)
+
+    x = (x*100)
     
     for i in x:
         temp = i/float(max_pos)
