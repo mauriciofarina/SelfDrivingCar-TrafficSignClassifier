@@ -3,6 +3,9 @@ np.warnings.filterwarnings('ignore')
 
 import os
 os.environ['TF_CPP_MIN_LOG_LEVEL'] = '3' 
+import sys
+
+
 
 import pickle
 import Plots as plot
@@ -10,22 +13,37 @@ import tensorflow as tf
 from sklearn.utils import shuffle
 import networks as nn
 from tqdm import tqdm
-import sys
+
 import matplotlib.pyplot as plt
 import matplotlib.colors as clr
 
 import cv2
-import termplot
-
 
 
 
 PREVIEW = False  # Plot Preview On/Off
 
 
-EPOCHS = 5
+EPOCHS = 20
 BATCH_SIZE = 128
 LEARNING_RATE = 0.001
+
+
+for index, value in enumerate(sys.argv):
+    
+    if value == "--epoch":
+        EPOCHS = sys.argv[index+1]
+    
+    elif value == "--batch":
+        BATCH_SIZE = sys.argv[index+1]
+
+    elif value == "--learning":
+        LEARNING_RATE = sys.argv[index+1]
+
+
+
+
+
 
 
 
