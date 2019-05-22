@@ -241,7 +241,7 @@ with tf.Session() as sess:
 
     print("Max Accuracy: " + str(max(terminalPlot)))
 
-    termplot.plot(x, plot_height=100, plot_char='.')
+    termplot.plot(validationAccuracy, plot_height=100, plot_char='.')
 
 
 
