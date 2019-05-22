@@ -241,7 +241,9 @@ with tf.Session() as sess:
     print("Max Accuracy: " + str(max(terminalPlot)))
     
 
-    terminalPlot = int(terminalPlot*100)
+    terminalPlot = np.array(terminalPlot)
+
+    terminalPlot = (terminalPlot*100).astype(int)
 
     print(terminalPlot)
 
