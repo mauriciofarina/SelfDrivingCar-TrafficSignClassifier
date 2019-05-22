@@ -1,5 +1,6 @@
 import numpy as np
 import cv2
+import termplot
 np.warnings.filterwarnings('ignore')
 
 import os
