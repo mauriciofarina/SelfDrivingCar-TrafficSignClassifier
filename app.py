@@ -128,15 +128,15 @@ print('Start Preprocessing\n')
 
 print('Changing Training Set Color Space')
 for i in (range(np.shape(xTrain)[0])):
-    xTrain[i] = cv2.cvtColor(xTrain[i], cv2.COLOR_RGB2HLS)
+    #xTrain[i] = cv2.cvtColor(xTrain[i], cv2.COLOR_RGB2HLS)
 
 print('Changing Validation Set Color Space')
 for i in (range(np.shape(xValid)[0])):
-    xValid[i] = cv2.cvtColor(xValid[i], cv2.COLOR_RGB2HLS)
+    #xValid[i] = cv2.cvtColor(xValid[i], cv2.COLOR_RGB2HLS)
 
 print('Changing Testing Set Color Space')
 for i in (range(np.shape(xTest)[0])):
-    xTest[i] = cv2.cvtColor(xTest[i], cv2.COLOR_RGB2HLS)
+    #xTest[i] = cv2.cvtColor(xTest[i], cv2.COLOR_RGB2HLS)
     
 
 
@@ -220,6 +220,8 @@ with tf.Session() as sess:
     
     print("Training...\n")
 
+    terminalPlot = []
+
     for i in (range(EPOCHS)):
         xTrain, yTrain = shuffle(xTrain, yTrain)
         for offset in (range(0, examplesSize, BATCH_SIZE)):
@@ -230,9 +232,14 @@ with tf.Session() as sess:
         validationAccuracy = evaluate(xValid,yValid)
         print("EPOCH {} ...".format(i+1))
         print("Validation Accuracy = {:.3f}\n".format(validationAccuracy))
+        terminalPlot.append(validationAccuracy)
         
     saver.save(sess, './lenet')
     print("Model saved")
+
+    print("Max Accuracy: " + str(max(terminalPlot)))
+
+    termplot.plot(x, plot_height=100, plot_char='.')
 
 
 
