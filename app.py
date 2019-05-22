@@ -31,13 +31,13 @@ LEARNING_RATE = 0.001
 
 for index, value in enumerate(sys.argv):
     
-    if value == "--epoch":
+    if value == "-e":
         EPOCHS = sys.argv[index+1]
     
-    elif value == "--batch":
+    elif value == "-b":
         BATCH_SIZE = sys.argv[index+1]
 
-    elif value == "--learning":
+    elif value == "-l":
         LEARNING_RATE = sys.argv[index+1]
 
 
