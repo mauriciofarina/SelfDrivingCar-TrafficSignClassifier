@@ -1,10 +1,16 @@
+import termplot
+import numpy as np
+import Plots as plot
 
-    
-    
-    cv2.imshow('frame',xTrain[i,:,:,2])
-    while(1):
-        k = cv2.waitKey(5) & 0xFF
-        if k == 27:
-            break
 
-    cv2.destroyAllWindows()
+
+terminalPlot = [0.5,0.6,0.7,0.4,0.5]
+
+terminalPlot = np.array(terminalPlot)
+
+terminalPlot = (terminalPlot*100)
+
+
+
+
+plot.plotTerminal(terminalPlot, plot_height=20)

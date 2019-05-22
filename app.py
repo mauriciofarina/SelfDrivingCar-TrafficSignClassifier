@@ -1,6 +1,4 @@
 import numpy as np
-import cv2
-import termplot
 np.warnings.filterwarnings('ignore')
 
 import os
@@ -15,6 +13,9 @@ from tqdm import tqdm
 import sys
 import matplotlib.pyplot as plt
 import matplotlib.colors as clr
+
+import cv2
+import termplot
 
 
 
@@ -243,11 +244,12 @@ with tf.Session() as sess:
 
     terminalPlot = np.array(terminalPlot)
 
-    terminalPlot = (terminalPlot*100).astype(int)
+    terminalPlot = (terminalPlot*100)
 
-    print(terminalPlot)
 
-    termplot.plot(terminalPlot, plot_height=20, plot_char='.')
+
+
+    plot.plotTerminal(terminalPlot, plot_height=20)
 
 
 

@@ -54,3 +54,68 @@ def histogramPlot(x , bins = None , density = False , xLabel = '' , yLabel = '' 
         plt.show()
 
     return mean, std
+
+
+
+
+def plotTerminal(x, plot_height=10, plot_char='....'):
+    ''' takes a list of ints or floats x and makes a simple terminal histogram.
+        This function will make an inaccurate plot if the length of data list is larger than the number of columns
+        in the terminal.'''
+
+    result = []
+
+    max_pos = 100
+    
+    for i in x:
+        temp = i/float(max_pos)
+        temp2 = temp*plot_height
+        result.append(int(temp2))
+
+    result
+
+
+    hist_array = []
+
+    col_list = []
+
+    start = int((max_pos/plot_height))
+    end = max_pos+1
+    step = int((max_pos/plot_height))
+    
+
+    yAxis = range(start, end, step)
+    for i in yAxis:
+        temp = str(i).zfill(3)
+        col_list.append(temp)
+
+    hist_array.append(col_list)
+    
+    col_list = []
+    yAxis = range(0, max_pos, int(max_pos/plot_height))
+    for i in yAxis:
+        col_list.append('    ')
+
+    hist_array.append(col_list)
+
+    for idx, i in enumerate(result):
+        col_list = []
+        flag = True
+        for j in range(plot_height):
+            if j >= (i):
+                if flag:
+                    col_list.append("{:.1f}".format(x[idx]))
+                    flag = False
+                else:
+                    col_list.append('    ')
+            else:
+                col_list.append(plot_char)
+        
+
+        hist_array.append(col_list)
+
+
+    for i in reversed(range(len(hist_array[0]))):
+        for j in range(len(hist_array)):
+            print(hist_array[j][i], end='')
+        print('')
