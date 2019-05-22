@@ -151,17 +151,20 @@ print('Start Preprocessing\n')
 
 print('Changing Training Set Color Space')
 for i in (range(np.shape(xTrain)[0])):
-    xTrain[i] = cv2.cvtColor(xTrain[i], cv2.COLOR_RGB2HLS)
+    xTrain[i] = cv2.cvtColor(xTrain[i], cv2.COLOR_RGB2GRAY)
 
 print('Changing Validation Set Color Space')
 for i in (range(np.shape(xValid)[0])):
-    xValid[i] = cv2.cvtColor(xValid[i], cv2.COLOR_RGB2HLS)
+    xValid[i] = cv2.cvtColor(xValid[i], cv2.COLOR_RGB2GRAY)
 
 print('Changing Testing Set Color Space')
 for i in (range(np.shape(xTest)[0])):
-    xTest[i] = cv2.cvtColor(xTest[i], cv2.COLOR_RGB2HLS)
+    xTest[i] = cv2.cvtColor(xTest[i], cv2.COLOR_RGB2GRAY)
     
 
+
+
+imageShape = (np.shape(xTrain)[1], np.shape(xTrain)[2], np.shape(xTrain)[3])
 
 
 xTrain = np.array(xTrain, dtype = np.float32)
