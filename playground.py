@@ -4,7 +4,7 @@ import Plots as plot
 
 
 
-terminalPlot = [0.5,0.6,0.7,0.4,0.5]
+terminalPlot = [0.5,0.5,0.7,0.6,0.7]
 
 
 

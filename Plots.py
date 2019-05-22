@@ -104,8 +104,8 @@ def plotTerminal(x, plot_height=10):
 
     '''
 
-    maxVal = max(result)
-    minVal = min(result)
+    maxVal = max(x)
+    minVal = min(x)
 
     for idx, i in enumerate(result):
         col_list = []
@@ -118,9 +118,9 @@ def plotTerminal(x, plot_height=10):
                 else:
                     col_list.append('     ')
             else:
-                if maxVal == i:
+                if maxVal == x[idx]:
                     col_list.append("\u15CB\u15CB\u15CB\u15CB ")
-                elif minVal == i:
+                elif minVal == x[idx]:
                     col_list.append("\u15CA\u15CA\u15CA\u15CA ")
                 else:
                     col_list.append("\u25A1\u25A1\u25A1\u25A1 ")
