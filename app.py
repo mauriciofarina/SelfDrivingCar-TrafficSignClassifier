@@ -1,4 +1,5 @@
 import numpy as np
+import cv2
 np.warnings.filterwarnings('ignore')
 
 import os
@@ -20,7 +21,7 @@ import matplotlib.colors as clr
 PREVIEW = False  # Plot Preview On/Off
 
 
-EPOCHS = 10
+EPOCHS = 20
 BATCH_SIZE = 128
 LEARNING_RATE = 0.001
 
@@ -127,16 +128,16 @@ print('Start Preprocessing\n')
 
 print('Changing Training Set Color Space')
 for i in (range(np.shape(xTrain)[0])):
-    xTrain[i] = clr.rgb_to_hsv(xTrain[i])
+    xTrain[i] = cv2.cvtColor(xTrain[i], cv2.COLOR_RGB2HLS)
 
 print('Changing Validation Set Color Space')
 for i in (range(np.shape(xValid)[0])):
-    xValid[i] = clr.rgb_to_hsv(xValid[i])
+    xValid[i] = cv2.cvtColor(xValid[i], cv2.COLOR_RGB2HLS)
 
 print('Changing Testing Set Color Space')
 for i in (range(np.shape(xTest)[0])):
-    xTest[i] = clr.rgb_to_hsv(xTest[i])
-
+    xTest[i] = cv2.cvtColor(xTest[i], cv2.COLOR_RGB2HLS)
+    
 
 
 

@@ -1,30 +1,10 @@
-import matplotlib
-import numpy as np
-import matplotlib.pyplot as plt
 
-np.random.seed(19680801)
+    
+    
+    cv2.imshow('frame',xTrain[i,:,:,2])
+    while(1):
+        k = cv2.waitKey(5) & 0xFF
+        if k == 27:
+            break
 
-# example data
-mu = 100  # mean of distribution
-sigma = 15  # standard deviation of distribution
-x = mu + sigma * np.random.randn(10)
-
-num_bins = 10
-
-print(x)
-fig, ax = plt.subplots()
-
-# the histogram of the data
-n, bins, patches = ax.hist(x, num_bins)
-
-# add a 'best fit' line
-y = ((1 / (np.sqrt(2 * np.pi) * sigma)) *
-     np.exp(-0.5 * (1 / sigma * (bins - mu))**2))
-ax.plot(bins, y, '--')
-ax.set_xlabel('Smarts')
-ax.set_ylabel('Probability density')
-ax.set_title(r'Histogram of IQ: $\mu=100$, $\sigma=15$')
-
-# Tweak spacing to prevent clipping of ylabel
-fig.tight_layout()
-plt.show()
+    cv2.destroyAllWindows()
