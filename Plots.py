@@ -78,6 +78,7 @@ def plotTerminal(x, plot_height=10, plot_char='.... '):
 
     col_list = []
 
+    '''
     start = int((max_pos/plot_height))
     end = max_pos+1
     step = int((max_pos/plot_height))
@@ -96,6 +97,8 @@ def plotTerminal(x, plot_height=10, plot_char='.... '):
         col_list.append('     ')
 
     hist_array.append(col_list)
+
+    '''
 
     for idx, i in enumerate(result):
         col_list = []
