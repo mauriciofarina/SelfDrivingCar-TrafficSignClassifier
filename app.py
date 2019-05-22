@@ -22,7 +22,7 @@ import matplotlib.colors as clr
 PREVIEW = False  # Plot Preview On/Off
 
 
-EPOCHS = 20
+EPOCHS = 5
 BATCH_SIZE = 128
 LEARNING_RATE = 0.001
 
