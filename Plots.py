@@ -123,7 +123,7 @@ def plotTerminal(x, plot_height=10):
                 elif minVal == i:
                     col_list.append("\u15CA\u15CA\u15CA\u15CA ")
                 else:
-                    col_list.append("\u25FE\u25FE\u25FE\u25FE ")
+                    col_list.append("\u25A1\u25A1\u25A1\u25A1 ")
         
 
         hist_array.append(col_list)
