@@ -242,7 +242,7 @@ with tf.Session() as sess:
 
     print("Max Accuracy: " + str(max(terminalPlot)))
 
-    termplot.plot(terminalPlot, plot_height=100, plot_char='.')
+    termplot.plot(terminalPlot, plot_height=20, plot_char='.')
 
 
 
