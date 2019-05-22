@@ -58,7 +58,7 @@ def histogramPlot(x , bins = None , density = False , xLabel = '' , yLabel = '' 
 
 
 
-def plotTerminal(x, plot_height=10, plot_char='.... '):
+def plotTerminal(x, plot_height=10):
     ''' takes a list of ints or floats x and makes a simple terminal histogram.
         This function will make an inaccurate plot if the length of data list is larger than the number of columns
         in the terminal.'''
@@ -104,6 +104,9 @@ def plotTerminal(x, plot_height=10, plot_char='.... '):
 
     '''
 
+    maxVal = max(result)
+    minVal = min(result)
+
     for idx, i in enumerate(result):
         col_list = []
         flag = True
@@ -115,7 +118,12 @@ def plotTerminal(x, plot_height=10, plot_char='.... '):
                 else:
                     col_list.append('     ')
             else:
-                col_list.append(plot_char)
+                if maxVal == i:
+                    col_list.append("\u15CB\u15CB\u15CB\u15CB ")
+                elif minVal == i:
+                    col_list.append("\u15CA\u15CA\u15CA\u15CA ")
+                else:
+                    col_list.append("\u25FE\u25FE\u25FE\u25FE ")
         
 
         hist_array.append(col_list)
