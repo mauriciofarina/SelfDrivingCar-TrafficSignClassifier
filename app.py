@@ -233,7 +233,8 @@ with tf.Session() as sess:
         validationAccuracy = evaluate(xValid,yValid)
         print("EPOCH {} ...".format(i+1))
         print("Validation Accuracy = {:.3f}\n".format(validationAccuracy))
-        terminalPlot.append(validationAccuracy)
+        tempVal = "{:.3f}".format(validationAccuracy)
+        terminalPlot.append(float(tempVal))
         
     saver.save(sess, './lenet')
     print("Model saved")
