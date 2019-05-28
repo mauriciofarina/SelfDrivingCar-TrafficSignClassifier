@@ -22,7 +22,7 @@ def LeNetModified(inputData, outputClasses):
     conv2B = convLayer(maxPool1, filterShape = (3,3,16) )
     maxPool2B = maxPool(conv2B)
     conv3B = convLayer(maxPool2B, filterShape = (3,3,10) )
-    conv4B = convLayer(conv3B, filterShape = (1,1,6) )
+    conv4B = convLayer(conv3B, filterShape = (1,1,20) )
 
 
     #convolutionOutput = flatten(conv4A)
