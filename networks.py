@@ -1,108 +1,113 @@
 import tensorflow as tf
+import numpy as np
 from tensorflow.contrib.layers import flatten
 
 
 
-def LeNetModified(inputData, inputShape, outputClasses):    
+def LeNetModified(inputData, outputClasses):    
+
     
-    conv1, conv1Shape = convLayer(inputData, inputShape, filterShape = (5,5,6) )
+    conv1 = convLayer(inputData, filterShape = (7,7,6) )
+    maxPool1 = maxPool(conv1)
+    
 
-    maxPool1, maxPool1Shape = maxPool(conv1, conv1Shape)
+    conv2A = convLayer(maxPool1, filterShape = (5,5,6) )
+    maxPool2A = maxPool(conv2A)
+    conv3A = convLayer(conv2A, filterShape = (3,3,10) )
+    maxPool3A = maxPool(conv3A)
+    conv4A = convLayer(maxPool3A, filterShape = (1,1,6) )
 
 
-    conv2, conv2Shape = convLayer(maxPool1, maxPool1Shape, filterShape = (5,5,16) )
 
-    maxPool2, maxPool2Shape = maxPool(conv2, conv2Shape)
+    conv2B = convLayer(maxPool1, filterShape = (3,3,6) )
+    maxPool2B = maxPool(conv2B)
+    conv3B = convLayer(maxPool2B, filterShape = (3,3,10) )
+    conv4B = convLayer(conv3B, filterShape = (1,1,6) )
+
+
+
+    convolutionOutput = tf.concat([conv4A, conv4B], 3)
+
+    convolutionOutuput = flatten(convolutionOutput)
+    
+
+    fullyConn1 = fullyConnectedLayer(convolutionOutuput, outputShape =  120 )
+
+    fullyConn2 = fullyConnectedLayer(fullyConn1, outputShape = 84 )
+
+    fullyConn3 = fullyConnectedLayer(fullyConn2, outputShape = outputClasses, relu = False)
+
+    logits = fullyConn3
+
+
+
+
+
+    
+    
+    
+    return logits
+
+
+def LeNet(inputData, outputClasses):    
+    
+    conv1 = convLayer(inputData, filterShape = (5,5,6) )
+
+    maxPool1 = maxPool(conv1)
+
+
+    conv2 = convLayer(maxPool1, filterShape = (5,5,16) )
+
+    maxPool2 = maxPool(conv2)
 
 
     convolutionOutuput = flatten(maxPool2)
-    convolutionOutputSize = maxPool2Shape[0] * maxPool2Shape[1] * maxPool2Shape[2]
-    
 
 
-    fullyConn1, fullyConn1Shape = fullyConnectedLayer(convolutionOutuput, shape = (convolutionOutputSize, 120) )
+    fullyConn1 = fullyConnectedLayer(convolutionOutuput, outputShape = 120 )
 
-    fullyConn2, fullyConn2Shape = fullyConnectedLayer(fullyConn1, shape = (fullyConn1Shape, 84) )
+    fullyConn2 = fullyConnectedLayer(fullyConn1, outputShape = 84 )
 
-    fullyConn3, fullyConn3Shape = fullyConnectedLayer(fullyConn2, shape = (fullyConn2Shape, outputClasses), relu = False)
+    fullyConn3 = fullyConnectedLayer(fullyConn2, outputShape =  outputClasses, relu = False)
 
     logits = fullyConn3
 
     return logits
 
 
-def LeNet(inputData, inputShape, outputClasses):    
-    
-    conv1, conv1Shape = convLayer(inputData, inputShape, filterShape = (5,5,6) )
-
-    maxPool1, maxPool1Shape = maxPool(conv1, conv1Shape)
-
-
-    conv2, conv2Shape = convLayer(maxPool1, maxPool1Shape, filterShape = (5,5,16) )
-
-    maxPool2, maxPool2Shape = maxPool(conv2, conv2Shape)
-
-
-    convolutionOutuput = flatten(maxPool2)
-    convolutionOutputSize = maxPool2Shape[0] * maxPool2Shape[1] * maxPool2Shape[2]
-    
-
-
-    fullyConn1, fullyConn1Shape = fullyConnectedLayer(convolutionOutuput, shape = (convolutionOutputSize, 120) )
-
-    fullyConn2, fullyConn2Shape = fullyConnectedLayer(fullyConn1, shape = (fullyConn1Shape, 84) )
-
-    fullyConn3, fullyConn3Shape = fullyConnectedLayer(fullyConn2, shape = (fullyConn2Shape, outputClasses), relu = False)
-
-    logits = fullyConn3
-
-    return logits
 
 
 
+def convLayer(inputData, filterShape, strides=[1, 1, 1, 1], padding='VALID',  mu = 0 , sigma = 0.1, relu = True):
 
+    inputShape = getTensorShape(inputData)
 
-def convLayer(inputData, inputShape, filterShape, strides=[1, 1, 1, 1], padding='VALID',  mu = 0 , sigma = 0.1, relu = True):
-
-    weights = tf.Variable(tf.truncated_normal(shape=(filterShape[0], filterShape[1], inputShape[2], filterShape[2]), mean = mu, stddev = sigma))
+    weights = tf.Variable(tf.truncated_normal(shape=(filterShape[0], filterShape[1], inputShape[3], filterShape[2]), mean = mu, stddev = sigma))
     biases = tf.Variable(tf.zeros(filterShape[2]))
     output   = tf.nn.conv2d(inputData, weights, strides=strides, padding=padding) + biases
 
-    outputHeight = (inputShape[1] - filterShape[0])/strides[1] + 1
-    outputWidth = (inputShape[0] - filterShape[1])/strides[2] + 1
-    outputDepth = filterShape[2]
-
-    outputShape = (int(outputWidth), int(outputHeight), int(outputDepth))
 
     if(relu):
         output = tf.nn.relu(output)
 
-    return output, outputShape
+    return output
 
 
 
-def maxPool(inputData, inputShape, ksize=[1, 2, 2, 1], strides=[1, 2, 2, 1], padding='VALID'):
-
-
+def maxPool(inputData, ksize=[1, 2, 2, 1], strides=[1, 2, 2, 1], padding='VALID'):
 
     output = tf.nn.max_pool(inputData, ksize=ksize, strides=strides, padding=padding)
 
-    outputHeight = (inputShape[1] - ksize[1])/strides[1] + 1
-    outputWidth = (inputShape[0] - ksize[2])/strides[2] + 1
-    outputDepth = inputShape[2]
-
-    outputShape = (int(outputWidth), int(outputHeight), int(outputDepth))
-
-    return output, outputShape
+    return output
 
 
 
-def fullyConnectedLayer(inputData, shape, mu = 0 , sigma = 0.1, relu = True, dropout = False, dropoutKeepProb = 0.5):
+def fullyConnectedLayer(inputData, outputShape, mu = 0 , sigma = 0.1, relu = True, dropout = False, dropoutKeepProb = 0.5):
 
-    outputShape = shape[1]
+    inputShape = getTensorShape(inputData)
 
-    weights = tf.Variable(tf.truncated_normal(shape=shape, mean = mu, stddev = sigma))
-    biases = tf.Variable(tf.zeros(shape[1]))
+    weights = tf.Variable(tf.truncated_normal(shape=(inputShape[1], outputShape), mean = mu, stddev = sigma))
+    biases = tf.Variable(tf.zeros(outputShape))
     output   = tf.matmul(inputData, weights) + biases
 
     if(relu):
@@ -111,5 +116,9 @@ def fullyConnectedLayer(inputData, shape, mu = 0 , sigma = 0.1, relu = True, dro
     if(dropout):
         output = tf.nn.dropout(output, dropoutKeepProb)
 
-    return output, outputShape
+    return output
 
+
+def getTensorShape(tensor):
+    shape = tensor.get_shape().as_list()
+    return shape

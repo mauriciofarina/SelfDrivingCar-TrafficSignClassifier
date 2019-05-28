@@ -188,7 +188,7 @@ for i in (range(np.shape(xTest)[0])):
 
 print('Defining Input Dataset\n')
 
-channels = 2
+channels = 1
 
 xTrain = np.zeros(dtype = np.float32, shape = (xTrain.shape[0] , xTrain.shape[1], xTrain.shape[2], channels))
 xValid = np.zeros(dtype = np.float32, shape = (xValid.shape[0] , xValid.shape[1], xValid.shape[2], channels))
@@ -196,13 +196,9 @@ xTest = np.zeros(dtype = np.float32, shape = (xTest.shape[0] , xTest.shape[1], x
 
 
 
-xTrain[:,:,:,0] = xTrainHLS[:,:,:,0]
-xValid[:,:,:,0] = xValidHLS[:,:,:,0]
-xTest[:,:,:,0] = xTestHLS[:,:,:,0]
-
-xTrain[:,:,:,1] = xTrainGray
-xValid[:,:,:,1] = xValidGray
-xTest[:,:,:,1] = xTestGray
+xTrain[:,:,:,0] = xTrainGray
+xValid[:,:,:,0] = xValidGray
+xTest[:,:,:,0] = xTestGray
 
 imageShape = (np.shape(xTrain)[1], np.shape(xTrain)[2], np.shape(xTrain)[3])
 
@@ -237,8 +233,8 @@ oneHotY = tf.one_hot(y, classesSize)
 
 
 
+logits = nn.LeNetModified(x, classesSize)
 
-logits = nn.LeNetModified(x, imageShape, classesSize)
 
 print('Tensors Defined')
 
