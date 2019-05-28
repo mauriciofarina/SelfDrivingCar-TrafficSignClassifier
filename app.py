@@ -141,6 +141,7 @@ plot.barPlot(xVal, yVal, xLabel='Dataset Groups',
              yLabel='Number of Images', fileName='datasetGroupsDeviation', save=True, show=PREVIEW)
 
 '''
+
 print('Plots Done')
 
 print("**********************************\n")
@@ -148,91 +149,73 @@ print("**********************************\n")
 print('Start Preprocessing\n')
 
 
+print('Getting HLS Image\n')
 
-xTrainHue = np.zeros(shape = (xTrain.shape[0] , xTrain.shape[1], xTrain.shape[2], 1))
-xValidHue = np.zeros(shape = (xValid.shape[0] , xValid.shape[1], xValid.shape[2], 1))
-xTestHue = np.zeros(shape = (xTest.shape[0] , xTest.shape[1], xTest.shape[2], 1))
+xTrainHLS = np.zeros_like(xTrain)
+xValidHLS = np.zeros_like(xValid)
+xTestHLS = np.zeros_like(xTest)
 
-xTrainLig = np.zeros(shape = (xTrain.shape[0] , xTrain.shape[1], xTrain.shape[2], 1))
-xValidLig = np.zeros(shape = (xValid.shape[0] , xValid.shape[1], xValid.shape[2], 1))
-xTestLig = np.zeros(shape = (xTest.shape[0] , xTest.shape[1], xTest.shape[2], 1))
-
-xTrainSat = np.zeros(shape = (xTrain.shape[0] , xTrain.shape[1], xTrain.shape[2], 1))
-xValidSat = np.zeros(shape = (xValid.shape[0] , xValid.shape[1], xValid.shape[2], 1))
-xTestSat = np.zeros(shape = (xTest.shape[0] , xTest.shape[1], xTest.shape[2], 1))
-
-
-print('Changing Training Set Color Space')
 for i in (range(np.shape(xTrain)[0])):
-    temp = cv2.cvtColor(xTrain[i], cv2.COLOR_RGB2HLS)
-    xTrainHue[i] = np.expand_dims(temp[:,:,0], axis = 2)
-    xTrainLig[i] = np.expand_dims(temp[:,:,1], axis = 2)
-    xTrainSat[i] = np.expand_dims(temp[:,:,2], axis = 2)
+    xTrainHLS[i] = cv2.cvtColor(xTrain[i], cv2.COLOR_RGB2HLS)
 
-print('Changing Validation Set Color Space')
 for i in (range(np.shape(xValid)[0])):
-    temp = cv2.cvtColor(xValid[i], cv2.COLOR_RGB2HLS)
-    xValidHue[i] = np.expand_dims(temp[:,:,0], axis = 2)
-    xValidLig[i] = np.expand_dims(temp[:,:,1], axis = 2)
-    xValidSat[i] = np.expand_dims(temp[:,:,2], axis = 2)
+    xValidHLS[i] = cv2.cvtColor(xValid[i], cv2.COLOR_RGB2HLS)
 
-print('Changing Testing Set Color Space')
 for i in (range(np.shape(xTest)[0])):
-    temp = cv2.cvtColor(xTest[i], cv2.COLOR_RGB2HLS)
-    xTestHue[i] = np.expand_dims(temp[:,:,0], axis = 2)
-    xTestLig[i] = np.expand_dims(temp[:,:,1], axis = 2)
-    xTestSat[i] = np.expand_dims(temp[:,:,2], axis = 2)
-
-    
+    xTestHLS[i] = cv2.cvtColor(xTest[i], cv2.COLOR_RGB2HLS)
 
 
 
+print('Getting Grayscale Image\n')
+
+xTrainGray = np.zeros(shape = (xTrain.shape[0] , xTrain.shape[1], xTrain.shape[2]))
+xValidGray = np.zeros(shape = (xValid.shape[0] , xValid.shape[1], xValid.shape[2]))
+xTestGray = np.zeros(shape = (xTest.shape[0] , xTest.shape[1], xTest.shape[2]))
 
 
-
-xTrainGray = np.zeros(shape = (xTrain.shape[0] , xTrain.shape[1], xTrain.shape[2], 1))
-xValidGray = np.zeros(shape = (xValid.shape[0] , xValid.shape[1], xValid.shape[2], 1))
-xTestGray = np.zeros(shape = (xTest.shape[0] , xTest.shape[1], xTest.shape[2], 1))
-
-
-
-print('Changing Training Set Color Space')
 for i in (range(np.shape(xTrain)[0])):
-    xTrainGray[i] = np.expand_dims(cv2.cvtColor(xTrain[i], cv2.COLOR_RGB2GRAY), axis = 2)
-    
+    xTrainGray[i] = cv2.cvtColor(xTrain[i], cv2.COLOR_RGB2GRAY)
 
-print('Changing Validation Set Color Space')
 for i in (range(np.shape(xValid)[0])):
-    xValidGray[i] = np.expand_dims(cv2.cvtColor(xValid[i], cv2.COLOR_RGB2GRAY), axis = 2)
+    xValidGray[i] = cv2.cvtColor(xValid[i], cv2.COLOR_RGB2GRAY)
 
-print('Changing Testing Set Color Space')
 for i in (range(np.shape(xTest)[0])):
-    xTestGray[i] = np.expand_dims(cv2.cvtColor(xTest[i], cv2.COLOR_RGB2GRAY), axis = 2)
+    xTestGray[i] = cv2.cvtColor(xTest[i], cv2.COLOR_RGB2GRAY)
 
 
 
 
-xTrain = np.array(xTrainSat, dtype = np.float32)
-xValid = np.array(xValidSat, dtype = np.float32)
-xTest = np.array(xTestSat, dtype = np.float32)
+
+print('Defining Input Dataset\n')
+
+channels = 2
+
+xTrain = np.zeros(dtype = np.float32, shape = (xTrain.shape[0] , xTrain.shape[1], xTrain.shape[2], channels))
+xValid = np.zeros(dtype = np.float32, shape = (xValid.shape[0] , xValid.shape[1], xValid.shape[2], channels))
+xTest = np.zeros(dtype = np.float32, shape = (xTest.shape[0] , xTest.shape[1], xTest.shape[2], channels))
 
 
+
+xTrain[:,:,:,0] = xTrainHLS[:,:,:,0]
+xValid[:,:,:,0] = xValidHLS[:,:,:,0]
+xTest[:,:,:,0] = xTestHLS[:,:,:,0]
+
+xTrain[:,:,:,1] = xTrainGray
+xValid[:,:,:,1] = xValidGray
+xTest[:,:,:,1] = xTestGray
 
 imageShape = (np.shape(xTrain)[1], np.shape(xTrain)[2], np.shape(xTrain)[3])
 
 
 
+print('Normalizing Dataset')
 
-
-print('Normalizing Training Set')
 for i in (range(np.shape(xTrain)[0])):
     xTrain[i] = (xTrain[i] - 128.0) / 128.0
 
-print('Normalizing Validation Set')
 for i in (range(np.shape(xValid)[0])):
     xValid[i] = (xValid[i] -128.0) / 128.0
 
-print('Normalizing Testing Set')
 for i in (range(np.shape(xTest)[0])):
     xTest[i] = (xTest[i] -128.0) / 128.0
 
