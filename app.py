@@ -32,15 +32,15 @@ PLOT_HIGHT=30
 for index, value in enumerate(sys.argv):
     
     if value == "-e":
-        EPOCHS = sys.argv[index+1]
+        EPOCHS = int(sys.argv[index+1])
     
     elif value == "-b":
-        BATCH_SIZE = sys.argv[index+1]
+        BATCH_SIZE = int(sys.argv[index+1])
 
     elif value == "-l":
-        LEARNING_RATE = sys.argv[index+1]
+        LEARNING_RATE = int(sys.argv[index+1])
     elif value == "-p":
-        PLOT_HIGHT = sys.argv[index+1]
+        PLOT_HIGHT = int(sys.argv[index+1])
 
 
 
