@@ -17,20 +17,20 @@ def LeNetModified(inputData, outputClasses):
     conv4A = convLayer(conv3A, filterShape = (1,1,20) )
 
 
-    conv2B = convLayer(maxPool1, filterShape = (3,3,15) )
-    maxPool2B = maxPool(conv2B)
-    conv3B = convLayer(maxPool2B, filterShape = (3,3,10) )
-    conv4B = convLayer(conv3B, filterShape = (1,1,10) )
+    #conv2B = convLayer(maxPool1, filterShape = (3,3,15) )
+    #maxPool2B = maxPool(conv2B)
+    #conv3B = convLayer(maxPool2B, filterShape = (3,3,10) )
+    #conv4B = convLayer(conv3B, filterShape = (1,1,10) )
 
 
     convOutA = flatten(conv4A)
-    convOutB = flatten(conv4B)
+    #convOutB = flatten(conv4B)
 
-    convolutionOutput = tf.concat([convOutA, convOutB], 1)
+    #convolutionOutput = tf.concat([convOutA, convOutB], 1)
 
     
 
-    fullyConn1 = fullyConnectedLayer(convolutionOutput, outputShape = 120 , dropout=False)
+    fullyConn1 = fullyConnectedLayer(convOutA, outputShape = 120 , dropout=False)
 
     fullyConn2 = fullyConnectedLayer(fullyConn1, outputShape = 100 , dropout=False)
 
