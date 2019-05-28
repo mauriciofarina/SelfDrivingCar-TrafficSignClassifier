@@ -49,9 +49,9 @@ def LeNetModified(inputData, outputClasses):
 
     
 
-    fullyConn1 = fullyConnectedLayer(convolutionOutput, outputShape = 120 , dropout=True)
+    fullyConn1 = fullyConnectedLayer(convolutionOutput, outputShape = 120 , dropout=False)
 
-    fullyConn2 = fullyConnectedLayer(fullyConn1, outputShape = 100 , dropout=False)
+    fullyConn2 = fullyConnectedLayer(fullyConn1, outputShape = 100 , dropout=True)
 
     fullyConn3 = fullyConnectedLayer(fullyConn2, outputShape = 80 , dropout=False)
 
