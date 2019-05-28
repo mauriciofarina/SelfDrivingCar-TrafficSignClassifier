@@ -38,7 +38,7 @@ for index, value in enumerate(sys.argv):
         BATCH_SIZE = int(sys.argv[index+1])
 
     elif value == "-l":
-        LEARNING_RATE = int(sys.argv[index+1])
+        LEARNING_RATE = float(sys.argv[index+1])
     elif value == "-p":
         PLOT_HIGHT = int(sys.argv[index+1])
 
