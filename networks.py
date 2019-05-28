@@ -7,15 +7,15 @@ from tensorflow.contrib.layers import flatten
 def LeNetModified(inputData, outputClasses):    
 
     
-    conv1 = convLayer(inputData, filterShape = (7,7,6) )
+    conv1 = convLayer(inputData, filterShape = (7,7,8) )
     maxPool1 = maxPool(conv1)
     
 
-    conv2A = convLayer(maxPool1, filterShape = (5,5,6) )
+    conv2A = convLayer(maxPool1, filterShape = (5,5,20) )
     maxPool2A = maxPool(conv2A)
     conv3A = convLayer(conv2A, filterShape = (3,3,10) )
     maxPool3A = maxPool(conv3A)
-    conv4A = convLayer(maxPool3A, filterShape = (1,1,6) )
+    conv4A = convLayer(maxPool3A, filterShape = (1,1,20) )
 
 
 
