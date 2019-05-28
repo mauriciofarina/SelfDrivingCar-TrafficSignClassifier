@@ -30,26 +30,22 @@ def LeNetModified(inputData, outputClasses):
 
     
 
-    fullyConn1 = fullyConnectedLayer(convolutionOutput, outputShape = 120 , dropout=True)
+    fullyConn1 = fullyConnectedLayer(convolutionOutput, outputShape = 120 , dropout=False)
 
-    fullyConn2 = fullyConnectedLayer(fullyConn1, outputShape = 100 , dropout=True)
+    fullyConn2 = fullyConnectedLayer(fullyConn1, outputShape = 100 , dropout=False)
 
-    fullyConn3 = fullyConnectedLayer(fullyConn2, outputShape = 80 , dropout=True)
+    fullyConn3 = fullyConnectedLayer(fullyConn2, outputShape = 80 , dropout=False)
 
     fullyConn4 = fullyConnectedLayer(fullyConn3, outputShape = outputClasses, relu = False)
 
     logits = fullyConn4
 
-
-
-
-
-    
-    
     
     return logits
 
 
+
+'''
 def LeNet(inputData, outputClasses):    
     
     conv1 = convLayer(inputData, filterShape = (5,5,6) )
@@ -77,7 +73,7 @@ def LeNet(inputData, outputClasses):
 
     return logits
 
-
+'''
 
 
 
