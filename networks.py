@@ -41,12 +41,11 @@ def LeNetModified(inputData, outputClasses):
 
     
     conv1C = convLayer(inputData, filterShape = (32,32,10) )
-    conv2C = convLayer(conv1C, filterShape = (1,1,20) )
 
 
     convOutA = flatten(conv3A)
     convOutB = flatten(conv3B)
-    convOutC = flatten(conv2C)
+    convOutC = flatten(conv1C)
 
     convolutionOutput = tf.concat([convOutA, convOutB, convOutC], 1)
 
