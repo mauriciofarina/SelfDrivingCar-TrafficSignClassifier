@@ -148,24 +148,42 @@ print("**********************************\n")
 print('Start Preprocessing\n')
 
 
-'''
+
+xTrainHue = np.zeros(shape = (xTrain.shape[0] , xTrain.shape[1], xTrain.shape[2], 1))
+xValidHue = np.zeros(shape = (xValid.shape[0] , xValid.shape[1], xValid.shape[2], 1))
+xTestHue = np.zeros(shape = (xTest.shape[0] , xTest.shape[1], xTest.shape[2], 1))
+
+xTrainLig = np.zeros(shape = (xTrain.shape[0] , xTrain.shape[1], xTrain.shape[2], 1))
+xValidLig = np.zeros(shape = (xValid.shape[0] , xValid.shape[1], xValid.shape[2], 1))
+xTestLig = np.zeros(shape = (xTest.shape[0] , xTest.shape[1], xTest.shape[2], 1))
+
+xTrainSat = np.zeros(shape = (xTrain.shape[0] , xTrain.shape[1], xTrain.shape[2], 1))
+xValidSat = np.zeros(shape = (xValid.shape[0] , xValid.shape[1], xValid.shape[2], 1))
+xTestSat = np.zeros(shape = (xTest.shape[0] , xTest.shape[1], xTest.shape[2], 1))
+
+
 print('Changing Training Set Color Space')
 for i in (range(np.shape(xTrain)[0])):
-    xTrain[i] = cv2.cvtColor(xTrain[i], cv2.COLOR_RGB2HLS)
+    temp = cv2.cvtColor(xTrain[i], cv2.COLOR_RGB2HLS)
+    xTrainHue[i] = np.expand_dims(temp[:,:,0], axis = 2)
+    xTrainLig[i] = np.expand_dims(temp[:,:,1], axis = 2)
+    xTrainSat[i] = np.expand_dims(temp[:,:,2], axis = 2)
 
 print('Changing Validation Set Color Space')
 for i in (range(np.shape(xValid)[0])):
-    xValid[i] = cv2.cvtColor(xValid[i], cv2.COLOR_RGB2HLS)
+    temp = cv2.cvtColor(xValid[i], cv2.COLOR_RGB2HLS)
+    xValidHue[i] = np.expand_dims(temp[:,:,0], axis = 2)
+    xValidLig[i] = np.expand_dims(temp[:,:,1], axis = 2)
+    xValidSat[i] = np.expand_dims(temp[:,:,2], axis = 2)
 
 print('Changing Testing Set Color Space')
 for i in (range(np.shape(xTest)[0])):
-    xTest[i] = cv2.cvtColor(xTest[i], cv2.COLOR_RGB2HLS)
+    temp = cv2.cvtColor(xTest[i], cv2.COLOR_RGB2HLS)
+    xTestHue[i] = np.expand_dims(temp[:,:,0], axis = 2)
+    xTestLig[i] = np.expand_dims(temp[:,:,1], axis = 2)
+    xTestSat[i] = np.expand_dims(temp[:,:,2], axis = 2)
+
     
-'''
-
-
-
-
 
 
 
@@ -194,9 +212,9 @@ for i in (range(np.shape(xTest)[0])):
 
 
 
-xTrain = np.array(xTrainGray, dtype = np.float32)
-xValid = np.array(xValidGray, dtype = np.float32)
-xTest = np.array(xTestGray, dtype = np.float32)
+xTrain = np.array(xTrainHue, dtype = np.float32)
+xValid = np.array(xValidHue, dtype = np.float32)
+xTest = np.array(xTestHue, dtype = np.float32)
 
 
 
@@ -302,8 +320,6 @@ with tf.Session() as sess:
     
 
     
-
-
 
 
     plot.plotTerminal(terminalPlot, plot_height=PLOT_HIGHT)
