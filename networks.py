@@ -7,7 +7,7 @@ from tensorflow.contrib.layers import flatten
 def LeNetModified(inputData, outputClasses):    
 
     
-    conv1 = convLayer(inputData, filterShape = (7,7,6) )
+    conv1 = convLayer(inputData, filterShape = (5,5,6) )
     maxPool1 = maxPool(conv1)
     
 
