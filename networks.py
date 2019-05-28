@@ -64,13 +64,15 @@ def LeNet(inputData, outputClasses):
     convolutionOutuput = flatten(maxPool2)
 
 
-    fullyConn1 = fullyConnectedLayer(convolutionOutuput, outputShape = 120 )
+    fullyConn1 = fullyConnectedLayer(convolutionOutuput, outputShape = 120 , dropout=True)
 
-    fullyConn2 = fullyConnectedLayer(fullyConn1, outputShape = 84 )
+    fullyConn2 = fullyConnectedLayer(fullyConn1, outputShape = 100 , dropout=True)
 
-    fullyConn3 = fullyConnectedLayer(fullyConn2, outputShape =  outputClasses, relu = False)
+    fullyConn3 = fullyConnectedLayer(fullyConn2, outputShape = 80 , dropout=True)
 
-    logits = fullyConn3
+    fullyConn4 = fullyConnectedLayer(fullyConn3, outputShape = outputClasses, relu = False)
+
+    logits = fullyConn4
 
     return logits
 

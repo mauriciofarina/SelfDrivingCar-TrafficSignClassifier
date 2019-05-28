@@ -298,10 +298,8 @@ with tf.Session() as sess:
     print("Max Accuracy: " + str(max(terminalPlot)))
     
 
-    
-
-
-    plot.plotTerminal(terminalPlot, plot_height=PLOT_HIGHT)
+    if (EPOCHS <= 20):
+        plot.plotTerminal(terminalPlot, plot_height=PLOT_HIGHT)
 
 
 
