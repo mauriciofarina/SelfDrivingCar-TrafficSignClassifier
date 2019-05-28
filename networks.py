@@ -11,13 +11,13 @@ def LeNetModified(inputData, outputClasses):
     maxPool1 = maxPool(conv1)
     
 
-    conv2A = convLayer(maxPool1, filterShape = (5,5,6) )
+    conv2A = convLayer(maxPool1, filterShape = (5,5,20) )
     maxPool2A = maxPool(conv2A)
     conv3A = convLayer(conv2A, filterShape = (3,3,10) )
     maxPool3A = maxPool(conv3A)
-    conv4A = convLayer(maxPool3A, filterShape = (1,1,6) )
+    conv4A = convLayer(maxPool3A, filterShape = (1,1,20) )
 
-
+'''
 
     conv2B = convLayer(maxPool1, filterShape = (3,3,6) )
     maxPool2B = maxPool(conv2B)
@@ -27,6 +27,8 @@ def LeNetModified(inputData, outputClasses):
 
 
     convolutionOutput = tf.concat([conv4A, conv4B], 3)
+
+'''
 
     convolutionOutuput = flatten(convolutionOutput)
     
