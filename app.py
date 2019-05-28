@@ -212,9 +212,9 @@ for i in (range(np.shape(xTest)[0])):
 
 
 
-xTrain = np.array(xTrainHue, dtype = np.float32)
-xValid = np.array(xValidHue, dtype = np.float32)
-xTest = np.array(xTestHue, dtype = np.float32)
+xTrain = np.array(xTrainSat, dtype = np.float32)
+xValid = np.array(xValidSat, dtype = np.float32)
+xTest = np.array(xTestSat, dtype = np.float32)
 
 
 
