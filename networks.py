@@ -30,7 +30,7 @@ def LeNetModified(inputData, outputClasses):
 
 '''
 
-    convolutionOutuput = flatten(convolutionOutput)
+    convolutionOutuput = flatten(conv4A)
     
 
     fullyConn1 = fullyConnectedLayer(convolutionOutuput, outputShape =  120 )
