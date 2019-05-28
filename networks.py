@@ -11,24 +11,22 @@ def LeNetModified(inputData, outputClasses):
     maxPool1 = maxPool(conv1)
     
 
-    conv2A = convLayer(maxPool1, filterShape = (5,5,20) )
+    conv2A = convLayer(maxPool1, filterShape = (5,5,6) )
     maxPool2A = maxPool(conv2A)
     conv3A = convLayer(conv2A, filterShape = (3,3,10) )
     maxPool3A = maxPool(conv3A)
-    conv4A = convLayer(maxPool3A, filterShape = (1,1,20) )
-
-'''
-
-    conv2B = convLayer(maxPool1, filterShape = (3,3,6) )
-    maxPool2B = maxPool(conv2B)
-    conv3B = convLayer(maxPool2B, filterShape = (3,3,10) )
-    conv4B = convLayer(conv3B, filterShape = (1,1,6) )
+    conv4A = convLayer(maxPool3A, filterShape = (1,1,6) )
 
 
 
-    convolutionOutput = tf.concat([conv4A, conv4B], 3)
+    #conv2B = convLayer(maxPool1, filterShape = (3,3,6) )
+    #maxPool2B = maxPool(conv2B)
+    #conv3B = convLayer(maxPool2B, filterShape = (3,3,10) )
+    #conv4B = convLayer(conv3B, filterShape = (1,1,6) )
 
-'''
+
+
+    #convolutionOutput = tf.concat([conv4A, conv4B], 3)
 
     convolutionOutuput = flatten(conv4A)
     
@@ -68,7 +66,7 @@ def LeNet(inputData, outputClasses):
 
     fullyConn1 = fullyConnectedLayer(convolutionOutuput, outputShape = 120 , dropout=True)
 
-    fullyConn2 = fullyConnectedLayer(fullyConn1, outputShape = 100 , dropout=True)
+    fullyConn2 = fullyConnectedLayer(fullyConn1, outputShape = 100 ,dropout=True)
 
     fullyConn3 = fullyConnectedLayer(fullyConn2, outputShape = 80 , dropout=True)
 
