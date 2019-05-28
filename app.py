@@ -148,28 +148,63 @@ print("**********************************\n")
 print('Start Preprocessing\n')
 
 
-
+'''
 print('Changing Training Set Color Space')
 for i in (range(np.shape(xTrain)[0])):
-    xTrain[i] = cv2.cvtColor(xTrain[i], cv2.COLOR_RGB2GRAY)
+    xTrain[i] = cv2.cvtColor(xTrain[i], cv2.COLOR_RGB2HLS)
 
 print('Changing Validation Set Color Space')
 for i in (range(np.shape(xValid)[0])):
-    xValid[i] = cv2.cvtColor(xValid[i], cv2.COLOR_RGB2GRAY)
+    xValid[i] = cv2.cvtColor(xValid[i], cv2.COLOR_RGB2HLS)
 
 print('Changing Testing Set Color Space')
 for i in (range(np.shape(xTest)[0])):
-    xTest[i] = cv2.cvtColor(xTest[i], cv2.COLOR_RGB2GRAY)
+    xTest[i] = cv2.cvtColor(xTest[i], cv2.COLOR_RGB2HLS)
     
+'''
+
+
+
+
+
+
+
+
+
+
+xTrainGray = np.zeros(shape = (xTrain.shape[0] , xTrain.shape[1], xTrain.shape[2], 1))
+xValidGray = np.zeros(shape = (xValid.shape[0] , xValid.shape[1], xValid.shape[2], 1))
+xTestGray = np.zeros(shape = (xTest.shape[0] , xTest.shape[1], xTest.shape[2], 1))
+
+
+
+print('Changing Training Set Color Space')
+for i in (range(np.shape(xTrain)[0])):
+    xTrainGray[i] = np.expand_dims(cv2.cvtColor(xTrain[i], cv2.COLOR_RGB2GRAY), axis = 2)
+    
+
+print('Changing Validation Set Color Space')
+for i in (range(np.shape(xValid)[0])):
+    xValidGray[i] = np.expand_dims(cv2.cvtColor(xValid[i], cv2.COLOR_RGB2GRAY), axis = 2)
+
+print('Changing Testing Set Color Space')
+for i in (range(np.shape(xTest)[0])):
+    xTestGray[i] = np.expand_dims(cv2.cvtColor(xTest[i], cv2.COLOR_RGB2GRAY), axis = 2)
+
+
+
+
+xTrain = np.array(xTrainGray, dtype = np.float32)
+xValid = np.array(xValidGray, dtype = np.float32)
+xTest = np.array(xTestGray, dtype = np.float32)
 
 
 
 imageShape = (np.shape(xTrain)[1], np.shape(xTrain)[2], np.shape(xTrain)[3])
 
 
-xTrain = np.array(xTrain, dtype = np.float32)
-xValid = np.array(xValid, dtype = np.float32)
-xTest = np.array(xTest, dtype = np.float32)
+
+
 
 print('Normalizing Training Set')
 for i in (range(np.shape(xTrain)[0])):
