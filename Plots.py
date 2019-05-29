@@ -1,12 +1,15 @@
 import matplotlib.pyplot as plt
 import numpy as np
 
-def linePlot(x , y , xLabel = '' , yLabel = '' , fileName = 'test', save = False, show = False):
+def linePlot(x , y , xLabel = '' , yLabel = '', setXLimits = None , fileName = 'test', save = False, show = False):
     
     plt.figure()
     plt.plot(x, y)
     plt.xlabel(xLabel)
     plt.ylabel(yLabel)
+
+    if(setXLimits != None):
+        axes.set_xlim(setXLimits)
 
     if(save):
         plt.savefig('plots/' + fileName + '.png')
