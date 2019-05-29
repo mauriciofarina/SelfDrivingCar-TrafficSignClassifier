@@ -299,6 +299,7 @@ with tf.Session() as sess:
         infoString += "Runtime: {:.3f}s".format(deltaTime)
         print(infoString)
 
+    print(accuracyResult.shape)
 
     yVal = (accuracyResult[:,1]*100)/(accuracyResult[:,0] + accuracyResult[:,1])
 
