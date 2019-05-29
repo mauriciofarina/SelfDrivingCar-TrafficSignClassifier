@@ -47,18 +47,19 @@ def LeNetModified(inputData, outputClasses):
 
     convolutionOutput = tf.concat([convOutA, convOutB, convOutC], 1)
 
-    print(getTensorShape(convolutionOutput))
     
 
-    fullyConn1 = fullyConnectedLayer(convolutionOutput, outputShape = 320 , dropout=False)
+    fullyConn1 = fullyConnectedLayer(convolutionOutput, outputShape = 160 , dropout=False)
 
-    fullyConn2 = fullyConnectedLayer(fullyConn1, outputShape = 160 , dropout=False)
+    fullyConn2 = fullyConnectedLayer(fullyConn1, outputShape = 120 , dropout=False)
 
     fullyConn3 = fullyConnectedLayer(fullyConn2, outputShape = 84 , dropout=False)
 
-    fullyConn4 = fullyConnectedLayer(fullyConn3, outputShape = outputClasses, relu = False)
+    fullyConn4 = fullyConnectedLayer(fullyConn3, outputShape = 120 , dropout=False)
 
-    logits = fullyConn4
+    fullyConn5 = fullyConnectedLayer(fullyConn4, outputShape = outputClasses, relu = False)
+
+    logits = fullyConn5
 
     
     return logits
