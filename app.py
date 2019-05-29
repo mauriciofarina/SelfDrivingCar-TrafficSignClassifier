@@ -235,7 +235,7 @@ def evaluate(xData, yData):
         batchX, batchY = xData[offset:offset+BATCH_SIZE], yData[offset:offset+BATCH_SIZE]
         accuracy = sess.run(accuracyOperation, feed_dict={x: batchX, y: batchY})
         totalAccuracy += (accuracy * len(batchX))
-    return totalAccuracy / examplesSize , 
+    return totalAccuracy / examplesSize
 
 print('Validation Check Defined')
 
