@@ -18,7 +18,7 @@ def barPlot(x , y , xLabel = '' , yLabel = '' ,setXAxis = None , fileName = 'tes
     
     plt.figure()
     xLen = np.arange(len(x))
-    plt.bar(xLen, y, align='center')
+    plt.bar(xLen, y, align='center', width=0.5)
     plt.xticks(xLen, x)
     plt.xlabel(xLabel)
     plt.ylabel(yLabel)
