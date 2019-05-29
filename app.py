@@ -237,6 +237,25 @@ def evaluate(xData, yData):
         totalAccuracy += (accuracy * len(batchX))
     return totalAccuracy / examplesSize
 
+
+def evaluate2(xData, yData):
+
+    result = np.zeros(shape=(classesSize,2))
+    examplesSize = len(xData)
+    totalAccuracy = 0
+    sess = tf.get_default_session()
+    for offset in range(0, examplesSize, 1):
+        batchX, batchY = xData[offset:offset+1], yData[offset:offset+1]
+        accuracy = sess.run(accuracyOperation, feed_dict={x: batchX, y: batchY})
+
+        label = batchY[0]
+        if(accuracy == 1):
+            result[label,1] += 1
+        else:
+            result[label,0] += 1
+
+    return result
+
 print('Validation Check Defined')
 
 
@@ -254,6 +273,7 @@ with tf.Session() as sess:
     print("Training...\n")
 
     accuracyHistory = np.zeros([EPOCHS])
+    accuracyResult = np.zeros(shape=(EPOCHS,classesSize,2))
 
     for i in (range(EPOCHS)):
 
@@ -265,6 +285,7 @@ with tf.Session() as sess:
             sess.run(trainingOperation, feed_dict={x: batchX, y: batchY})
             
         validationAccuracy = evaluate(xValid,yValid)
+        accuracyResult[i] = evaluate2(xValid,yValid)
 
         endTime = time.time()
         deltaTime = endTime - startTime
@@ -275,6 +296,12 @@ with tf.Session() as sess:
         infoString += "Validation Accuracy: {:.3f}  -- ".format(validationAccuracy)
         infoString += "Runtime: {:.3f}s".format(deltaTime)
         print(infoString)
+
+
+    yVal = (accuracyResult[EPOCHS,:,1]*100)/(accuracyResult[EPOCHS,:,0] + accuracyResult[EPOCHS,:,1])
+
+    plot.barPlot(np.arange(1,classesSize+1,1), yVal, xLabel='Dataset Groups',
+             yLabel='Accuracy', fileName='AccuracyResults', save=True, show=PREVIEW)
 
 
     plot.linePlot(np.arange(1,EPOCHS+1,1), accuracyHistory, xLabel='EPOCH',yLabel='Accuracy', fileName='TrainingResult', save=True, show=PREVIEW)
