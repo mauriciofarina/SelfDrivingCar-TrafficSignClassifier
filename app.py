@@ -303,7 +303,7 @@ with tf.Session() as sess:
         infoString += "Learning Rate: {:.7f}".format(learning)
         print(infoString)
 
-        learning = learning - (learning/16)
+        learning = learning - (learning/8)
 
         if(i == EPOCHS-1):
             accuracyResult = evaluate2(xValid,yValid)
