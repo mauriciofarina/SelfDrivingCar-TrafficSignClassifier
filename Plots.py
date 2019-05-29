@@ -3,6 +3,7 @@ import numpy as np
 
 def linePlot(x , y , xLabel = '' , yLabel = '' , fileName = 'test', save = False, show = False):
     
+    plt.figure()
     plt.plot(x, y)
     plt.xlabel(xLabel)
     plt.ylabel(yLabel)
@@ -15,12 +16,13 @@ def linePlot(x , y , xLabel = '' , yLabel = '' , fileName = 'test', save = False
 
 def barPlot(x , y , xLabel = '' , yLabel = '' , fileName = 'test', stats = False, save = False, show = False):
     
+    plt.figure()
     xLen = np.arange(len(x))
     plt.bar(xLen, y, align='center')
     plt.xticks(xLen, x)
     plt.xlabel(xLabel)
     plt.ylabel(yLabel)
-    
+
     if(stats):
         mean = np.mean(y)
         std = np.std(y)
@@ -34,6 +36,7 @@ def barPlot(x , y , xLabel = '' , yLabel = '' , fileName = 'test', stats = False
 
 def histogramPlot(x , bins = None , density = False , xLabel = '' , yLabel = '' , fileName = 'test', save = False, show = False, stats = True):
     
+    plt.figure()
     plt.hist(x, bins, align = 'mid', normed = density)
     
     probabilities = np.histogram(x, bins, density = density)
