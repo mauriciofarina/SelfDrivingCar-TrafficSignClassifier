@@ -301,7 +301,7 @@ with tf.Session() as sess:
         infoString = "EPOCH: {} -- ".format(i+1)
         infoString += "Validation Accuracy: {:.3f}  -- ".format(validationAccuracy)
         infoString += "Runtime: {:.3f}s -- ".format(deltaTime)
-        infoString += "Learning Rate: {:.3f}s".format(learning)
+        infoString += "Learning Rate: {:.3f}".format(learning)
         print(infoString)
 
         learning = learning - (learning/4)
