@@ -273,7 +273,6 @@ with tf.Session() as sess:
     print("Training...\n")
 
     accuracyHistory = np.zeros([EPOCHS])
-    accuracyResult = np.zeros(shape=(EPOCHS,classesSize,2))
 
     for i in (range(EPOCHS)):
 
@@ -285,7 +284,10 @@ with tf.Session() as sess:
             sess.run(trainingOperation, feed_dict={x: batchX, y: batchY})
             
         validationAccuracy = evaluate(xValid,yValid)
-        accuracyResult[i] = evaluate2(xValid,yValid)
+
+        if(i == EPOCHS-1):
+            accuracyResult = evaluate2(xValid,yValid)
+        
 
         endTime = time.time()
         deltaTime = endTime - startTime
@@ -298,7 +300,7 @@ with tf.Session() as sess:
         print(infoString)
 
 
-    yVal = (accuracyResult[EPOCHS,:,1]*100)/(accuracyResult[EPOCHS,:,0] + accuracyResult[EPOCHS,:,1])
+    yVal = (accuracyResult[:,1]*100)/(accuracyResult[:,0] + accuracyResult[:,1])
 
     plot.barPlot(np.arange(1,classesSize+1,1), yVal, xLabel='Dataset Groups',
              yLabel='Accuracy', fileName='AccuracyResults', save=True, show=PREVIEW)
