@@ -1,4 +1,6 @@
 import numpy as np
+import time
+
 np.warnings.filterwarnings('ignore')
 
 import os
@@ -224,6 +226,7 @@ correctPrediction = tf.equal(tf.argmax(logits, 1), tf.argmax(oneHotY, 1))
 accuracyOperation = tf.reduce_mean(tf.cast(correctPrediction, tf.float32))
 
 
+
 def evaluate(xData, yData):
     examplesSize = len(xData)
     totalAccuracy = 0
@@ -232,7 +235,7 @@ def evaluate(xData, yData):
         batchX, batchY = xData[offset:offset+BATCH_SIZE], yData[offset:offset+BATCH_SIZE]
         accuracy = sess.run(accuracyOperation, feed_dict={x: batchX, y: batchY})
         totalAccuracy += (accuracy * len(batchX))
-    return totalAccuracy / examplesSize
+    return totalAccuracy / examplesSize , 
 
 print('Validation Check Defined')
 
@@ -250,9 +253,11 @@ with tf.Session() as sess:
     
     print("Training...\n")
 
-    terminalPlot = []
+    accuracyHistory = np.zeros([EPOCHS])
 
     for i in (range(EPOCHS)):
+
+        startTime = time.time()
         xTrain, yTrain = shuffle(xTrain, yTrain)
         for offset in (range(0, examplesSize, BATCH_SIZE)):
             end = offset + BATCH_SIZE
@@ -260,18 +265,24 @@ with tf.Session() as sess:
             sess.run(trainingOperation, feed_dict={x: batchX, y: batchY})
             
         validationAccuracy = evaluate(xValid,yValid)
-        print("EPOCH {} -- ".format(i+1))
-        print("\rValidation Accuracy = {:.3f}\n".format(validationAccuracy))
-        terminalPlot.append(validationAccuracy)
+
+        endTime = time.time()
+        deltaTime = endTime - startTime
+
+        accuracyHistory[i] = validationAccuracy
+
+        infoString = "EPOCH: {} -- ".format(i+1)
+        infoString += "Validation Accuracy: {:.3f}  -- ".format(validationAccuracy)
+        infoString += "Runtime: {:.3f}s".format(deltaTime)
+        print(infoString)
+
+
+    plot.linePlot(np.arange(1,EPOCHS+1,1), accuracyHistory xLabel='EPOCH',yLabel='Accuracy', fileName='TrainingResult', save=True, show=PREVIEW)
         
     saver.save(sess, './lenet')
     print("Model saved")
 
     print("Max Accuracy: " + str(max(terminalPlot)))
     
-
-    if (EPOCHS <= 20):
-        plot.plotTerminal(terminalPlot, plot_height=PLOT_HIGHT)
-
 
 
