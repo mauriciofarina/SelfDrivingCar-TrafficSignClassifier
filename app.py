@@ -304,7 +304,7 @@ with tf.Session() as sess:
         print(infoString)
 
         if(((i+1)%5) == 0):
-            learning = learning*(3/4)
+            learning = learning*(1/2)
 
         #learning = learning - (learning/8)
 
