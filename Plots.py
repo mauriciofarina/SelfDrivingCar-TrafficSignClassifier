@@ -35,7 +35,7 @@ def barPlot(x , y , xLabel = '' , yLabel = '' , fileName = 'test', stats = False
         plt.show()
 
 
-def barPlot2(x , y , xLabel = '' , yLabel = '' ,setXAxis = None , fileName = 'test', stats = False, save = False, show = False):
+def barPlot2(x , y , xLabel = '' , yLabel = '' ,setXAxis = None, setYAxis = None , fileName = 'test', stats = False, save = False, show = False):
     
     plt.figure(figsize=(12, 4))
     xLen = np.arange(len(x))
@@ -47,6 +47,10 @@ def barPlot2(x , y , xLabel = '' , yLabel = '' ,setXAxis = None , fileName = 'te
     if(setXAxis != None):
         x1,x2,y1,y2 = plt.axis()
         plt.axis((setXAxis[0],setXAxis[1],y1,y2))
+    
+    if(setYAxis != None):
+        x1,x2,y1,y2 = plt.axis()
+        plt.axis((x1,x2,setYAxis[0],setYAxis[1]))
     
         
 

@@ -47,6 +47,7 @@ def LeNetModified(inputData, outputClasses):
 
     convolutionOutput = tf.concat([convOutA, convOutB, convOutC], 1)
 
+    print(getTensorShape(convolutionOutput))
     
 
     fullyConn1 = fullyConnectedLayer(convolutionOutput, outputShape = 160 , dropout=False)
