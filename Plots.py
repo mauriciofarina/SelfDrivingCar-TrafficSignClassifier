@@ -14,9 +14,30 @@ def linePlot(x , y , xLabel = '' , yLabel = '',  fileName = 'test', save = False
     if(show):
         plt.show()
 
-def barPlot(x , y , xLabel = '' , yLabel = '' ,setXAxis = None , fileName = 'test', stats = False, save = False, show = False):
+def barPlot(x , y , xLabel = '' , yLabel = '' , fileName = 'test', stats = False, save = False, show = False):
     
-    plt.figure(figsize=(10, 5))
+    plt.figure()
+    xLen = np.arange(len(x))
+    plt.bar(xLen, y, align='center', width=0.5)
+    plt.xticks(xLen, x)
+    plt.xlabel(xLabel)
+    plt.ylabel(yLabel)
+
+    if(stats):
+        mean = np.mean(y)
+        std = np.std(y)
+        plt.title('$\mu=' + str(mean) + '$, $\sigma=' + str(std) + '$')
+
+    if(save):
+        plt.savefig('plots/' + fileName + '.png')
+    
+    if(show):
+        plt.show()
+
+
+def barPlot2(x , y , xLabel = '' , yLabel = '' ,setXAxis = None , fileName = 'test', stats = False, save = False, show = False):
+    
+    plt.figure(figsize=(12, 4))
     xLen = np.arange(len(x))
     plt.bar(xLen, y, align='center', width=0.5)
     plt.xticks(xLen, x)
@@ -26,6 +47,7 @@ def barPlot(x , y , xLabel = '' , yLabel = '' ,setXAxis = None , fileName = 'tes
     if(setXAxis != None):
         x1,x2,y1,y2 = plt.axis()
         plt.axis((setXAxis[0],setXAxis[1],y1,y2))
+    
         
 
     if(stats):
