@@ -30,6 +30,7 @@ EPOCHS = 20
 BATCH_SIZE = 128
 LEARNING_RATE = 0.001
 PLOT_HIGHT=30
+TEST_NOW = False
 
 for index, value in enumerate(sys.argv):
     
@@ -43,6 +44,8 @@ for index, value in enumerate(sys.argv):
         LEARNING_RATE = float(sys.argv[index+1])
     elif value == "-p":
         PLOT_HIGHT = int(sys.argv[index+1])
+    elif value == "-t":
+        TEST_NOW = True
 
 
 
@@ -329,4 +332,9 @@ with tf.Session() as sess:
     print("Max Accuracy: " + str(max(accuracyHistory)))
     
 
+if(TEST_NOW == True):
+    with tf.Session() as sess:
+        saver.restore(sess, tf.train.latest_checkpoint('.'))
 
+        test_accuracy = evaluate(X_test, y_test)
+        print("Test Accuracy = {:.3f}".format(test_accuracy))
