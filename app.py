@@ -277,7 +277,7 @@ with tf.Session() as sess:
         print(infoString)
 
 
-    plot.linePlot(np.arange(1,EPOCHS+1,1), accuracyHistory xLabel='EPOCH',yLabel='Accuracy', fileName='TrainingResult', save=True, show=PREVIEW)
+    plot.linePlot(np.arange(1,EPOCHS+1,1), accuracyHistory, xLabel='EPOCH',yLabel='Accuracy', fileName='TrainingResult', save=True, show=PREVIEW)
         
     saver.save(sess, './lenet')
     print("Model saved")
