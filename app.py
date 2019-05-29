@@ -303,7 +303,7 @@ with tf.Session() as sess:
         infoString += "Learning Rate: {:.7f}".format(learning)
         print(infoString)
 
-        if(((i+1)/5) == 0):
+        if(((i+1)%5) == 0):
             learning = learning*(3/4)
 
         #learning = learning - (learning/8)
