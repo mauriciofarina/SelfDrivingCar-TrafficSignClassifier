@@ -16,7 +16,7 @@ def linePlot(x , y , xLabel = '' , yLabel = '',  fileName = 'test', save = False
 
 def barPlot(x , y , xLabel = '' , yLabel = '' ,setXAxis = None , fileName = 'test', stats = False, save = False, show = False):
     
-    plt.figure()
+    plt.figure(figsize=(20, 3))
     xLen = np.arange(len(x))
     plt.bar(xLen, y, align='center', width=0.5)
     plt.xticks(xLen, x)
