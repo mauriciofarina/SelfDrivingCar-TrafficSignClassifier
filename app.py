@@ -46,12 +46,6 @@ for index, value in enumerate(sys.argv):
 
 
 
-
-
-
-
-print("**********************************\n")
-
 # Dataset Files Path
 trainingFile = '../data/train.p'
 validationFile = '../data/valid.p'
@@ -70,10 +64,9 @@ xTrain, yTrain = train['features'], train['labels']
 xValid, yValid = valid['features'], valid['labels']
 xTest, yTest = test['features'], test['labels']
 
-print("Dataset Loaded\n")
+print("Dataset Loaded")
 
 
-print("**********************************\n")
 
 # Number of training examples
 trainSize = np.shape(xTrain)[0]
@@ -93,14 +86,13 @@ classesList = np.unique(yTrain)
 # How many unique classes/labels there are in the dataset.
 classesSize = np.shape(classesList)[0]
 
+'''
 print("Number of training examples =", trainSize)
 print("Number of testing examples =", testSize)
 print("Image data shape =", imageShape)
 print("Number of classes =", classesSize)
 print("\n")
-
-
-print("**********************************\n")
+'''
 
 
 
@@ -143,29 +135,11 @@ plot.barPlot(xVal, yVal, xLabel='Dataset Groups',
 
 print('Plots Done')
 
-print("**********************************\n")
 
-print('Start Preprocessing\n')
-
-
-print('Getting HLS Image\n')
-
-xTrainHLS = np.zeros_like(xTrain)
-xValidHLS = np.zeros_like(xValid)
-xTestHLS = np.zeros_like(xTest)
-
-for i in (range(np.shape(xTrain)[0])):
-    xTrainHLS[i] = cv2.cvtColor(xTrain[i], cv2.COLOR_RGB2HLS)
-
-for i in (range(np.shape(xValid)[0])):
-    xValidHLS[i] = cv2.cvtColor(xValid[i], cv2.COLOR_RGB2HLS)
-
-for i in (range(np.shape(xTest)[0])):
-    xTestHLS[i] = cv2.cvtColor(xTest[i], cv2.COLOR_RGB2HLS)
+print('Start Preprocessing...')
 
 
-
-print('Getting Grayscale Image\n')
+print('Converting to Grayscale')
 
 xTrainGray = np.zeros(shape = (xTrain.shape[0] , xTrain.shape[1], xTrain.shape[2]))
 xValidGray = np.zeros(shape = (xValid.shape[0] , xValid.shape[1], xValid.shape[2]))
@@ -185,7 +159,7 @@ for i in (range(np.shape(xTest)[0])):
 
 
 
-print('Defining Input Dataset\n')
+print('Defining Input Dataset')
 
 channels = 1
 
@@ -219,10 +193,10 @@ for i in (range(np.shape(xTest)[0])):
 
 
 
-print('\nPreprocessing Done')
-print("**********************************\n")
+print('Preprocessing Done')
 
-print('TensorFlow Setup\n')
+
+print('TensorFlow Setup...')
 
 
 
@@ -266,9 +240,8 @@ print('Validation Check Defined')
 saver = tf.train.Saver()
 
 
-print("**********************************\n")
 
-print("Start Training\n")
+print("\nStart Training\n")
 
 
 with tf.Session() as sess:
