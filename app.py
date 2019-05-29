@@ -103,21 +103,21 @@ print("\n")
 print("**********************************\n")
 
 
-
+print("Test")
 # Items Per Dataset Group
 xVal = ['Training', 'Validation', 'Testing']
 yVal = [trainSize, validationSize, testSize]
 plot.barPlot(xVal, yVal, xLabel='Dataset Groups',
              yLabel='Number of Images', fileName='datasetGroups', save=True, show=PREVIEW)
 
-
+print("Test")
 # Total of Items per Class in Training Dataset
 xVal = yTrain
 histTrain = plot.histogramPlot(xVal, bins=classesSize, xLabel='Classes',
                    yLabel='Number of Images', fileName='datasetHistTrain', save=True, density=True, show=PREVIEW)
 
 # Total of Items per Class in Validation Dataset
-xVal =V
+xVal =yValid
 histValid = plot.histogramPlot(xVal, bins=classesSize, xLabel='Classes',
                    yLabel='Number of Images', fileName='datasetHistValid', save=True, density=True, show=PREVIEW)
 
