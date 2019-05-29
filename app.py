@@ -287,8 +287,8 @@ with tf.Session() as sess:
             sess.run(trainingOperation, feed_dict={x: batchX, y: batchY})
             
         validationAccuracy = evaluate(xValid,yValid)
-        print("EPOCH {} ...".format(i+1))
-        print("Validation Accuracy = {:.3f}\n".format(validationAccuracy))
+        print("EPOCH {} -- ".format(i+1))
+        print("\rValidation Accuracy = {:.3f}\n".format(validationAccuracy))
         terminalPlot.append(validationAccuracy)
         
     saver.save(sess, './lenet')
