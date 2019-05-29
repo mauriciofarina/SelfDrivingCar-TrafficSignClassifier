@@ -1,7 +1,7 @@
 import matplotlib.pyplot as plt
 import numpy as np
 
-def linePlot(x , y , xLabel = '' , yLabel = '' , fileName = 'test', save = False, show = True):
+def linePlot(x , y , xLabel = '' , yLabel = '' , fileName = 'test', save = False, show = False):
     
     plt.plot(x, y)
     plt.xlabel(xLabel)
@@ -13,7 +13,7 @@ def linePlot(x , y , xLabel = '' , yLabel = '' , fileName = 'test', save = False
     if(show):
         plt.show()
 
-def barPlot(x , y , xLabel = '' , yLabel = '' , fileName = 'test', stats = False, save = False, show = True):
+def barPlot(x , y , xLabel = '' , yLabel = '' , fileName = 'test', stats = False, save = False, show = False):
     
     xLen = np.arange(len(x))
     plt.bar(xLen, y, align='center')
@@ -32,7 +32,7 @@ def barPlot(x , y , xLabel = '' , yLabel = '' , fileName = 'test', stats = False
     if(show):
         plt.show()
 
-def histogramPlot(x , bins = None , density = False , xLabel = '' , yLabel = '' , fileName = 'test', save = False, show = True, stats = True):
+def histogramPlot(x , bins = None , density = False , xLabel = '' , yLabel = '' , fileName = 'test', save = False, show = False, stats = True):
     
     plt.hist(x, bins, align = 'mid', normed = density)
     
