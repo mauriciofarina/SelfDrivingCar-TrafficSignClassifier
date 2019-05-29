@@ -106,7 +106,7 @@ print("**********************************\n")
 
 # Items Per Dataset Group
 xVal = ['Training', 'Validation', 'Testing']
-yVal = [trainSizev, testSize]Size
+yVal = [trainSize, validationSize, testSize]
 plot.barPlot(xVal, yVal, xLabel='Dataset Groups',
              yLabel='Number of Images', fileName='datasetGroups', save=True, show=PREVIEW)
 
@@ -139,7 +139,6 @@ xVal = ['Training', 'Validation', 'Testing']
 yVal = [histTrain[1], histValid[1], histTest[1]]
 plot.barPlot(xVal, yVal, xLabel='Dataset Groups',
              yLabel='Number of Images', fileName='datasetGroupsDeviation', save=True, show=PREVIEW)
-
 
 
 print('Plots Done')
@@ -288,8 +287,8 @@ with tf.Session() as sess:
             sess.run(trainingOperation, feed_dict={x: batchX, y: batchY})
             
         validationAccuracy = evaluate(xValid,yValid)
-        print("EPOCH {} -- ".format(i+1))
-        print("\rValidation Accuracy = {:.3f}".format(validationAccuracy))
+        print("EPOCH {} ...".format(i+1))
+        print("Validation Accuracy = {:.3f}\n".format(validationAccuracy))
         terminalPlot.append(validationAccuracy)
         
     saver.save(sess, './lenet')
