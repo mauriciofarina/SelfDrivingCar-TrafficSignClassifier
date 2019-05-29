@@ -290,8 +290,7 @@ with tf.Session() as sess:
             
         validationAccuracy = evaluate(xValid,yValid)
 
-        
-
+    
 
         endTime = time.time()
         deltaTime = endTime - startTime
@@ -304,7 +303,7 @@ with tf.Session() as sess:
         infoString += "Learning Rate: {:.7f}".format(learning)
         print(infoString)
 
-        learning = learning - (learning/2)
+        learning = learning - (learning/8)
 
         if(i == EPOCHS-1):
             accuracyResult = evaluate2(xValid,yValid)
