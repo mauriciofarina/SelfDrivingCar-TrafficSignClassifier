@@ -285,9 +285,6 @@ with tf.Session() as sess:
             
         validationAccuracy = evaluate(xValid,yValid)
 
-        if(i == EPOCHS-1):
-            accuracyResult = evaluate2(xValid,yValid)
-        
 
         endTime = time.time()
         deltaTime = endTime - startTime
@@ -299,10 +296,13 @@ with tf.Session() as sess:
         infoString += "Runtime: {:.3f}s".format(deltaTime)
         print(infoString)
 
+        if(i == EPOCHS-1):
+            accuracyResult = evaluate2(xValid,yValid)
+
 
     yVal = (accuracyResult[:,1]*100)/(accuracyResult[:,0] + accuracyResult[:,1])
 
-    plot.barPlot(np.arange(1,classesSize+1,1), yVal, xLabel='Dataset Groups', setXLimits = (1,43),
+    plot.barPlot(np.arange(1,classesSize+1,1), yVal, xLabel='Dataset Groups', setXAxis= (1,43),
              yLabel='Accuracy', fileName='AccuracyResults', save=True, show=PREVIEW)
 
 

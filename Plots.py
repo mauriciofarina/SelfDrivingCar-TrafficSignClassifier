@@ -1,15 +1,12 @@
 import matplotlib.pyplot as plt
 import numpy as np
 
-def linePlot(x , y , xLabel = '' , yLabel = '', setXLimits = None , fileName = 'test', save = False, show = False):
+def linePlot(x , y , xLabel = '' , yLabel = '',  fileName = 'test', save = False, show = False):
     
     plt.figure()
     plt.plot(x, y)
     plt.xlabel(xLabel)
     plt.ylabel(yLabel)
-
-    if(setXLimits != None):
-        axes.set_xlim(setXLimits)
 
     if(save):
         plt.savefig('plots/' + fileName + '.png')
@@ -17,7 +14,7 @@ def linePlot(x , y , xLabel = '' , yLabel = '', setXLimits = None , fileName = '
     if(show):
         plt.show()
 
-def barPlot(x , y , xLabel = '' , yLabel = '' , fileName = 'test', stats = False, save = False, show = False):
+def barPlot(x , y , xLabel = '' , yLabel = '' ,setXAxis = None , fileName = 'test', stats = False, save = False, show = False):
     
     plt.figure()
     xLen = np.arange(len(x))
@@ -25,6 +22,11 @@ def barPlot(x , y , xLabel = '' , yLabel = '' , fileName = 'test', stats = False
     plt.xticks(xLen, x)
     plt.xlabel(xLabel)
     plt.ylabel(yLabel)
+
+    if(setXAxis != None):
+        x1,x2,y1,y2 = plt.axis()
+        plt.axis((setXAxis[0],setXAxis[1],y1,y2))
+        
 
     if(stats):
         mean = np.mean(y)
