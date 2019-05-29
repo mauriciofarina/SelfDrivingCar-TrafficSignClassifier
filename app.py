@@ -217,7 +217,10 @@ print('Tensors Defined')
 
 crossEntropy = tf.nn.softmax_cross_entropy_with_logits(labels=oneHotY, logits=logits)
 lossOperation = tf.reduce_mean(crossEntropy)
-optimizer = tf.train.AdamOptimizer(learning_rate = LEARNING_RATE)
+
+learningRate = tf.placeholder(tf.float32, (None))
+
+optimizer = tf.train.AdamOptimizer(learning_rate = learningRate)
 trainingOperation = optimizer.minimize(lossOperation)
 
 print('Training Process Defined')
@@ -274,6 +277,8 @@ with tf.Session() as sess:
 
     accuracyHistory = np.zeros([EPOCHS])
 
+    learning = LEARNING_RATE
+
     for i in (range(EPOCHS)):
 
         startTime = time.time()
@@ -281,9 +286,11 @@ with tf.Session() as sess:
         for offset in (range(0, examplesSize, BATCH_SIZE)):
             end = offset + BATCH_SIZE
             batchX, batchY = xTrain[offset:end], yTrain[offset:end]
-            sess.run(trainingOperation, feed_dict={x: batchX, y: batchY})
+            sess.run(trainingOperation, feed_dict={x: batchX, y: batchY, learningRate: learning})
             
         validationAccuracy = evaluate(xValid,yValid)
+
+        learning = learning - (learning/4)
 
 
         endTime = time.time()
