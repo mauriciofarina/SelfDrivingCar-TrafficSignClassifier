@@ -103,14 +103,14 @@ print("\n")
 print("**********************************\n")
 
 
-print("Test")
+
 # Items Per Dataset Group
 xVal = ['Training', 'Validation', 'Testing']
 yVal = [trainSize, validationSize, testSize]
 plot.barPlot(xVal, yVal, xLabel='Dataset Groups',
              yLabel='Number of Images', fileName='datasetGroups', save=True, show=PREVIEW)
 
-print("Test")
+
 # Total of Items per Class in Training Dataset
 xVal = yTrain
 histTrain = plot.histogramPlot(xVal, bins=classesSize, xLabel='Classes',

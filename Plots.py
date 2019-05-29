@@ -15,17 +15,12 @@ def linePlot(x , y , xLabel = '' , yLabel = '' , fileName = 'test', save = False
 
 def barPlot(x , y , xLabel = '' , yLabel = '' , fileName = 'test', stats = False, save = False, show = False):
     
-    print("BAR")
     xLen = np.arange(len(x))
-    print("BAR")
     plt.bar(xLen, y, align='center')
-    print("BAR")
     plt.xticks(xLen, x)
-    print("BAR")
     plt.xlabel(xLabel)
-    print("BAR")
     plt.ylabel(yLabel)
-    print("BAR")
+    
     if(stats):
         mean = np.mean(y)
         std = np.std(y)
