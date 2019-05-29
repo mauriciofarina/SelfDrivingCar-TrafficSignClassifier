@@ -310,9 +310,12 @@ with tf.Session() as sess:
 
 
     yVal = (accuracyResult[:,1]*100)/(accuracyResult[:,0] + accuracyResult[:,1])
-
     plot.barPlot2(np.arange(1,classesSize+1,1), yVal, xLabel='Dataset Groups', setXAxis= (-1,44),
              yLabel='Accuracy', fileName='AccuracyResults', save=True, show=PREVIEW)
+
+    yVal = (accuracyResult[:,0]*100)/(accuracyResult[:,0] + accuracyResult[:,1])
+    plot.barPlot2(np.arange(1,classesSize+1,1), yVal, xLabel='Dataset Groups', setXAxis= (-1,44),
+             yLabel='Accuracy Error', fileName='AccuracyErrorResults', save=True, show=PREVIEW)
 
 
     plot.linePlot(np.arange(1,EPOCHS+1,1), accuracyHistory, xLabel='EPOCH',yLabel='Accuracy', fileName='TrainingResult', save=True, show=PREVIEW)
