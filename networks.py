@@ -50,9 +50,9 @@ def LeNetModified(inputData, outputClasses):
     print(getTensorShape(convolutionOutput))
     
 
-    fullyConn1 = fullyConnectedLayer(convolutionOutput, outputShape = 160 , dropout=False)
+    fullyConn1 = fullyConnectedLayer(convolutionOutput, outputShape = 320 , dropout=False)
 
-    fullyConn2 = fullyConnectedLayer(fullyConn1, outputShape = 120 , dropout=False)
+    fullyConn2 = fullyConnectedLayer(fullyConn1, outputShape = 160 , dropout=False)
 
     fullyConn3 = fullyConnectedLayer(fullyConn2, outputShape = 84 , dropout=False)
 
