@@ -282,7 +282,7 @@ with tf.Session() as sess:
     saver.save(sess, './lenet')
     print("Model saved")
 
-    print("Max Accuracy: " + str(max(terminalPlot)))
+    print("Max Accuracy: " + str(max(accuracyHistory)))
     
 
 

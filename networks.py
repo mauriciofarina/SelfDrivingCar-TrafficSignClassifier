@@ -108,7 +108,7 @@ def convLayer(inputData, filterShape, strides=[1, 1, 1, 1], padding='VALID',  mu
     if(relu):
         output = tf.nn.relu(output)
 
-    print(getTensorShape(output))
+
     return output
 
 
@@ -117,7 +117,7 @@ def maxPool(inputData, ksize=[1, 2, 2, 1], strides=[1, 2, 2, 1], padding='VALID'
 
     output = tf.nn.max_pool(inputData, ksize=ksize, strides=strides, padding=padding)
 
-    print(getTensorShape(output))
+
     return output
 
 
