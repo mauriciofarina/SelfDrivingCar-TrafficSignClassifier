@@ -301,10 +301,10 @@ with tf.Session() as sess:
         infoString = "EPOCH: {} -- ".format(i+1)
         infoString += "Validation Accuracy: {:.3f}  -- ".format(validationAccuracy)
         infoString += "Runtime: {:.3f}s -- ".format(deltaTime)
-        infoString += "Learning Rate: {:.5f}".format(learning)
+        infoString += "Learning Rate: {:.7f}".format(learning)
         print(infoString)
 
-        learning = learning - (learning/4)
+        learning = learning - (learning/2)
 
         if(i == EPOCHS-1):
             accuracyResult = evaluate2(xValid,yValid)
