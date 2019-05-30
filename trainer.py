@@ -146,20 +146,25 @@ print('Start Preprocessing...')
 
 print('Converting to Grayscale')
 
-xTrainGray = np.zeros(shape = (xTrain.shape[0] , xTrain.shape[1], xTrain.shape[2]))
-xValidGray = np.zeros(shape = (xValid.shape[0] , xValid.shape[1], xValid.shape[2]))
-xTestGray = np.zeros(shape = (xTest.shape[0] , xTest.shape[1], xTest.shape[2]))
+xTrainPreprocess = np.zeros(dtype = np.uint8, shape = (xTrain.shape[0] , xTrain.shape[1], xTrain.shape[2]))
+xValidPreprocess = np.zeros(dtype = np.uint8, shape = (xValid.shape[0] , xValid.shape[1], xValid.shape[2]))
+xTestPreprocess = np.zeros(dtype = np.uint8, shape = (xTest.shape[0] , xTest.shape[1], xTest.shape[2]))
 
 
-for i in (range(np.shape(xTrain)[0])):
-    xTrainGray[i] = cv2.cvtColor(xTrain[i], cv2.COLOR_RGB2GRAY)
+for i in tqdm(range(np.shape(xTrain)[0])):
+    xTrainPreprocess[i] = cv2.cvtColor(xTrain[i], cv2.COLOR_RGB2GRAY)
+    xTrainPreprocess[i] = cv2.equalizeHist(xTrainPreprocess[i])
+    xTrainPreprocess[i] = (xTrainPreprocess[i] - 128.0) / 128.0
 
-for i in (range(np.shape(xValid)[0])):
-    xValidGray[i] = cv2.cvtColor(xValid[i], cv2.COLOR_RGB2GRAY)
+for i in tqdm(range(np.shape(xValid)[0])):
+    xValidPreprocess[i] = cv2.cvtColor(xValid[i], cv2.COLOR_RGB2GRAY)
+    xValidPreprocess[i] = cv2.equalizeHist(xValidPreprocess[i])
+    xValidPreprocess[i] = (xValidPreprocess[i] - 128.0) / 128.0
 
-for i in (range(np.shape(xTest)[0])):
-    xTestGray[i] = cv2.cvtColor(xTest[i], cv2.COLOR_RGB2GRAY)
-
+for i in tqdm(range(np.shape(xTest)[0])):
+    xTestPreprocess[i] = cv2.cvtColor(xTest[i], cv2.COLOR_RGB2GRAY)
+    xTestPreprocess[i] = cv2.equalizeHist(xTestPreprocess[i])
+    xTestPreprocess[i] = (xTestPreprocess[i] - 128.0) / 128.0
 
 
 
@@ -174,25 +179,11 @@ xTest = np.zeros(dtype = np.float32, shape = (xTest.shape[0] , xTest.shape[1], x
 
 
 
-xTrain[:,:,:,0] = xTrainGray
-xValid[:,:,:,0] = xValidGray
-xTest[:,:,:,0] = xTestGray
+xTrain[:,:,:,0] = xTrainPreprocess
+xValid[:,:,:,0] = xValidPreprocess
+xTest[:,:,:,0] = xTestPreprocess
 
 imageShape = (np.shape(xTrain)[1], np.shape(xTrain)[2], np.shape(xTrain)[3])
-
-
-
-print('Normalizing Dataset')
-
-for i in (range(np.shape(xTrain)[0])):
-    xTrain[i] = (xTrain[i] - 128.0) / 128.0
-
-for i in (range(np.shape(xValid)[0])):
-    xValid[i] = (xValid[i] -128.0) / 128.0
-
-for i in (range(np.shape(xTest)[0])):
-    xTest[i] = (xTest[i] -128.0) / 128.0
-
 
 
 
@@ -211,7 +202,7 @@ oneHotY = tf.one_hot(y, classesSize)
 
 
 
-logits = nn.LeNetModified(x, classesSize)
+logits = nn.LeNetModified2(x, classesSize)
 
 
 print('Tensors Defined')
@@ -246,11 +237,12 @@ def evaluate(xData, yData):
 
 def evaluate2(xData, yData):
 
+    print("Evaluating Results..")
     result = np.zeros(shape=(classesSize,2))
     examplesSize = len(xData)
     totalAccuracy = 0
     sess = tf.get_default_session()
-    for offset in range(0, examplesSize, 1):
+    for offset in tqdm(range(0, examplesSize, 1)):
         batchX, batchY = xData[offset:offset+1], yData[offset:offset+1]
         accuracy = sess.run(accuracyOperation, feed_dict={x: batchX, y: batchY})
 
@@ -286,7 +278,7 @@ with tf.Session() as sess:
 
         startTime = time.time()
         xTrain, yTrain = shuffle(xTrain, yTrain)
-        for offset in (range(0, examplesSize, BATCH_SIZE)):
+        for offset in tqdm(range(0, examplesSize, BATCH_SIZE)):
             end = offset + BATCH_SIZE
             batchX, batchY = xTrain[offset:end], yTrain[offset:end]
             sess.run(trainingOperation, feed_dict={x: batchX, y: batchY, learningRate: learning})
@@ -306,27 +298,26 @@ with tf.Session() as sess:
         infoString += "Learning Rate: {:.7f}".format(learning)
         print(infoString)
 
-        if(((i+1)%5) == 0):
-            learning = learning*(3/4)
+        # if(((i+1)%5) == 0):
+        #     learning = learning*(3/4)
 
-        #learning = learning - (learning/8)
 
         if(i == EPOCHS-1):
             accuracyResult = evaluate2(xValid,yValid)
 
 
     yVal = (accuracyResult[:,1]*100)/(accuracyResult[:,0] + accuracyResult[:,1])
-    plot.barPlot2(np.arange(1,classesSize+1,1), yVal, xLabel='Dataset Groups', setXAxis= (-1,44),
+    plot.barPlot2(np.arange(1,classesSize,1), yVal, xLabel='Dataset Groups', setXAxis= (-1,43),
              yLabel='Accuracy', fileName='AccuracyResults', save=True, show=PREVIEW)
 
     yVal = (accuracyResult[:,0]*100)/(accuracyResult[:,0] + accuracyResult[:,1])
-    plot.barPlot2(np.arange(1,classesSize+1,1), yVal, xLabel='Dataset Groups', setXAxis= (-1,44), setYAxis= (0,100),
+    plot.barPlot2(np.arange(1,classesSize,1), yVal, xLabel='Dataset Groups', setXAxis= (-1,43), setYAxis= (0,100),
              yLabel='Accuracy Error', fileName='AccuracyErrorResults', save=True, show=PREVIEW)
 
 
     plot.linePlot(np.arange(1,EPOCHS+1,1), accuracyHistory, xLabel='EPOCH',yLabel='Accuracy', fileName='TrainingResult', save=True, show=PREVIEW)
         
-    saver.save(sess, './lenet')
+    #saver.save(sess, './lenet')
     print("Model saved")
 
     print("Max Accuracy: " + str(max(accuracyHistory)))
