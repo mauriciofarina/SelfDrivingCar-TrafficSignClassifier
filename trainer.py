@@ -5,6 +5,7 @@ np.warnings.filterwarnings('ignore')
 
 import os
 os.environ['TF_CPP_MIN_LOG_LEVEL'] = '3' 
+os.environ["QT_QPA_PLATFORM"] = "offscreen"
 import sys
 
 
