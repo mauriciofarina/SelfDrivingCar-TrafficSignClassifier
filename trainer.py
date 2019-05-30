@@ -256,11 +256,14 @@ def evaluate2(xData, yData):
     examplesSize = len(xData)
     totalAccuracy = 0
     sess = tf.get_default_session()
+
+    result = np.zeros(dtype=np.float64 ,shape=(classesSize,2))
+
     for offset in tqdm(range(0, examplesSize, 1)):
         batchX, batchY = xData[offset:offset+1], yData[offset:offset+1]
         accuracy = sess.run(accuracyOperation, feed_dict={x: batchX, y: batchY})
         label = batchY[0]
-        result = np.zeros(dtype=np.float64 ,shape=(classesSize,2))
+        
         if(accuracy == 1):
             result[label,1] += 1
         else:
