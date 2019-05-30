@@ -14,14 +14,14 @@ def LeNetModified2(inputData, outputClasses):
     #maxPool3 = maxPool(conv3)
     
 
-    #convolutionOutput = flatten(conv3)
-    convolutionOutput = tf.concat([flatten(maxPool1), flatten(maxPool2), flatten(conv3)], 1)
+    convolutionOutput = flatten(conv3)
+    #convolutionOutput = tf.concat([flatten(maxPool1), flatten(maxPool2), flatten(conv3)], 1)
 
     
 
     fullyConn1 = fullyConnectedLayer(convolutionOutput, outputShape = 1024 , dropout=False)
 
-    fullyConn2 = fullyConnectedLayer(fullyConn1, outputShape = outputClasses ,relu = False, dropout=False)
+    fullyConn2 = fullyConnectedLayer(fullyConn1, outputShape = outputClasses ,relu = False, dropout=True)
 
     logits = fullyConn2
 
