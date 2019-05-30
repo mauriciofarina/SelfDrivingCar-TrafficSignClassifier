@@ -150,7 +150,7 @@ def fullyConnectedLayer(inputData, outputShape, mu = 0 , sigma = 0.1, relu = Tru
         output = tf.nn.relu(output)
 
 
-    print(getTensorShape(output))
+    print((inputShape,getTensorShape(output)))
     return output
 
 
