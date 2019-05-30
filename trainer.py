@@ -95,15 +95,14 @@ classesList = np.unique(yTrain)
 # How many unique classes/labels there are in the dataset.
 classesSize = np.shape(classesList)[0]
 
-'''
 print("Number of training examples =", trainSize)
 print("Number of testing examples =", testSize)
 print("Image data shape =", imageShape)
 print("Number of classes =", classesSize)
 print("\n")
-'''
 
-'''
+
+
 
 # Items Per Dataset Group
 xVal = ['Training', 'Validation', 'Testing']
@@ -113,19 +112,40 @@ plot.barPlot(xVal, yVal, xLabel='Dataset Groups',
 
 
 # Total of Items per Class in Training Dataset
-xVal = yTrain
-histTrain = plot.histogramPlot(xVal, bins=classesSize, xLabel='Classes',
-                   yLabel='Number of Images', fileName='datasetHistTrain', save=True, density=True, show=PREVIEW)
+yVal = np.zeros(shape=(classesSize))
+
+for i in range(0, classesSize, 1):
+    yVal[i] = np.count_nonzero(yTrain == i)
+    
+histTrain = plot.histogramPlot(yVal, bins=classesSize, xLabel='Classes',
+                   yLabel='Number of Images', fileName='datasetHistTrain', save=False, density=True, show=PREVIEW)
+
+plot.barPlot2(np.arange(0,classesSize,1), yVal, xLabel='Classes', setXAxis= (-1,43),
+             yLabel='Number of Images', fileName='datasetHistTrain', save=True, show=PREVIEW)
 
 # Total of Items per Class in Validation Dataset
-xVal =yValid
-histValid = plot.histogramPlot(xVal, bins=classesSize, xLabel='Classes',
-                   yLabel='Number of Images', fileName='datasetHistValid', save=True, density=True, show=PREVIEW)
+yVal = np.zeros(shape=(classesSize))
+
+for i in range(0, classesSize, 1):
+    yVal[i] = np.count_nonzero(yValid == i)
+
+histValid = plot.histogramPlot(yVal, bins=classesSize, xLabel='Classes',
+                   yLabel='Number of Images', fileName='datasetHistValid', save=False, density=True, show=PREVIEW)
+
+plot.barPlot2(np.arange(0,classesSize,1), yVal, xLabel='Classes', setXAxis= (-1,43),
+             yLabel='Number of Images', fileName='datasetHistValid', save=True, show=PREVIEW)
 
 # Total of Items per Class in Testing Dataset
-xVal = yTest
-histTest = plot.histogramPlot(xVal, bins=classesSize, xLabel='Classes',
-                   yLabel='Number of Images', fileName='datasetHistTest', save=True, density=True, show=PREVIEW)
+yVal = np.zeros(shape=(classesSize))
+
+for i in range(0, classesSize, 1):
+    yVal[i] = np.count_nonzero(yTest == i)
+
+histTest = plot.histogramPlot(yVal, bins=classesSize, xLabel='Classes',
+                   yLabel='Number of Images', fileName='datasetHistTest', save=False, density=True, show=PREVIEW)
+
+plot.barPlot2(np.arange(0,classesSize,1), yVal, xLabel='Classes', setXAxis= (-1,43),
+             yLabel='Number of Images', fileName='datasetHistTest', save=True, show=PREVIEW)
 
 
 # Mean Value of Dataset Groups
@@ -143,7 +163,7 @@ plot.barPlot(xVal, yVal, xLabel='Dataset Groups',
 
 
 print('Plots Done')
-'''
+
 
 print('Start Preprocessing...')
 
@@ -232,15 +252,15 @@ def evaluate(xData, yData):
 def evaluate2(xData, yData):
 
     print("Evaluating Results..")
-    result = np.zeros(shape=(classesSize,2))
+    
     examplesSize = len(xData)
     totalAccuracy = 0
     sess = tf.get_default_session()
     for offset in tqdm(range(0, examplesSize, 1)):
         batchX, batchY = xData[offset:offset+1], yData[offset:offset+1]
         accuracy = sess.run(accuracyOperation, feed_dict={x: batchX, y: batchY})
-
         label = batchY[0]
+        result = np.zeros(shape=(classesSize,2))
         if(accuracy == 1):
             result[label,1] += 1
         else:
@@ -298,14 +318,15 @@ with tf.Session() as sess:
 
         if(i == EPOCHS-1):
             accuracyResult = evaluate2(xValid,yValid)
+            print(accuracyResult.shape)
 
 
     yVal = (accuracyResult[:,1]*100)/(accuracyResult[:,0] + accuracyResult[:,1])
-    plot.barPlot2(np.arange(1,classesSize,1), yVal, xLabel='Dataset Groups', setXAxis= (-1,43),
+    plot.barPlot2(np.arange(0,classesSize,1), yVal, xLabel='Dataset Groups', setXAxis= (-1,43),
              yLabel='Accuracy', fileName='AccuracyResults', save=True, show=PREVIEW)
 
     yVal = (accuracyResult[:,0]*100)/(accuracyResult[:,0] + accuracyResult[:,1])
-    plot.barPlot2(np.arange(1,classesSize,1), yVal, xLabel='Dataset Groups', setXAxis= (-1,43), setYAxis= (0,100),
+    plot.barPlot2(np.arange(0,classesSize,1), yVal, xLabel='Dataset Groups', setXAxis= (-1,43), setYAxis= (0,100),
              yLabel='Accuracy Error', fileName='AccuracyErrorResults', save=True, show=PREVIEW)
 
 

@@ -15,8 +15,7 @@ def LeNetModified2(inputData, outputClasses):
     
 
 
-
-    convolutionOutput = flatten(conv3)#tf.concat([convOutA, convOutB], 1)
+    convolutionOutput = tf.concat([flatten(maxPool1), flatten(maxPool2), flatten(conv3)], 1)
 
     
 
