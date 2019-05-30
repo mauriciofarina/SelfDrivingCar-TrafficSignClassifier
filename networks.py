@@ -6,7 +6,7 @@ from tensorflow.contrib.layers import flatten
 
 def LeNetModified2(inputData, outputClasses):    
 
-    conv1 = convLayer(inputData, filterShape = (5,5,32) , dropout=True, dropoutKeepProb = 0.1)
+    conv1 = convLayer(inputData, filterShape = (5,5,32) , dropout=False, dropoutKeepProb = 0.1)
     maxPool1 = maxPool(conv1)
     conv2 = convLayer(maxPool1, filterShape = (5,5,64) , dropout=False, dropoutKeepProb = 0.1)
     maxPool2 = maxPool(conv2)
