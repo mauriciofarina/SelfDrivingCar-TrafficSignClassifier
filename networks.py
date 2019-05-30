@@ -21,7 +21,7 @@ def LeNetModified2(inputData, outputClasses):
 
     fullyConn1 = fullyConnectedLayer(convolutionOutput, outputShape = 1024 , dropout=False)
 
-    fullyConn2 = fullyConnectedLayer(fullyConn1, outputShape = outputClasses ,relu = False, dropout=True)
+    fullyConn2 = fullyConnectedLayer(fullyConn1, outputShape = outputClasses ,relu = False, dropout=False)
 
     logits = fullyConn2
 
