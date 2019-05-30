@@ -319,6 +319,9 @@ with tf.Session() as sess:
         if(i == EPOCHS-1):
             accuracyResult = evaluate2(xValid,yValid)
             print(accuracyResult.shape)
+            print(accuracyResult)
+
+
 
 
     yVal = (accuracyResult[:,1]*100)/(accuracyResult[:,0] + accuracyResult[:,1])
