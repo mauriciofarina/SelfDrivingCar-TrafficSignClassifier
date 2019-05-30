@@ -260,7 +260,7 @@ def evaluate2(xData, yData):
         batchX, batchY = xData[offset:offset+1], yData[offset:offset+1]
         accuracy = sess.run(accuracyOperation, feed_dict={x: batchX, y: batchY})
         label = batchY[0]
-        result = np.zeros(shape=(classesSize,2))
+        result = np.zeros(dtype=np.float32 ,shape=(classesSize,2))
         if(accuracy == 1):
             result[label,1] += 1
         else:
@@ -322,7 +322,7 @@ with tf.Session() as sess:
 
 
     yVal = (accuracyResult[:,1]*100)/(accuracyResult[:,0] + accuracyResult[:,1])
-    plot.barPlot2(np.arange(0,classesSize,1), yVal, xLabel='Dataset Groups', setXAxis= (-1,43),
+    plot.barPlot2(np.arange(0,classesSize,1), yVal, xLabel='Dataset Groups', setXAxis= (-1,43), setYAxis= (0,100),
              yLabel='Accuracy', fileName='AccuracyResults', save=True, show=PREVIEW)
 
     yVal = (accuracyResult[:,0]*100)/(accuracyResult[:,0] + accuracyResult[:,1])
