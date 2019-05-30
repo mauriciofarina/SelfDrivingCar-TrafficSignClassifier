@@ -24,6 +24,9 @@ import cv2
 
 
 
+
+
+
 PREVIEW = False  # Plot Preview On/Off
 
 
@@ -100,7 +103,7 @@ print("Number of classes =", classesSize)
 print("\n")
 '''
 
-
+'''
 
 # Items Per Dataset Group
 xVal = ['Training', 'Validation', 'Testing']
@@ -140,51 +143,41 @@ plot.barPlot(xVal, yVal, xLabel='Dataset Groups',
 
 
 print('Plots Done')
-
+'''
 
 print('Start Preprocessing...')
 
 
 print('Converting to Grayscale')
 
-xTrainPreprocess = np.zeros(dtype = np.uint8, shape = (xTrain.shape[0] , xTrain.shape[1], xTrain.shape[2]))
-xValidPreprocess = np.zeros(dtype = np.uint8, shape = (xValid.shape[0] , xValid.shape[1], xValid.shape[2]))
-xTestPreprocess = np.zeros(dtype = np.uint8, shape = (xTest.shape[0] , xTest.shape[1], xTest.shape[2]))
+xTrainPreprocess = np.zeros(shape = (xTrain.shape[0] , xTrain.shape[1], xTrain.shape[2]))
+xValidPreprocess = np.zeros(shape = (xValid.shape[0] , xValid.shape[1], xValid.shape[2]))
+xTestPreprocess = np.zeros(shape = (xTest.shape[0] , xTest.shape[1], xTest.shape[2]))
 
+def preprocessImage(image):
+    
+    grayscale = cv2.cvtColor(image, cv2.COLOR_RGB2GRAY).astype(np.uint8)
+    histogramEqualized= cv2.equalizeHist(grayscale)
+    normalized = ((histogramEqualized - 128.0) / 128.0).astype(np.float32)
+    
+    imageToTensorShape = normalized.reshape(normalized.shape + (1,)) 
+    return imageToTensorShape
+
+
+xTrain = xTrain.astype(np.float32)
+xValid = xValid.astype(np.float32)
+xTest  = xTest.astype(np.float32)
 
 for i in tqdm(range(np.shape(xTrain)[0])):
-    xTrainPreprocess[i] = cv2.cvtColor(xTrain[i], cv2.COLOR_RGB2GRAY)
-    xTrainPreprocess[i] = cv2.equalizeHist(xTrainPreprocess[i])
-    xTrainPreprocess[i] = (xTrainPreprocess[i] - 128.0) / 128.0
+    xTrain[i] = preprocessImage(xTrain[i])
 
 for i in tqdm(range(np.shape(xValid)[0])):
-    xValidPreprocess[i] = cv2.cvtColor(xValid[i], cv2.COLOR_RGB2GRAY)
-    xValidPreprocess[i] = cv2.equalizeHist(xValidPreprocess[i])
-    xValidPreprocess[i] = (xValidPreprocess[i] - 128.0) / 128.0
+    xValid[i] = preprocessImage(xValid[i])
 
 for i in tqdm(range(np.shape(xTest)[0])):
-    xTestPreprocess[i] = cv2.cvtColor(xTest[i], cv2.COLOR_RGB2GRAY)
-    xTestPreprocess[i] = cv2.equalizeHist(xTestPreprocess[i])
-    xTestPreprocess[i] = (xTestPreprocess[i] - 128.0) / 128.0
+    xTest[i] = preprocessImage(xTest[i])
 
 
-
-
-print('Defining Input Dataset')
-
-channels = 1
-
-xTrain = np.zeros(dtype = np.float32, shape = (xTrain.shape[0] , xTrain.shape[1], xTrain.shape[2], channels))
-xValid = np.zeros(dtype = np.float32, shape = (xValid.shape[0] , xValid.shape[1], xValid.shape[2], channels))
-xTest = np.zeros(dtype = np.float32, shape = (xTest.shape[0] , xTest.shape[1], xTest.shape[2], channels))
-
-
-
-xTrain[:,:,:,0] = xTrainPreprocess
-xValid[:,:,:,0] = xValidPreprocess
-xTest[:,:,:,0] = xTestPreprocess
-
-imageShape = (np.shape(xTrain)[1], np.shape(xTrain)[2], np.shape(xTrain)[3])
 
 
 
@@ -197,7 +190,7 @@ print('TensorFlow Setup...')
 
 
 
-x = tf.placeholder(tf.float32,(None, imageShape[0], imageShape[1], imageShape[2]))
+x = tf.placeholder(tf.float32,(None, np.shape(xTrain)[1], np.shape(xTrain)[2], np.shape(xTrain)[3]))
 y = tf.placeholder(tf.int32, (None))
 oneHotY = tf.one_hot(y, classesSize)
 
@@ -330,3 +323,7 @@ if(TEST_NOW == True):
 
         test_accuracy = evaluate(xTest, yTest)
         print("Test Accuracy = {:.3f}".format(test_accuracy))
+
+
+
+
