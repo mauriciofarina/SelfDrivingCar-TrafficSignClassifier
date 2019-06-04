@@ -8,9 +8,9 @@ def LeNetModified2(inputData, outputClasses):
 
     conv1 = convLayer(inputData, filterShape = (5,5,32) , dropout=True, dropoutKeepProb = 0.9)
     maxPool1 = maxPool(conv1)
-    conv2 = convLayer(maxPool1, filterShape = (5,5,64) , dropout=True, dropoutKeepProb = 0.8)
+    conv2 = convLayer(maxPool1, filterShape = (5,5,64) , dropout=True, dropoutKeepProb = 0.9)
     maxPool2 = maxPool(conv2)
-    conv3 = convLayer(maxPool2, filterShape = (5,5,128) , dropout=True, dropoutKeepProb = 0.7)
+    conv3 = convLayer(maxPool2, filterShape = (5,5,128) , dropout=True, dropoutKeepProb = 0.9)
     #maxPool3 = maxPool(conv3)
     
 
