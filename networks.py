@@ -6,22 +6,22 @@ from tensorflow.contrib.layers import flatten
 
 def LeNetModified2(inputData, outputClasses):    
 
-    conv1 = convLayer(inputData, filterShape = (5,5,32) , dropout=True, dropoutKeepProb = 0.1)
+    conv1 = convLayer(inputData, filterShape = (5,5,32) , dropout=False, dropoutKeepProb = 0.9)
     maxPool1 = maxPool(conv1)
-    conv2 = convLayer(maxPool1, filterShape = (5,5,64) , dropout=False, dropoutKeepProb = 0.1)
+    conv2 = convLayer(maxPool1, filterShape = (5,5,64) , dropout=False, dropoutKeepProb = 0.8)
     maxPool2 = maxPool(conv2)
-    conv3 = convLayer(maxPool2, filterShape = (5,5,128) , dropout=False, dropoutKeepProb = 0.1)
+    conv3 = convLayer(maxPool2, filterShape = (5,5,128) , dropout=False, dropoutKeepProb = 0.7)
     #maxPool3 = maxPool(conv3)
     
 
-    convolutionOutput = flatten(conv3)
-    #convolutionOutput = tf.concat([flatten(maxPool1), flatten(maxPool2), flatten(conv3)], 1)
+    #convolutionOutput = flatten(conv3)
+    convolutionOutput = tf.concat([flatten(maxPool1), flatten(maxPool2), flatten(conv3)], 1)
 
     
 
     fullyConn1 = fullyConnectedLayer(convolutionOutput, outputShape = 1024 , dropout=False)
 
-    fullyConn2 = fullyConnectedLayer(fullyConn1, outputShape = outputClasses ,relu = False, dropout=True)
+    fullyConn2 = fullyConnectedLayer(fullyConn1, outputShape = outputClasses ,relu = False, dropout=False)
 
     logits = fullyConn2
 
