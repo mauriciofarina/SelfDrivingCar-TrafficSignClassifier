@@ -310,7 +310,7 @@ with tf.Session() as sess:
         deltaTime = endTime - startTime
 
         accuracyHistory[i:EPOCHS] = validationAccuracy
-        accuracyHistoryAve[i:EPOCHS] = np.sum(accuracyHistory[0:(i+1)])/(i+1)
+        accuracyHistoryAve[i] = np.sum(accuracyHistory[0:(i+1)])/(i+1)
 
 
 
