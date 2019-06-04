@@ -1,13 +1,16 @@
 import matplotlib.pyplot as plt
 import numpy as np
 
-def linePlot(x , y , xLabel = '' , yLabel = '',setYAxis = None,  fileName = 'test', save = False, show = False):
+def linePlot(x , y , xLabel = '' , yLabel = '',setYAxis = None, grid = True,  fileName = 'test', save = False, show = False):
     
     plt.figure()
     plt.plot(x, y)
     plt.xlabel(xLabel)
     plt.ylabel(yLabel)
 
+    if (grid == True):
+        plt.grid(True)
+    
     if(setYAxis != None):
         x1,x2,y1,y2 = plt.axis()
         plt.axis((x1,x2,setYAxis[0],setYAxis[1]))

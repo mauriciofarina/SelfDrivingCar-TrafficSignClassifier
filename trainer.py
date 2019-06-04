@@ -287,7 +287,8 @@ with tf.Session() as sess:
     
     print("Training...\n")
 
-    accuracyHistory = np.zeros([EPOCHS])
+    accuracyHistory = np.zeros([2,EPOCHS])
+    
 
     learning = LEARNING_RATE
 
@@ -307,7 +308,13 @@ with tf.Session() as sess:
         endTime = time.time()
         deltaTime = endTime - startTime
 
-        accuracyHistory[i:EPOCHS] = validationAccuracy
+        accuracyHistory[0,i:EPOCHS] = validationAccuracy
+
+        if((i+1)%5 == 0):
+            accuracyHistory[1,(i+1-5):i] = np.sum(accuracyHistory[0,(i+1-5):i])
+
+
+
 
         infoString = "EPOCH: {} -- ".format(i+1)
         infoString += "Validation Accuracy: {:.3f}  -- ".format(validationAccuracy)
@@ -322,8 +329,11 @@ with tf.Session() as sess:
             accuracyResult = evaluate2(xValid,yValid)
             print(accuracyResult.shape)
 
-        plot.linePlot(np.arange(1,EPOCHS+1,1), accuracyHistory, xLabel='EPOCH',yLabel='Accuracy', 
-                            setYAxis= (0.85,1.0), fileName='TrainingResult', save=True, show=PREVIEW)
+        plot.linePlot(np.arange(1,EPOCHS+1,1), accuracyHistory[0,:], xLabel='EPOCH',yLabel='Accuracy', 
+                            setYAxis= (0.9,0.97), fileName='TrainingResultPreview', save=True, show=PREVIEW)
+
+        plot.linePlot(np.arange(1,EPOCHS+1,1), accuracyHistory[1,:], xLabel='EPOCH',yLabel='Accuracy', 
+                            setYAxis= (0.9,0.97), fileName='TrainingResultAvePreview', save=True, show=PREVIEW)
 
 
 
@@ -335,7 +345,8 @@ with tf.Session() as sess:
     plot.barPlot2(np.arange(0,classesSize,1), yVal, xLabel='Dataset Groups', setXAxis= (-1,43), setYAxis= (0,100),
              yLabel='Accuracy Error', fileName='AccuracyErrorResults', save=True, show=PREVIEW)
 
-
+    plot.linePlot(np.arange(1,EPOCHS+1,1), accuracyHistory, xLabel='EPOCH',yLabel='Accuracy', 
+                            fileName='TrainingResult', save=True, show=PREVIEW)
     
         
     #saver.save(sess, './lenet')
