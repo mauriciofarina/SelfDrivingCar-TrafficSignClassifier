@@ -278,10 +278,11 @@ saver = tf.train.Saver()
 
 
 
-print("\nStart Training\n")
+
 
 
 if(TEST_NOW == True):
+    print("\nStart Testing\n")
     with tf.Session() as sess:
         saver.restore(sess, tf.train.latest_checkpoint('.'))
 
@@ -289,6 +290,9 @@ if(TEST_NOW == True):
         print("Test Accuracy = {:.3f}".format(test_accuracy))
     exit()
 
+
+
+print("\nStart Training\n")
 
 with tf.Session() as sess:
     sess.run(tf.global_variables_initializer())
