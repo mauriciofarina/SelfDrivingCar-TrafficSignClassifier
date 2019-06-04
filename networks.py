@@ -16,7 +16,7 @@ def LeNetModified2(inputData, outputClasses):
 
     #convolutionOutput = flatten(conv3)
     convolutionOutput = tf.concat([flatten(maxPool1), flatten(maxPool2), flatten(conv3)], 1)
-
+    print(getTensorShape(convolutionOutput))
     
 
     fullyConn1 = fullyConnectedLayer(convolutionOutput, outputShape = 1024 , dropout=False)
