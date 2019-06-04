@@ -315,7 +315,7 @@ with tf.Session() as sess:
         if(indexStart < 0):
             indexStart = 0
 
-        accuracyHistoryAve[i] = np.average(accuracyHistory[indexStart:i])
+        accuracyHistoryAve[i:EPOCHS] = np.average(accuracyHistory[indexStart:i])
 
 
 
