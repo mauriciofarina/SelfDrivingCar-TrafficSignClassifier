@@ -291,11 +291,11 @@ with tf.Session() as sess:
 
     learning = LEARNING_RATE
 
-    for i in (range(EPOCHS)):
+    for i in tqdm(range(EPOCHS)):
 
         startTime = time.time()
         xTrain, yTrain = shuffle(xTrain, yTrain)
-        for offset in tqdm(range(0, examplesSize, BATCH_SIZE)):
+        for offset in (range(0, examplesSize, BATCH_SIZE)):
             end = offset + BATCH_SIZE
             batchX, batchY = xTrain[offset:end], yTrain[offset:end]
             sess.run(trainingOperation, feed_dict={x: batchX, y: batchY, learningRate: learning})
@@ -312,7 +312,6 @@ with tf.Session() as sess:
         infoString = "EPOCH: {} -- ".format(i+1)
         infoString += "Validation Accuracy: {:.3f}  -- ".format(validationAccuracy)
         infoString += "Runtime: {:.3f}s -- ".format(deltaTime)
-        infoString += "Learning Rate: {:.7f}".format(learning)
         print(infoString)
 
         # if(((i+1)%5) == 0):
@@ -324,7 +323,7 @@ with tf.Session() as sess:
             print(accuracyResult.shape)
 
         plot.linePlot(np.arange(1,EPOCHS+1,1), accuracyHistory, xLabel='EPOCH',yLabel='Accuracy', 
-                            fileName='TrainingResult', save=True, show=PREVIEW)
+                            setYAxis= (0.85,1.0), fileName='TrainingResult', save=True, show=PREVIEW)
 
 
 
