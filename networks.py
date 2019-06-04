@@ -19,7 +19,7 @@ def LeNetModified2(inputData, outputClasses):
     print(getTensorShape(convolutionOutput))
     
 
-    fullyConn1 = fullyConnectedLayer(convolutionOutput, outputShape = 1024 , dropout=True)
+    fullyConn1 = fullyConnectedLayer(convolutionOutput, outputShape = 1024 , dropout=False)
 
     fullyConn2 = fullyConnectedLayer(fullyConn1, outputShape = outputClasses ,relu = False, dropout=False)
 
