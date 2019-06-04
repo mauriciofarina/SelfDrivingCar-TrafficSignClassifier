@@ -311,7 +311,7 @@ with tf.Session() as sess:
 
         accuracyHistory[i:EPOCHS] = validationAccuracy
 
-        indexStart = i - 4
+        indexStart = i - 9
         if(indexStart < 0):
             indexStart = 0
 
