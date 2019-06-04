@@ -307,7 +307,7 @@ with tf.Session() as sess:
         endTime = time.time()
         deltaTime = endTime - startTime
 
-        accuracyHistory[i] = validationAccuracy
+        accuracyHistory[i:EPOCHS] = validationAccuracy
 
         infoString = "EPOCH: {} -- ".format(i+1)
         infoString += "Validation Accuracy: {:.3f}  -- ".format(validationAccuracy)
@@ -323,6 +323,8 @@ with tf.Session() as sess:
             accuracyResult = evaluate2(xValid,yValid)
             print(accuracyResult.shape)
 
+        plot.linePlot(np.arange(1,EPOCHS+1,1), accuracyHistory, xLabel='EPOCH',yLabel='Accuracy', 
+                            fileName='TrainingResult', save=True, show=PREVIEW)
 
 
 
@@ -335,7 +337,7 @@ with tf.Session() as sess:
              yLabel='Accuracy Error', fileName='AccuracyErrorResults', save=True, show=PREVIEW)
 
 
-    plot.linePlot(np.arange(1,EPOCHS+1,1), accuracyHistory, xLabel='EPOCH',yLabel='Accuracy', fileName='TrainingResult', save=True, show=PREVIEW)
+    
         
     #saver.save(sess, './lenet')
     print("Model saved")
