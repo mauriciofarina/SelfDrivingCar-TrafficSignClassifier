@@ -287,7 +287,8 @@ with tf.Session() as sess:
     
     print("Training...\n")
 
-    accuracyHistory = np.zeros([2,EPOCHS])
+    accuracyHistory = np.zeros([EPOCHS])
+    accuracyHistoryAve = np.zeros([EPOCHS])
     
 
     learning = LEARNING_RATE
@@ -308,10 +309,8 @@ with tf.Session() as sess:
         endTime = time.time()
         deltaTime = endTime - startTime
 
-        accuracyHistory[0,i:EPOCHS] = validationAccuracy
-
-        if((i+1)%5 == 0):
-            accuracyHistory[1,(i+1-5):i] = np.sum(accuracyHistory[0,(i+1-5):i])
+        accuracyHistory[i:EPOCHS] = validationAccuracy
+        accuracyHistoryAve[i:EPOCHS] = np.sum(accuracyHistoryAve)/(i+1)
 
 
 
@@ -329,10 +328,10 @@ with tf.Session() as sess:
             accuracyResult = evaluate2(xValid,yValid)
             print(accuracyResult.shape)
 
-        plot.linePlot(np.arange(1,EPOCHS+1,1), accuracyHistory[0,:], xLabel='EPOCH',yLabel='Accuracy', 
+        plot.linePlot(np.arange(1,EPOCHS+1,1), accuracyHistory, xLabel='EPOCH',yLabel='Accuracy', 
                             setYAxis= (0.9,0.97), fileName='TrainingResultPreview', save=True, show=PREVIEW)
 
-        plot.linePlot(np.arange(1,EPOCHS+1,1), accuracyHistory[1,:], xLabel='EPOCH',yLabel='Accuracy', 
+        plot.linePlot(np.arange(1,EPOCHS+1,1), accuracyHistoryAve, xLabel='EPOCH',yLabel='Accuracy', 
                             setYAxis= (0.9,0.97), fileName='TrainingResultAvePreview', save=True, show=PREVIEW)
 
 
