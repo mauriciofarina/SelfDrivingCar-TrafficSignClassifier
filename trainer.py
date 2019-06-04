@@ -332,7 +332,7 @@ with tf.Session() as sess:
                             setYAxis= (0.9,0.97), fileName='TrainingResultPreview', save=True, show=PREVIEW)
 
         plot.linePlot(np.arange(1,EPOCHS+1,1), accuracyHistoryAve, xLabel='EPOCH',yLabel='Accuracy', 
-                            setYAxis= (0.9,0.97), fileName='TrainingResultAvePreview', save=True, show=PREVIEW)
+                            setYAxis= (0.8,0.97), fileName='TrainingResultAvePreview', save=True, show=PREVIEW)
 
 
 
