@@ -289,7 +289,7 @@ if(TEST_NOW == True):
     exit()
 
 
-
+maxAccuracy = 0.0
 
 print("\nStart Training\n")
 
@@ -305,7 +305,7 @@ with tf.Session() as sess:
 
     learning = LEARNING_RATE
 
-    maxAccuracy = 0
+    
 
     for i in tqdm(range(EPOCHS)):
 
