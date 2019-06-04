@@ -311,6 +311,8 @@ with tf.Session() as sess:
 
         print(i)
         accuracyHistory[i:EPOCHS] = validationAccuracy
+
+        print(accuracyHistory[0:i])
         accuracyHistoryAve[i:EPOCHS] = np.sum(accuracyHistory[0:i])/(i+1)
 
         print(np.sum(accuracyHistory[0:i])/(i+1))
