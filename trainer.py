@@ -305,6 +305,8 @@ with tf.Session() as sess:
 
     learning = LEARNING_RATE
 
+    maxAccuracy = 0
+
     for i in tqdm(range(EPOCHS)):
 
         startTime = time.time()
@@ -316,7 +318,10 @@ with tf.Session() as sess:
             
         validationAccuracy = evaluate(xValid,yValid)
 
-    
+        if(validationAccuracy > maxAccuracy):
+            maxAccuracy = validationAccuracy
+            saver.save(sess, './lenet')
+            print("Model saved")
 
         endTime = time.time()
         deltaTime = endTime - startTime
@@ -366,8 +371,8 @@ with tf.Session() as sess:
                             fileName='TrainingResult', save=True, show=PREVIEW)
     
         
-    saver.save(sess, './lenet')
-    print("Model saved")
+    #saver.save(sess, './lenet')
+    #print("Model saved")
 
     print("Max Accuracy: " + str(max(accuracyHistory)))
     
