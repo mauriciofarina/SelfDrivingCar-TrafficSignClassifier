@@ -168,7 +168,7 @@ print('Plots Done')
 print('Start Preprocessing...')
 
 
-print('Converting to Grayscale')
+print('Tuning image...')
 
 xTrainPreprocess = np.zeros(shape = (xTrain.shape[0] , xTrain.shape[1], xTrain.shape[2]))
 xValidPreprocess = np.zeros(shape = (xValid.shape[0] , xValid.shape[1], xValid.shape[2]))
@@ -214,19 +214,19 @@ x = tf.placeholder(tf.float32,(None, np.shape(xTrain)[1], np.shape(xTrain)[2], n
 y = tf.placeholder(tf.int32, (None))
 oneHotY = tf.one_hot(y, classesSize)
 
+learningRate = tf.placeholder(tf.float32, (None))
+dropoutOn = tf.placeholder(tf.int32, (None))
 
 
-logits = nn.LeNetModified2(x, classesSize)
+logits = nn.neuralNetwork(x, classesSize, dropoutOn)
+
 
 
 print('Tensors Defined')
 
 
-
 crossEntropy = tf.nn.softmax_cross_entropy_with_logits(labels=oneHotY, logits=logits)
 lossOperation = tf.reduce_mean(crossEntropy)
-
-learningRate = tf.placeholder(tf.float32, (None))
 
 optimizer = tf.train.AdamOptimizer(learning_rate = learningRate)
 trainingOperation = optimizer.minimize(lossOperation)
@@ -244,12 +244,12 @@ def evaluate(xData, yData):
     sess = tf.get_default_session()
     for offset in range(0, examplesSize, BATCH_SIZE):
         batchX, batchY = xData[offset:offset+BATCH_SIZE], yData[offset:offset+BATCH_SIZE]
-        accuracy = sess.run(accuracyOperation, feed_dict={x: batchX, y: batchY})
+        accuracy = sess.run(accuracyOperation, feed_dict={x: batchX, y: batchY, dropoutOn: 0})
         totalAccuracy += (accuracy * len(batchX))
     return totalAccuracy / examplesSize
 
 
-def evaluate2(xData, yData):
+def evaluateFinal(xData, yData):
 
     print("Evaluating Results..")
     
@@ -261,7 +261,7 @@ def evaluate2(xData, yData):
 
     for offset in tqdm(range(0, examplesSize, 1)):
         batchX, batchY = xData[offset:offset+1], yData[offset:offset+1]
-        accuracy = sess.run(accuracyOperation, feed_dict={x: batchX, y: batchY})
+        accuracy = sess.run(accuracyOperation, feed_dict={x: batchX, y: batchY, dropoutOn: 0})
         label = batchY[0]
 
         if(accuracy == 1):
@@ -314,7 +314,7 @@ with tf.Session() as sess:
         for offset in (range(0, examplesSize, BATCH_SIZE)):
             end = offset + BATCH_SIZE
             batchX, batchY = xTrain[offset:end], yTrain[offset:end]
-            sess.run(trainingOperation, feed_dict={x: batchX, y: batchY, learningRate: learning})
+            sess.run(trainingOperation, feed_dict={x: batchX, y: batchY, learningRate: learning, dropoutOn: 1})
             
         validationAccuracy = evaluate(xValid,yValid)
 
@@ -336,26 +336,22 @@ with tf.Session() as sess:
 
 
 
-
-
         infoString = "EPOCH: {} -- ".format(i+1)
         infoString += "Validation Accuracy: {:.3f}  -- ".format(validationAccuracy)
         infoString += "Runtime: {:.3f}s -- ".format(deltaTime)
         print(infoString)
-
-        # if(((i+1)%5) == 0):
-        #     learning = learning*(3/4)
-
-
-        if(i == EPOCHS-1):
-            accuracyResult = evaluate2(xValid,yValid)
-            print(accuracyResult.shape)
 
         plot.linePlot(np.arange(1,EPOCHS+1,1), accuracyHistory, xLabel='EPOCH',yLabel='Accuracy', 
                             setYAxis= (0.85,0.97), fileName='TrainingResultPreview', save=True, show=PREVIEW)
 
         plot.linePlot(np.arange(1,EPOCHS+1,1), accuracyHistoryAve, xLabel='EPOCH',yLabel='Accuracy', 
                             setYAxis= (0.85,1.0), fileName='TrainingResultAvePreview', save=True, show=PREVIEW)
+
+
+
+    with tf.Session() as sess:
+        saver.restore(sess, tf.train.latest_checkpoint('.'))
+        accuracyResult = evaluateFinal(xValid, yValid)
 
 
 
@@ -370,9 +366,7 @@ with tf.Session() as sess:
     plot.linePlot(np.arange(1,EPOCHS+1,1), accuracyHistory, xLabel='EPOCH',yLabel='Accuracy', 
                             fileName='TrainingResult', save=True, show=PREVIEW)
     
-        
-    #saver.save(sess, './lenet')
-    #print("Model saved")
+    
 
     print("Max Accuracy: " + str(max(accuracyHistory)))
     

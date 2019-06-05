@@ -125,27 +125,6 @@ def plotTerminal(x, plot_height=10):
 
     col_list = []
 
-    '''
-    start = int((max_pos/plot_height))
-    end = max_pos+1
-    step = int((max_pos/plot_height))
-    
-
-    yAxis = range(start, end, step)
-    for i in yAxis:
-        temp = str(i).zfill(3)
-        col_list.append(temp)
-
-    hist_array.append(col_list)
-    
-    col_list = []
-    yAxis = range(0, max_pos, int(max_pos/plot_height))
-    for i in yAxis:
-        col_list.append('     ')
-
-    hist_array.append(col_list)
-
-    '''
 
     maxVal = max(x)
     minVal = min(x)
