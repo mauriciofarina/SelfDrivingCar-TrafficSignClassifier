@@ -284,7 +284,7 @@ if(TEST_NOW == True):
     with tf.Session() as sess:
         saver.restore(sess, tf.train.latest_checkpoint('.'))
 
-        test_accuracy = evaluate(xTest, yTest)
+        test_accuracy = evaluate(xTest, yTest, 0)
         print("Test Accuracy = {:.3f}".format(test_accuracy))
     exit()
 
@@ -316,8 +316,8 @@ with tf.Session() as sess:
             batchX, batchY = xTrain[offset:end], yTrain[offset:end]
             sess.run(trainingOperation, feed_dict={x: batchX, y: batchY, learningRate: learning, dropoutOn: 1})
             
-        validationAccuracy = evaluate(xValid,yValid, 0)
-        validationAccuracyDropout = evaluate(xValid,yValid, 1)
+        validationAccuracy = evaluate(xValid,yValid, 1)
+        validationAccuracyDropout = evaluate(xValid,yValid, 0)
 
 
         infoString = "EPOCH: {} -- ".format(i+1)
