@@ -41,7 +41,7 @@ def neuralNetworkFull(inputData, outputClasses):
     logits = fullyConn2
 
     
-    return logits
+    return logits, (conv1, conv2)
 
 
 

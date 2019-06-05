@@ -174,14 +174,15 @@ xTrainPreprocess = np.zeros(shape = (xTrain.shape[0] , xTrain.shape[1], xTrain.s
 xValidPreprocess = np.zeros(shape = (xValid.shape[0] , xValid.shape[1], xValid.shape[2]))
 xTestPreprocess = np.zeros(shape = (xTest.shape[0] , xTest.shape[1], xTest.shape[2]))
 
+
 def preprocessImage(image):
     
     grayscale = cv2.cvtColor(image, cv2.COLOR_RGB2GRAY).astype(np.uint8)
     histogramEqualized= cv2.equalizeHist(grayscale)
     normalized = ((histogramEqualized - 128.0) / 128.0).astype(np.float32)
     
-    imageToTensorShape = normalized.reshape(normalized.shape + (1,)) 
-    return imageToTensorShape
+    #imageToTensorShape = normalized.reshape(normalized.shape + (1,)) 
+    return normalized
 
 
 xTrain = xTrain.astype(np.float32)
@@ -189,16 +190,18 @@ xValid = xValid.astype(np.float32)
 xTest  = xTest.astype(np.float32)
 
 for i in tqdm(range(np.shape(xTrain)[0])):
-    xTrain[i] = preprocessImage(xTrain[i])
+    xTrainPreprocess[i] = preprocessImage(xTrain[i])
 
 for i in tqdm(range(np.shape(xValid)[0])):
-    xValid[i] = preprocessImage(xValid[i])
+    xValidPreprocess[i] = preprocessImage(xValid[i])
 
 for i in tqdm(range(np.shape(xTest)[0])):
-    xTest[i] = preprocessImage(xTest[i])
+    xTestPreprocess[i] = preprocessImage(xTest[i])
 
 
-
+xTrain = xTrainPreprocess.reshape(xTrainPreprocess.shape + (1,))
+xValid = xValidPreprocess.reshape(xValidPreprocess.shape + (1,))
+xTest = xTestPreprocess.reshape(xTestPreprocess.shape + (1,))
 
 
 
@@ -209,7 +212,6 @@ print('Preprocessing Done')
 print('TensorFlow Setup...')
 
 
-
 x = tf.placeholder(tf.float32,(None, np.shape(xTrain)[1], np.shape(xTrain)[2], np.shape(xTrain)[3]))
 y = tf.placeholder(tf.int32, (None))
 oneHotY = tf.one_hot(y, classesSize)
@@ -217,7 +219,7 @@ oneHotY = tf.one_hot(y, classesSize)
 learningRate = tf.placeholder(tf.float32, (None))
 
 if(TEST_NOW == True):
-    logits = nn.neuralNetworkFull(x, classesSize)
+    logits, convLayers = nn.neuralNetworkFull(x, classesSize)
 else:
     logits = nn.neuralNetwork(x, classesSize)
 
