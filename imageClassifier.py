@@ -56,7 +56,7 @@ y = tf.placeholder(tf.int32, (None))
 oneHotY = tf.one_hot(y, classesSize)
 
 
-logits, convs = nn.neuralNetworkFull(x, classesSize)
+logits, convs= nn.neuralNetworkFull(x, classesSize)
 
 
 
@@ -74,8 +74,7 @@ for i in os.listdir("./InternetImages"):
     histogramEqualized= cv2.equalizeHist(grayscale)
     normalized = ((histogramEqualized - 128.0) / 128.0).astype(np.float32)
 
-    plt.imshow(normalized, cmap='gray')
-    plt.show()
+    
 
     imageArray[0,:,:,0] = normalized
 
