@@ -6,7 +6,7 @@ from tensorflow.contrib.layers import flatten
 
 def neuralNetwork(inputData, outputClasses): 
 
-    conv1 = convLayer(inputData, filterShape = (5,5,32) , dropout=True, dropoutKeepProb = 0.9)
+    conv1 = convLayer(inputData, filterShape = (5,5,32) , dropout=False, dropoutKeepProb = 0.9)
     maxPool1 = maxPool(conv1)
     conv2 = convLayer(maxPool1, filterShape = (5,5,64) , dropout=False, dropoutKeepProb = 0.9)
     maxPool2 = maxPool(conv2)
