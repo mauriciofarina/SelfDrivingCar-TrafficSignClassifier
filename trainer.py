@@ -238,13 +238,13 @@ accuracyOperation = tf.reduce_mean(tf.cast(correctPrediction, tf.float32))
 
 
 
-def evaluate(xData, yData):
+def evaluate(xData, yData, dropout):
     examplesSize = len(xData)
     totalAccuracy = 0
     sess = tf.get_default_session()
     for offset in range(0, examplesSize, BATCH_SIZE):
         batchX, batchY = xData[offset:offset+BATCH_SIZE], yData[offset:offset+BATCH_SIZE]
-        accuracy = sess.run(accuracyOperation, feed_dict={x: batchX, y: batchY, dropoutOn: 0})
+        accuracy = sess.run(accuracyOperation, feed_dict={x: batchX, y: batchY, dropoutOn: dropout})
         totalAccuracy += (accuracy * len(batchX))
     return totalAccuracy / examplesSize
 
@@ -316,15 +316,23 @@ with tf.Session() as sess:
             batchX, batchY = xTrain[offset:end], yTrain[offset:end]
             sess.run(trainingOperation, feed_dict={x: batchX, y: batchY, learningRate: learning, dropoutOn: 1})
             
-        validationAccuracy = evaluate(xValid,yValid)
+        validationAccuracy = evaluate(xValid,yValid, 0)
+        validationAccuracyDropout = evaluate(xValid,yValid, 1)
+
+
+        infoString = "EPOCH: {} -- ".format(i+1)
+        infoString += "Accuracy: {:.3f}  -- ".format(validationAccuracy)
+        infoString += "Accuracy Dropout: {:.3f}  -- ".format(validationAccuracyDropout)
 
         if(validationAccuracy > maxAccuracy):
             maxAccuracy = validationAccuracy
             saver.save(sess, './lenet')
-            print("Model saved")
+            infoString += "Saved: YES"
+        else:
+            infoString += "Saved: NO"
 
-        endTime = time.time()
-        deltaTime = endTime - startTime
+        print(infoString)
+
 
         accuracyHistory[i:EPOCHS] = validationAccuracy
 
@@ -333,13 +341,6 @@ with tf.Session() as sess:
             indexStart = 0
 
         accuracyHistoryAve[i:EPOCHS] = np.average(accuracyHistory[indexStart:i])
-
-
-
-        infoString = "EPOCH: {} -- ".format(i+1)
-        infoString += "Validation Accuracy: {:.3f}  -- ".format(validationAccuracy)
-        infoString += "Runtime: {:.3f}s -- ".format(deltaTime)
-        print(infoString)
 
         plot.linePlot(np.arange(1,EPOCHS+1,1), accuracyHistory, xLabel='EPOCH',yLabel='Accuracy', 
                             setYAxis= (0.85,0.97), fileName='TrainingResultPreview', save=True, show=PREVIEW)
