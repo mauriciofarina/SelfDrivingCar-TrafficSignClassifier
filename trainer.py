@@ -215,10 +215,14 @@ y = tf.placeholder(tf.int32, (None))
 oneHotY = tf.one_hot(y, classesSize)
 
 learningRate = tf.placeholder(tf.float32, (None))
-dropoutOn = tf.placeholder(tf.int32, (None))
+
+if(TEST_NOW == True):
+    logits = nn.neuralNetworkFull(x, classesSize)
+else:
+    logits = nn.neuralNetwork(x, classesSize)
 
 
-logits = nn.neuralNetwork(x, classesSize, dropoutOn)
+
 
 
 
@@ -244,7 +248,7 @@ def evaluate(xData, yData, dropout):
     sess = tf.get_default_session()
     for offset in range(0, examplesSize, BATCH_SIZE):
         batchX, batchY = xData[offset:offset+BATCH_SIZE], yData[offset:offset+BATCH_SIZE]
-        accuracy = sess.run(accuracyOperation, feed_dict={x: batchX, y: batchY, dropoutOn: dropout})
+        accuracy = sess.run(accuracyOperation, feed_dict={x: batchX, y: batchY})
         totalAccuracy += (accuracy * len(batchX))
     return totalAccuracy / examplesSize
 
@@ -261,7 +265,7 @@ def evaluateFinal(xData, yData):
 
     for offset in tqdm(range(0, examplesSize, 1)):
         batchX, batchY = xData[offset:offset+1], yData[offset:offset+1]
-        accuracy = sess.run(accuracyOperation, feed_dict={x: batchX, y: batchY, dropoutOn: 0})
+        accuracy = sess.run(accuracyOperation, feed_dict={x: batchX, y: batchY})
         label = batchY[0]
 
         if(accuracy == 1):
@@ -284,7 +288,7 @@ if(TEST_NOW == True):
     with tf.Session() as sess:
         saver.restore(sess, tf.train.latest_checkpoint('.'))
 
-        test_accuracy = evaluate(xTest, yTest, 0)
+        test_accuracy = evaluate(xTest, yTest)
         print("Test Accuracy = {:.3f}".format(test_accuracy))
     exit()
 
@@ -314,15 +318,13 @@ with tf.Session() as sess:
         for offset in (range(0, examplesSize, BATCH_SIZE)):
             end = offset + BATCH_SIZE
             batchX, batchY = xTrain[offset:end], yTrain[offset:end]
-            sess.run(trainingOperation, feed_dict={x: batchX, y: batchY, learningRate: learning, dropoutOn: 1})
+            sess.run(trainingOperation, feed_dict={x: batchX, y: batchY, learningRate: learning})
             
-        validationAccuracy = evaluate(xValid,yValid, 1)
-        validationAccuracyDropout = evaluate(xValid,yValid, 0)
+        validationAccuracy = evaluate(xValid,yValid)
 
 
         infoString = "EPOCH: {} -- ".format(i+1)
         infoString += "Accuracy: {:.3f}  -- ".format(validationAccuracy)
-        infoString += "Accuracy Dropout: {:.3f}  -- ".format(validationAccuracyDropout)
 
         if(validationAccuracy > maxAccuracy):
             maxAccuracy = validationAccuracy

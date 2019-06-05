@@ -4,23 +4,37 @@ from tensorflow.contrib.layers import flatten
 
 
 
-def neuralNetwork(inputData, outputClasses, dropoutOn): 
+def neuralNetwork(inputData, outputClasses): 
 
-    if(dropoutOn == 1):
-        drop = True
-    else:
-        drop = False
-
-
-    conv1 = convLayer(inputData, filterShape = (5,5,32) , dropout=drop, dropoutKeepProb = 0.9)
+    conv1 = convLayer(inputData, filterShape = (5,5,32) , dropout=True, dropoutKeepProb = 0.9)
     maxPool1 = maxPool(conv1)
-    conv2 = convLayer(maxPool1, filterShape = (5,5,64) , dropout=drop, dropoutKeepProb = 0.9)
+    conv2 = convLayer(maxPool1, filterShape = (5,5,64) , dropout=True, dropoutKeepProb = 0.9)
     maxPool2 = maxPool(conv2)
-    conv3 = convLayer(maxPool2, filterShape = (5,5,128) , dropout=drop, dropoutKeepProb = 0.9)
+    conv3 = convLayer(maxPool2, filterShape = (5,5,128) , dropout=True, dropoutKeepProb = 0.9)
     
     convolutionOutput = flatten(conv3)
     
-    fullyConn1 = fullyConnectedLayer(convolutionOutput, outputShape = 1024 , dropout=drop, dropoutKeepProb = 0.5)
+    fullyConn1 = fullyConnectedLayer(convolutionOutput, outputShape = 1024 , dropout=True, dropoutKeepProb = 0.5)
+
+    fullyConn2 = fullyConnectedLayer(fullyConn1, outputShape = outputClasses ,relu = False)
+
+    logits = fullyConn2
+
+    
+    return logits
+
+
+def neuralNetworkFull(inputData, outputClasses): 
+
+    conv1 = convLayer(inputData, filterShape = (5,5,32) , dropout=False, dropoutKeepProb = 0.9)
+    maxPool1 = maxPool(conv1)
+    conv2 = convLayer(maxPool1, filterShape = (5,5,64) , dropout=False, dropoutKeepProb = 0.9)
+    maxPool2 = maxPool(conv2)
+    conv3 = convLayer(maxPool2, filterShape = (5,5,128) , dropout=False, dropoutKeepProb = 0.9)
+    
+    convolutionOutput = flatten(conv3)
+    
+    fullyConn1 = fullyConnectedLayer(convolutionOutput, outputShape = 1024 , dropout=False, dropoutKeepProb = 0.5)
 
     fullyConn2 = fullyConnectedLayer(fullyConn1, outputShape = outputClasses ,relu = False)
 
