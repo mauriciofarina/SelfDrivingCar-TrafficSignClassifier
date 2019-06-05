@@ -21,25 +21,16 @@ The steps of this project are the following:
 [image4]: ./plots/datasetHistTest.png "Testing Dataset"
 [image5]: ./plots/datasetGroupsMean.png "Datasets Mean"
 [image6]: ./plots/datasetGroupsDeviation.png "Datasets Standard Deviation"
-
 [image7]: ./plots/preprocess.png "Preprocessing"
-
-
 [image8]: ./plots/model.png "Network Model"
-
-
 [image9]: ./plots/AccuracyResultsTrain.png "Accuracy Train"
 [image10]: ./plots/AccuracyErrorResultsTrain.png "Error Train"
-[image11]: ./plots/AccuracyResultsValid.png"Accuracy Valid"
+[image11]: ./plots/AccuracyResultsValid.png "Accuracy Valid"
 [image12]: ./plots/AccuracyErrorResultsValid.png "Error Valid"
 [image13]: ./plots/AccuracyResultsTest.png "Accuracy Test"
 [image14]: ./plots/AccuracyErrorResultsTest.png "Error Test"
-
 [image15]: ./plots/TrainingResult.png "Training Results"
 
-[image1]: ./ "Datasets"
-[image1]: ./ "Datasets"
-[image1]: ./ "Datasets"
 
 
 
@@ -209,8 +200,6 @@ In order to prevent overfitting, a dropout regularization added to the model:
 
 Here are five German traffic signs that I found on the web:
 
-![alt text][image4] ![alt text][image5] ![alt text][image6] 
-![alt text][image7] ![alt text][image8]
 
 The first image might be difficult to classify because ...
 
