@@ -22,13 +22,21 @@ The steps of this project are the following:
 [image5]: ./plots/datasetGroupsMean.png "Datasets Mean"
 [image6]: ./plots/datasetGroupsDeviation.png "Datasets Standard Deviation"
 
-[image7]: ./ "Preprocessing"
+[image7]: ./plots/preprocess.png "Preprocessing"
 
 
-[image8]: ./ "Network Model"
+[image8]: ./plots/model.png "Network Model"
 
 
-[image1]: ./ "Datasets"
+[image9]: ./plots/AccuracyResultsTrain.png "Accuracy Train"
+[image10]: ./plots/AccuracyErrorResultsTrain.png "Error Train"
+[image11]: ./plots/AccuracyResultsValid.png"Accuracy Valid"
+[image12]: ./plots/AccuracyErrorResultsValid.png "Error Valid"
+[image13]: ./plots/AccuracyResultsTest.png "Accuracy Test"
+[image14]: ./plots/AccuracyErrorResultsTest.png "Error Test"
+
+[image15]: ./plots/TrainingResult.png "Training Results"
+
 [image1]: ./ "Datasets"
 [image1]: ./ "Datasets"
 [image1]: ./ "Datasets"
@@ -118,13 +126,13 @@ The final model consisted of the following layers:
 
 
 #### Convolution
-| Layer             | Input             | Input Shape | Filter Shape | Filters | Stride | Output Shape | Activation Function |
-|-------------------|-------------------|-------------|--------------|---------|--------|--------------|---------------------|
-| Convolution 1     | Grayscale Image   | 32x32x1     | 5x5          | 32      | 1x1    | 28x28x32     | RELU                |
-| MaxPool 1         | Convolution 1     | 28x28x32    |              |         | 2x2    | 14x14x32     |                     |
-| Convolution 2     | MaxPool 1         | 14x14x32    | 5x5          | 32      | 1x1    | 10x10x64     | RELU                |
-| MaxPool 2         | Convolution 2     | 10x10x64    |              |         | 2x2    | 5x5x64       |                     |
-| Convolution 3     | MaxPool 2         | 5x5x64      | 5x5          | 32      | 1x1    | 1x1x128      | RELU                |
+| Layer         | Input           | Input Shape | Filter | Stride | Output Shape | Activation Function |
+|---------------|-----------------|-------------|--------|--------|--------------|---------------------|
+| Convolution 1 | Grayscale Image | 32x32x1     | 5x5x32 | 1x1    | 28x28x32     | RELU                |
+| MaxPool 1     | Convolution 1   | 28x28x32    |        | 2x2    | 14x14x32     |                     |
+| Convolution 2 | MaxPool 1       | 14x14x32    | 5x5x32 | 1x1    | 10x10x64     | RELU                |
+| MaxPool 2     | Convolution 2   | 10x10x64    |        | 2x2    | 5x5x64       |                     |
+| Convolution 3 | MaxPool 2       | 5x5x64      | 5x5x32 | 1x1    | 1x1x128      | RELU                |
 
 
 #### Fully Connected
@@ -148,31 +156,51 @@ In order to prevent overfitting, a dropout regularization added to the model:
 | Fully Connected 2 | 0.8              |
 
 
+ ### Model Traning
+ 
+ In order to obtain the final trained model, multiple tests were executed in order to find the best results. The provided learning rate of 0.001 and batch size of 128 resulted in good results and were not changed. In the other hand, the number of epochs was too short for obtaining the necessary 0.93 accuracy, so it was changed to 50 epochs.
+ 
+ | Hyperparameter   | Value |
+ |------------------|-------|
+ | Learning Rate    | 0.001 |
+ | Batch Size       | 128   |
+ | Number of Epochs | 50    |
+ 
+ 
+ After some tests, it was noticed that many times, the best accuracy was not found on the last epoch. In order to fix that, the training process was changed in a way that it always saves the best accuracy found, instead of the last epoch. 
+ 
+ The training process was then executed, resulting in the following results:
+ 
+ #### Max Accuracy Epoch: 32
+ 
+  ![alt text][image15]
+ 
+ 
+ #### Training Set Accuracy: 0.9991
+ 
+ ![alt text][image9]
+ 
+ ![alt text][image10]
+ 
+ #### Validation Set Accuracy: 0.9678
+ 
+ ![alt text][image11]
+ 
+ ![alt text][image12]
+ 
+ #### Test Set Accuracy: 0.9393
+ 
+ ![alt text][image13]
+ 
+ ![alt text][image14]
+ 
+ 
+ 
  
 
-
-#### 3. Describe how you trained your model. The discussion can include the type of optimizer, the batch size, number of epochs and any hyperparameters such as learning rate.
-
-To train the model, I used an ....
-
-#### 4. Describe the approach taken for finding a solution and getting the validation set accuracy to be at least 0.93. Include in the discussion the results on the training, validation and test sets and where in the code these were calculated. Your approach may have been an iterative process, in which case, outline the steps you took to get to the final solution and why you chose those steps. Perhaps your solution involved an already well known implementation or architecture. In this case, discuss why you think the architecture is suitable for the current problem.
-
-My final model results were:
-* training set accuracy of ?
-* validation set accuracy of ? 
-* test set accuracy of ?
-
-If an iterative approach was chosen:
-* What was the first architecture that was tried and why was it chosen?
-* What were some problems with the initial architecture?
-* How was the architecture adjusted and why was it adjusted? Typical adjustments could include choosing a different model architecture, adding or taking away layers (pooling, dropout, convolution, etc), using an activation function or changing the activation function. One common justification for adjusting an architecture would be due to overfitting or underfitting. A high accuracy on the training set but low accuracy on the validation set indicates over fitting; a low accuracy on both sets indicates under fitting.
-* Which parameters were tuned? How were they adjusted and why?
-* What are some of the important design choices and why were they chosen? For example, why might a convolution layer work well with this problem? How might a dropout layer help with creating a successful model?
-
-If a well known architecture was chosen:
-* What architecture was chosen?
-* Why did you believe it would be relevant to the traffic sign application?
-* How does the final model's accuracy on the training, validation and test set provide evidence that the model is working well?
+ 
+ 
+ 
  
 
 ### Test a Model on New Images
@@ -218,7 +246,6 @@ For the first image, the model is relatively sure that this is a stop sign (prob
 
 For the second image ... 
 
-### (Optional) Visualizing the Neural Network (See Step 4 of the Ipython notebook for more details)
-#### 1. Discuss the visual output of your trained network's feature maps. What characteristics did the neural network use to make classifications?
+
 
 
