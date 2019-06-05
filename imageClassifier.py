@@ -88,7 +88,7 @@ for i in os.listdir("./InternetImages"):
 
         result = sess.run(logits, feed_dict={x: imageArray})
 
-        #getMyFeatureMaps(imageArray, convs)
+        getMyFeatureMaps(imageArray, convs)
 
         result = np.array(result[0], dtype=np.float64)
 
@@ -101,7 +101,7 @@ for i in os.listdir("./InternetImages"):
         yVal = softMaxProbs*100
         theTitle = "Image Label: {}, Prediction: {}".format(imageLabel, maxValueIdx)
         plot.barPlot2(np.arange(0,classesSize,1), yVal, xLabel='Classes', setXAxis= (-1,43),
-                yLabel='Logit Values [%]', fileName='Test', save=False, show=True, title = theTitle)
+                yLabel='Logit Values [%]', fileName=("Internet_" + imageLabel), save=True, show=True, title = theTitle)
         
 
 
