@@ -1,57 +1,43 @@
 import numpy as np
 import time
-
-np.warnings.filterwarnings('ignore')
-
 import os
-os.environ['TF_CPP_MIN_LOG_LEVEL'] = '3' 
-os.environ["QT_QPA_PLATFORM"] = "offscreen"
 import sys
-
-
-
 import pickle
 import Plots as plot
 import tensorflow as tf
 from sklearn.utils import shuffle
 import networks as nn
 from tqdm import tqdm
-
 import matplotlib.pyplot as plt
 import matplotlib.colors as clr
-
 import cv2
-
-
-
-
 
 
 PREVIEW = False  # Plot Preview On/Off
 
+# Default Hyperparameters
+EPOCHS = 20     # Number of Epochs
+BATCH_SIZE = 128    # Image Batch Size
+LEARNING_RATE = 0.001   # Learning Rate
 
-EPOCHS = 20
-BATCH_SIZE = 128
-LEARNING_RATE = 0.001
-PLOT_HIGHT=30
+# Run Model on Test Dataset Flag
 TEST_NOW = False
 
+
+# Script Args
 for index, value in enumerate(sys.argv):
     
-    if value == "-e":
+    if value == "-e":   # Set Epoch Value
         EPOCHS = int(sys.argv[index+1])
     
-    elif value == "-b":
+    elif value == "-b": # Set Batch Size
         BATCH_SIZE = int(sys.argv[index+1])
 
-    elif value == "-l":
+    elif value == "-l": # Set Learning Rate
         LEARNING_RATE = float(sys.argv[index+1])
-    elif value == "-p":
-        PLOT_HIGHT = int(sys.argv[index+1])
-    elif value == "-t":
+
+    elif value == "-t": # Run Model on Test Dataset
         TEST_NOW = True
-
-
 
 
 
@@ -73,8 +59,6 @@ xTrain, yTrain = train['features'], train['labels']
 xValid, yValid = valid['features'], valid['labels']
 xTest, yTest = test['features'], test['labels']
 
-print("Dataset Loaded")
-
 
 
 # Number of training examples
@@ -95,23 +79,15 @@ classesList = np.unique(yTrain)
 # How many unique classes/labels there are in the dataset.
 classesSize = np.shape(classesList)[0]
 
-print("Number of training examples =", trainSize)
-print("Number of testing examples =", testSize)
-print("Image data shape =", imageShape)
-print("Number of classes =", classesSize)
-print("\n")
 
-
-
-
-# Items Per Dataset Group
+# Plot Items Per Dataset Group
 xVal = ['Training', 'Validation', 'Testing']
 yVal = [trainSize, validationSize, testSize]
 plot.barPlot(xVal, yVal, xLabel='Dataset Groups',
              yLabel='Number of Images', fileName='datasetGroups', save=True, show=PREVIEW)
 
 
-# Total of Items per Class in Training Dataset
+# Plot Total of Items per Class in Training Dataset
 yVal = np.zeros(shape=(classesSize))
 
 for i in range(0, classesSize, 1):
@@ -123,7 +99,8 @@ histTrain = plot.histogramPlot(yVal, bins=classesSize, xLabel='Classes',
 plot.barPlot2(np.arange(0,classesSize,1), yVal, xLabel='Classes', setXAxis= (-1,43),
              yLabel='Number of Images', fileName='datasetHistTrain', save=True, show=PREVIEW)
 
-# Total of Items per Class in Validation Dataset
+
+# Plot Total of Items per Class in Validation Dataset
 yVal = np.zeros(shape=(classesSize))
 
 for i in range(0, classesSize, 1):
@@ -135,7 +112,8 @@ histValid = plot.histogramPlot(yVal, bins=classesSize, xLabel='Classes',
 plot.barPlot2(np.arange(0,classesSize,1), yVal, xLabel='Classes', setXAxis= (-1,43),
              yLabel='Number of Images', fileName='datasetHistValid', save=True, show=PREVIEW)
 
-# Total of Items per Class in Testing Dataset
+
+# Plot Total of Items per Class in Testing Dataset
 yVal = np.zeros(shape=(classesSize))
 
 for i in range(0, classesSize, 1):
@@ -148,99 +126,90 @@ plot.barPlot2(np.arange(0,classesSize,1), yVal, xLabel='Classes', setXAxis= (-1,
              yLabel='Number of Images', fileName='datasetHistTest', save=True, show=PREVIEW)
 
 
-# Mean Value of Dataset Groups
+# Plot Mean Value of Dataset Groups
 xVal = ['Training', 'Validation', 'Testing']
 yVal = [histTrain[0], histValid[0], histTest[0]]
 plot.barPlot(xVal, yVal, xLabel='Dataset Groups',
              yLabel='Number of Images', fileName='datasetGroupsMean', save=True, show=PREVIEW)
 
 
-# Standard Deviation Value of Dataset Groups
+# Plot Standard Deviation Value of Dataset Groups
 xVal = ['Training', 'Validation', 'Testing']
 yVal = [histTrain[1], histValid[1], histTest[1]]
 plot.barPlot(xVal, yVal, xLabel='Dataset Groups',
              yLabel='Number of Images', fileName='datasetGroupsDeviation', save=True, show=PREVIEW)
 
 
-print('Plots Done')
 
+# Preprocess Datasets
 
-print('Start Preprocessing...')
-
-
-print('Tuning image...')
-
+# Temporary Arrays
 xTrainPreprocess = np.zeros(shape = (xTrain.shape[0] , xTrain.shape[1], xTrain.shape[2]))
 xValidPreprocess = np.zeros(shape = (xValid.shape[0] , xValid.shape[1], xValid.shape[2]))
 xTestPreprocess = np.zeros(shape = (xTest.shape[0] , xTest.shape[1], xTest.shape[2]))
 
 
+# Preprocess Image Function Definition
 def preprocessImage(image):
     
     grayscale = cv2.cvtColor(image, cv2.COLOR_RGB2GRAY).astype(np.uint8)
     histogramEqualized= cv2.equalizeHist(grayscale)
     normalized = ((histogramEqualized - 128.0) / 128.0).astype(np.float32)
-    
-    #imageToTensorShape = normalized.reshape(normalized.shape + (1,)) 
+
     return normalized
 
 
+# Convert Datasets to float32
 xTrain = xTrain.astype(np.float32)
 xValid = xValid.astype(np.float32)
 xTest  = xTest.astype(np.float32)
 
+# Preprocess all Dataset Images
 for i in tqdm(range(np.shape(xTrain)[0])):
     xTrainPreprocess[i] = preprocessImage(xTrain[i])
+xTrain = xTrainPreprocess.reshape(xTrainPreprocess.shape + (1,))
 
 for i in tqdm(range(np.shape(xValid)[0])):
     xValidPreprocess[i] = preprocessImage(xValid[i])
+xValid = xValidPreprocess.reshape(xValidPreprocess.shape + (1,))
 
 for i in tqdm(range(np.shape(xTest)[0])):
     xTestPreprocess[i] = preprocessImage(xTest[i])
-
-
-xTrain = xTrainPreprocess.reshape(xTrainPreprocess.shape + (1,))
-xValid = xValidPreprocess.reshape(xValidPreprocess.shape + (1,))
 xTest = xTestPreprocess.reshape(xTestPreprocess.shape + (1,))
 
 
 
+# Tensors Setup
 
-print('Preprocessing Done')
+x = tf.placeholder(tf.float32,(None, np.shape(xTrain)[1], np.shape(xTrain)[2], np.shape(xTrain)[3])) # Inputs
+y = tf.placeholder(tf.int32, (None)) # Labels 
+oneHotY = tf.one_hot(y, classesSize) # One Hot Encoding
 
+learningRate = tf.placeholder(tf.float32, (None)) # Learning Rate
 
-print('TensorFlow Setup...')
-
-
-x = tf.placeholder(tf.float32,(None, np.shape(xTrain)[1], np.shape(xTrain)[2], np.shape(xTrain)[3]))
-y = tf.placeholder(tf.int32, (None))
-oneHotY = tf.one_hot(y, classesSize)
-
-learningRate = tf.placeholder(tf.float32, (None))
 
 if(TEST_NOW == True):
-    logits, convLayers = nn.neuralNetworkFull(x, classesSize)
+    logits = nn.neuralNetworkFull(x, classesSize) # Test Logits
 else:
-    logits = nn.neuralNetwork(x, classesSize)
+    logits = nn.neuralNetwork(x, classesSize) # Training Logits
 
 
-
-print('Tensors Defined')
-
-
+# Define Cross Entropy Tensor
 crossEntropy = tf.nn.softmax_cross_entropy_with_logits(labels=oneHotY, logits=logits)
+# Define Loss Tensor
 lossOperation = tf.reduce_mean(crossEntropy)
-
+# Define Optimizer Tensor
 optimizer = tf.train.AdamOptimizer(learning_rate = learningRate)
+# Define Training Tensor
 trainingOperation = optimizer.minimize(lossOperation)
 
-print('Training Process Defined')
-
+# Prediction Check Tensor
 correctPrediction = tf.equal(tf.argmax(logits, 1), tf.argmax(oneHotY, 1))
+# Accuracy Tensor
 accuracyOperation = tf.reduce_mean(tf.cast(correctPrediction, tf.float32))
 
 
-
+# Evaluate Training Step Result
 def evaluate(xData, yData):
     examplesSize = len(xData)
     totalAccuracy = 0
@@ -252,10 +221,8 @@ def evaluate(xData, yData):
     return totalAccuracy / examplesSize
 
 
+# Evaluate Final Results
 def evaluateFinal(xData, yData):
-
-    print("Evaluating Results..")
-    
     examplesSize = len(xData)
     totalAccuracy = 0
     sess = tf.get_default_session()
@@ -267,64 +234,59 @@ def evaluateFinal(xData, yData):
         accuracy = sess.run(accuracyOperation, feed_dict={x: batchX, y: batchY})
         label = batchY[0]
 
-        if(accuracy == 1):
+        # Count Right and Wrong Predictions Per Label
+        if(accuracy == 1): 
             result[label,1] += 1
         else:
             result[label,0] += 1
 
     return result
 
-print('Validation Check Defined')
 
-
+# Define Saver Tensor
 saver = tf.train.Saver()
 
 
-
-
+# Run Test Dataset
 if(TEST_NOW == True):
-    print("\nStart Testing\n")
     with tf.Session() as sess:
-        saver.restore(sess, tf.train.latest_checkpoint('.'))
-
-        test_accuracy = evaluate(xTest, yTest)
+        saver.restore(sess, tf.train.latest_checkpoint('.')) # Load Trained Model
+        test_accuracy = evaluate(xTest, yTest)  # Evaluate Model
         print("Test Accuracy = {:.3f}".format(test_accuracy))
     exit()
 
 
+# Max Accuracy While Training
 maxAccuracy = 0.0
 
-print("\nStart Training\n")
-
+# Run Session
 with tf.Session() as sess:
-    sess.run(tf.global_variables_initializer())
-    examplesSize = len(xTrain)
-    
-    print("Training...\n")
+    sess.run(tf.global_variables_initializer()) # Initialize Global Variables
+    examplesSize = len(xTrain)  # Dataset Size
 
+    # History Variable for plot
     accuracyHistory = np.zeros([EPOCHS])
-    accuracyHistoryAve = np.zeros([EPOCHS])
     
-
+    # Learning Rate
     learning = LEARNING_RATE
 
-    
-
+    # Run Epochs
     for i in tqdm(range(EPOCHS)):
+        xTrain, yTrain = shuffle(xTrain, yTrain)    # Shuffle dataset
 
-        startTime = time.time()
-        xTrain, yTrain = shuffle(xTrain, yTrain)
+        # Run Batch
         for offset in (range(0, examplesSize, BATCH_SIZE)):
             end = offset + BATCH_SIZE
             batchX, batchY = xTrain[offset:end], yTrain[offset:end]
-            sess.run(trainingOperation, feed_dict={x: batchX, y: batchY, learningRate: learning})
-            
-        validationAccuracy = evaluate(xValid,yValid)
-
+            sess.run(trainingOperation, feed_dict={x: batchX, y: batchY, learningRate: learning})   #Train Model
+        
 
         infoString = "EPOCH: {} -- ".format(i+1)
+
+        validationAccuracy = evaluate(xValid,yValid)    # Evaluate Training Step
         infoString += "Accuracy: {:.3f}  -- ".format(validationAccuracy)
 
+        # Save Model if it has a better accuracy
         if(validationAccuracy > maxAccuracy):
             maxAccuracy = validationAccuracy
             saver.save(sess, './lenet')
@@ -334,37 +296,25 @@ with tf.Session() as sess:
 
         print(infoString)
 
+        # Save Accuracy value to history
+        accuracyHistory[i] = validationAccuracy
 
-        accuracyHistory[i:EPOCHS] = validationAccuracy
-
-        indexStart = i - 9
-        if(indexStart < 0):
-            indexStart = 0
-
-        accuracyHistoryAve[i:EPOCHS] = np.average(accuracyHistory[indexStart:i])
-
-        plot.linePlot(np.arange(1,EPOCHS+1,1), accuracyHistory, xLabel='EPOCH',yLabel='Accuracy', 
-                            setYAxis= (0.85,0.97), fileName='TrainingResultPreview', save=True, show=PREVIEW)
-
-        plot.linePlot(np.arange(1,EPOCHS+1,1), accuracyHistoryAve, xLabel='EPOCH',yLabel='Accuracy', 
-                            setYAxis= (0.85,1.0), fileName='TrainingResultAvePreview', save=True, show=PREVIEW)
-
-
-
+    # Load Trained Model and Evaluate Final Model
     with tf.Session() as sess:
         saver.restore(sess, tf.train.latest_checkpoint('.'))
         accuracyResult = evaluateFinal(xValid, yValid)
 
-
-
+    # Plot Accuracy Results Per Label
     yVal = (accuracyResult[:,1]*100)/(accuracyResult[:,0] + accuracyResult[:,1])
     plot.barPlot2(np.arange(0,classesSize,1), yVal, xLabel='Dataset Groups', setXAxis= (-1,43), setYAxis= (0,100),
              yLabel='Accuracy', fileName='AccuracyResults', save=True, show=PREVIEW)
 
+    # Plot Accuracy Error Results Per Label
     yVal = (accuracyResult[:,0]*100)/(accuracyResult[:,0] + accuracyResult[:,1])
     plot.barPlot2(np.arange(0,classesSize,1), yVal, xLabel='Dataset Groups', setXAxis= (-1,43), setYAxis= (0,100),
              yLabel='Accuracy Error', fileName='AccuracyErrorResults', save=True, show=PREVIEW)
 
+    # Plot Training Accuracy Per Training Step
     plot.linePlot(np.arange(1,EPOCHS+1,1), accuracyHistory, xLabel='EPOCH',yLabel='Accuracy', 
                             fileName='TrainingResult', save=True, show=PREVIEW)
     

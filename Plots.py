@@ -1,5 +1,10 @@
+'''
+This file implements functions for ploting data.
+'''
+
 import matplotlib.pyplot as plt
 import numpy as np
+
 
 def linePlot(x , y , xLabel = '' , yLabel = '',setYAxis = None, grid = True,  fileName = 'test', save = False, show = False):
     
@@ -100,58 +105,3 @@ def histogramPlot(x , bins = None , density = False , xLabel = '' , yLabel = '' 
 
 
 
-
-def plotTerminal(x, plot_height=10):
-    ''' takes a list of ints or floats x and makes a simple terminal histogram.
-        This function will make an inaccurate plot if the length of data list is larger than the number of columns
-        in the terminal.'''
-
-    result = []
-
-    max_pos = 100
-
-    x = np.array(x)
-
-    x = (x*100)
-    
-    for i in x:
-        temp = i/float(max_pos)
-        temp2 = temp*plot_height
-        result.append(int(temp2))
-
-
-
-    hist_array = []
-
-    col_list = []
-
-
-    maxVal = max(x)
-    minVal = min(x)
-
-    for idx, i in enumerate(result):
-        col_list = []
-        flag = True
-        for j in range(plot_height):
-            if j >= (i):
-                if flag:
-                    col_list.append("{:.1f} ".format(x[idx]))
-                    flag = False
-                else:
-                    col_list.append('     ')
-            else:
-                if maxVal == x[idx]:
-                    col_list.append("\u15CB\u15CB\u15CB\u15CB ")
-                elif minVal == x[idx]:
-                    col_list.append("\u15CA\u15CA\u15CA\u15CA ")
-                else:
-                    col_list.append("\u25A1\u25A1\u25A1\u25A1 ")
-        
-
-        hist_array.append(col_list)
-
-
-    for i in reversed(range(len(hist_array[0]))):
-        for j in range(len(hist_array)):
-            print(hist_array[j][i], end='')
-        print('')
