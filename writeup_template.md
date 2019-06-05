@@ -7,7 +7,7 @@
 The steps of this project are the following:
 1. Load the data set
 1. Explore, summarize and visualize the data set
-1. Preprocess Images
+1. Preprocess Datasets
 1. Design, train and test a model architecture
 1. Use the model to make predictions on new images
 1. Analyze the softmax probabilities of the new images
@@ -22,9 +22,12 @@ The steps of this project are the following:
 [image5]: ./plots/datasetGroupsMean.png "Datasets Mean"
 [image6]: ./plots/datasetGroupsDeviation.png "Datasets Standard Deviation"
 
+[image7]: ./ "Preprocessing"
 
 
-[image1]: ./ "Datasets"
+[image8]: ./ "Network Model"
+
+
 [image1]: ./ "Datasets"
 [image1]: ./ "Datasets"
 [image1]: ./ "Datasets"
@@ -46,7 +49,6 @@ The steps of this project are the following:
 
 ### Data Set Summary & Exploration
 
-#### 1. Load Dataset
 
 After loading the provided dataset files, the following results were found:
 
@@ -58,67 +60,94 @@ After loading the provided dataset files, the following results were found:
 
 ![alt text][image1]
 
-#### 2. Data exploration
 
 The sample distribution for each dataset and its statistics are presented below:
 
-##### Training Dataset
+#### Training Dataset
 ![alt text][image2]
 
-##### Validation Dataset
+#### Validation Dataset
 ![alt text][image3]
 
-##### Testing Dataset
+#### Testing Dataset
 ![alt text][image4]
 
-##### Datasets Means
+#### Datasets Means
 ![alt text][image5]
 
-##### Datasets Standard Deviations
+#### Datasets Standard Deviations
 ![alt text][image6]
 
 
 
 
 
-### Design and Test a Model Architecture
+### Proprocess
 
-#### 1. Describe how you preprocessed the image data. What techniques were chosen and why did you choose these techniques? Consider including images showing the output of each preprocessing technique. Pre-processing refers to techniques such as converting to grayscale, normalization, etc. (OPTIONAL: As described in the "Stand Out Suggestions" part of the rubric, if you generated additional data for training, describe why you decided to generate additional data, how you generated the data, and provide example images of the additional data. Then describe the characteristics of the augmented training set like number of images in the set, number of images for each class, etc.)
+In order to obtain better results, 3 steps of preprocessing was implemented:
 
-As a first step, I decided to convert the images to grayscale because ...
+#### 1. Grayscale Conversion
 
-Here is an example of a traffic sign image before and after grayscaling.
+After multiple tests with differente color maps and channels, it was notice that a single channel grayscale image obtained the best results for this model.
 
-![alt text][image2]
+#### 2. Histogram Equalization
 
-As a last step, I normalized the image data because ...
+In order to ajust light conditions, the histogram equalizatiton was applyied to the grayscale images
 
-I decided to generate additional data because ... 
+#### 3. Normalization
 
-To add more data to the the data set, I used the following techniques because ... 
+Since data should be normalized for better results, each image was normalized by the equation `(Pixel_Value -128)/128`
 
-Here is an example of an original image and an augmented image:
+#### Preprocessing Results
 
-![alt text][image3]
+In the image below, a original image and its 3 preprocess steps can be observed:
 
-The difference between the original data set and the augmented data set is the following ... 
+![alt text][image7]
 
 
-#### 2. Describe what your final model architecture looks like including model type, layers, layer sizes, connectivity, etc.) Consider including a diagram and/or table describing the final model.
 
-My final model consisted of the following layers:
 
-| Layer         		|     Description	        					| 
-|:---------------------:|:---------------------------------------------:| 
-| Input         		| 32x32x3 RGB image   							| 
-| Convolution 3x3     	| 1x1 stride, same padding, outputs 32x32x64 	|
-| RELU					|												|
-| Max pooling	      	| 2x2 stride,  outputs 16x16x64 				|
-| Convolution 3x3	    | etc.      									|
-| Fully connected		| etc.        									|
-| Softmax				| etc.        									|
-|						|												|
-|						|												|
+### Model Architecture
+
+The designed model architecture can be seen on the image below:
+
+![alt text][image8]
+
+
+The final model consisted of the following layers:
+
+
+#### Convolution
+| Layer             | Input             | Input Shape | Filter Shape | Filters | Stride | Output Shape | Activation Function |
+|-------------------|-------------------|-------------|--------------|---------|--------|--------------|---------------------|
+| Convolution 1     | Grayscale Image   | 32x32x1     | 5x5          | 32      | 1x1    | 28x28x32     | RELU                |
+| MaxPool 1         | Convolution 1     | 28x28x32    |              |         | 2x2    | 14x14x32     |                     |
+| Convolution 2     | MaxPool 1         | 14x14x32    | 5x5          | 32      | 1x1    | 10x10x64     | RELU                |
+| MaxPool 2         | Convolution 2     | 10x10x64    |              |         | 2x2    | 5x5x64       |                     |
+| Convolution 3     | MaxPool 2         | 5x5x64      | 5x5          | 32      | 1x1    | 1x1x128      | RELU                |
+
+
+#### Fully Connected
+| Layer             | Input             | Inputs | Outputs | Activation Function |
+|-------------------|-------------------|--------|---------|---------------------|
+| Fully Connected 1 | Convolution 3     | 128    | 1024    | RELU                |
+| Fully Connected 2 | Fully Connected 1 | 1024   | 256     | RELU                |
+| Fully Connected 3 | Fully Connected 2 | 256    | 43      |                     |
+
+
+#### Dropout
+
+In order to prevent overfitting, a dropout regularization added to the model:
+
+| Layer             | Keep Probability |
+|-------------------|------------------|
+| Convolution 1     | 0.9              |
+| Convolution 2     | 0.9              |
+| Convolution 3     | 0.9              |
+| Fully Connected 1 | 0.8              |
+| Fully Connected 2 | 0.8              |
+
+
  
 
 
