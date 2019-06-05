@@ -223,9 +223,6 @@ else:
 
 
 
-
-
-
 print('Tensors Defined')
 
 
