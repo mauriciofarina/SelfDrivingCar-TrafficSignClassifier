@@ -15,6 +15,7 @@ def neuralNetwork(inputData, outputClasses):
     
     convolutionOutput = flatten(conv3)
 
+
     # Fully Connected
     fullyConn1 = fullyConnectedLayer(convolutionOutput, outputShape = 1024 , dropout=True, dropoutKeepProb = 0.8)
     fullyConn2 = fullyConnectedLayer(fullyConn1, outputShape = 256 , dropout=True, dropoutKeepProb = 0.8)
@@ -36,6 +37,7 @@ def neuralNetworkFull(inputData, outputClasses):
     conv3 = convLayer(maxPool2, filterShape = (5,5,128) , dropout=False)
     
     convolutionOutput = flatten(conv3)
+    
     
     # Fully Connected
     fullyConn1 = fullyConnectedLayer(convolutionOutput, outputShape = 1024 , dropout=True, dropoutKeepProb = 1.0)

@@ -24,6 +24,9 @@ for i in os.listdir("./InternetImages"):
     image = cv2.imread(("./InternetImages/" + i))   # Load Image
     imageLabel = i.replace('.jpg', '')  # Load Label
 
+    
+
+
     # Preprocess image
     imageArray = np.zeros(dtype = np.float32, shape = (1,image.shape[0], image.shape[1], 1))
 

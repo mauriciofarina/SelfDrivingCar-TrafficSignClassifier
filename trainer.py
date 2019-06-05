@@ -251,10 +251,60 @@ saver = tf.train.Saver()
 if(TEST_NOW == True):
     with tf.Session() as sess:
         saver.restore(sess, tf.train.latest_checkpoint('.')) # Load Trained Model
-        test_accuracy = evaluate(xTest, yTest)  # Evaluate Model
-        print("Test Accuracy = {:.3f}".format(test_accuracy))
-    exit()
 
+
+        # Analyze Training Dataset
+        trainAccuracy = evaluate(xTrain, yTrain)  # Evaluate Model
+        accuracyResult = evaluateFinal(xTrain, yTrain)
+
+        print("Train Accuracy = {:.4f}".format(trainAccuracy))
+
+        # Plot Accuracy Results Per Label
+        yVal = (accuracyResult[:,1]*100)/(accuracyResult[:,0] + accuracyResult[:,1])
+        plot.barPlot2(np.arange(0,classesSize,1), yVal, xLabel='Labels', setXAxis= (-1,43), setYAxis= (0,100),
+             yLabel='Accuracy', fileName='AccuracyResultsTrain', save=True, show=PREVIEW)
+
+        # Plot Accuracy Error Results Per Label
+        yVal = (accuracyResult[:,0]*100)/(accuracyResult[:,0] + accuracyResult[:,1])
+        plot.barPlot2(np.arange(0,classesSize,1), yVal, xLabel='Labels', setXAxis= (-1,43), setYAxis= (0,100),
+             yLabel='Error', fileName='AccuracyErrorResultsTrain', save=True, show=PREVIEW)
+
+
+
+        # Analyze Validation Dataset
+        validAccuracy = evaluate(xValid, yValid)  # Evaluate Model
+        accuracyResult = evaluateFinal(xValid, yValid)
+
+        print("Valid Accuracy = {:.4f}".format(validAccuracy))
+
+        # Plot Accuracy Results Per Label
+        yVal = (accuracyResult[:,1]*100)/(accuracyResult[:,0] + accuracyResult[:,1])
+        plot.barPlot2(np.arange(0,classesSize,1), yVal, xLabel='Labels', setXAxis= (-1,43), setYAxis= (0,100),
+             yLabel='Accuracy', fileName='AccuracyResultsValid', save=True, show=PREVIEW)
+
+        # Plot Accuracy Error Results Per Label
+        yVal = (accuracyResult[:,0]*100)/(accuracyResult[:,0] + accuracyResult[:,1])
+        plot.barPlot2(np.arange(0,classesSize,1), yVal, xLabel='Labels', setXAxis= (-1,43), setYAxis= (0,100),
+             yLabel='Error', fileName='AccuracyErrorResultsValid', save=True, show=PREVIEW)
+
+
+        # Analyze Testing Dataset
+        testAccuracy = evaluate(xTest, yTest)  # Evaluate Model
+        accuracyResult = evaluateFinal(xTest, yTest)
+
+        print("Test Accuracy = {:.4f}".format(testAccuracy))
+
+        # Plot Accuracy Results Per Label
+        yVal = (accuracyResult[:,1]*100)/(accuracyResult[:,0] + accuracyResult[:,1])
+        plot.barPlot2(np.arange(0,classesSize,1), yVal, xLabel='Labels', setXAxis= (-1,43), setYAxis= (0,100),
+             yLabel='Accuracy', fileName='AccuracyResultsTest', save=True, show=PREVIEW)
+
+        # Plot Accuracy Error Results Per Label
+        yVal = (accuracyResult[:,0]*100)/(accuracyResult[:,0] + accuracyResult[:,1])
+        plot.barPlot2(np.arange(0,classesSize,1), yVal, xLabel='Labels', setXAxis= (-1,43), setYAxis= (0,100),
+             yLabel='Error', fileName='AccuracyErrorResultsTest', save=True, show=PREVIEW)
+
+    exit()
 
 # Max Accuracy While Training
 maxAccuracy = 0.0
@@ -304,15 +354,6 @@ with tf.Session() as sess:
         saver.restore(sess, tf.train.latest_checkpoint('.'))
         accuracyResult = evaluateFinal(xValid, yValid)
 
-    # Plot Accuracy Results Per Label
-    yVal = (accuracyResult[:,1]*100)/(accuracyResult[:,0] + accuracyResult[:,1])
-    plot.barPlot2(np.arange(0,classesSize,1), yVal, xLabel='Dataset Groups', setXAxis= (-1,43), setYAxis= (0,100),
-             yLabel='Accuracy', fileName='AccuracyResults', save=True, show=PREVIEW)
-
-    # Plot Accuracy Error Results Per Label
-    yVal = (accuracyResult[:,0]*100)/(accuracyResult[:,0] + accuracyResult[:,1])
-    plot.barPlot2(np.arange(0,classesSize,1), yVal, xLabel='Dataset Groups', setXAxis= (-1,43), setYAxis= (0,100),
-             yLabel='Accuracy Error', fileName='AccuracyErrorResults', save=True, show=PREVIEW)
 
     # Plot Training Accuracy Per Training Step
     plot.linePlot(np.arange(1,EPOCHS+1,1), accuracyHistory, xLabel='EPOCH',yLabel='Accuracy', 
