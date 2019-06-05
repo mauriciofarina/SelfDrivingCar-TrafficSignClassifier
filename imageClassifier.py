@@ -74,6 +74,8 @@ for i in os.listdir("./InternetImages"):
     histogramEqualized= cv2.equalizeHist(grayscale)
     normalized = ((histogramEqualized - 128.0) / 128.0).astype(np.float32)
 
+    plt.imshow(normalized, cmap='gray')
+    plt.show()
 
     imageArray[0,:,:,0] = normalized
 
@@ -87,7 +89,7 @@ for i in os.listdir("./InternetImages"):
 
         result = sess.run(logits, feed_dict={x: imageArray})
 
-        #getMyFeatureMaps(imageArray, convLayers)
+        getMyFeatureMaps(imageArray, convs)
 
         result = np.array(result[0], dtype=np.float64)
 
