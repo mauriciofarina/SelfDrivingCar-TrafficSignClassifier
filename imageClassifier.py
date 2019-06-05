@@ -56,7 +56,7 @@ y = tf.placeholder(tf.int32, (None))
 oneHotY = tf.one_hot(y, classesSize)
 
 
-logits, convLayers = nn.neuralNetworkFull(x, classesSize)
+logits = nn.neuralNetwork(x, classesSize)
 
 
 
