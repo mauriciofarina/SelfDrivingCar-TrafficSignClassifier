@@ -89,7 +89,7 @@ for i in os.listdir("./InternetImages"):
 
         result = sess.run(logits, feed_dict={x: imageArray})
 
-        getMyFeatureMaps(imageArray, convs)
+        #getMyFeatureMaps(imageArray, convs)
 
         result = np.array(result[0], dtype=np.float64)
 

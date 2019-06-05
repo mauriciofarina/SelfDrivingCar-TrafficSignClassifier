@@ -6,7 +6,7 @@ from tensorflow.contrib.layers import flatten
 
 def neuralNetwork(inputData, outputClasses): 
 
-    conv1 = convLayer(inputData, filterShape = (3,3,32) , dropout=False, dropoutKeepProb = 0.9)
+    conv1 = convLayer(inputData, filterShape = (5,5,32) , dropout=True, dropoutKeepProb = 0.9)
     maxPool1 = maxPool(conv1)
     conv2 = convLayer(maxPool1, filterShape = (5,5,64) , dropout=False, dropoutKeepProb = 0.9)
     maxPool2 = maxPool(conv2)
@@ -16,9 +16,11 @@ def neuralNetwork(inputData, outputClasses):
     
     fullyConn1 = fullyConnectedLayer(convolutionOutput, outputShape = 1024 , dropout=True, dropoutKeepProb = 0.5)
 
-    fullyConn2 = fullyConnectedLayer(fullyConn1, outputShape = outputClasses ,relu = False)
+    fullyConn2 = fullyConnectedLayer(fullyConn1, outputShape = 256 , dropout=False, dropoutKeepProb = 0.5)
 
-    logits = fullyConn2
+    fullyConn3 = fullyConnectedLayer(fullyConn2, outputShape = outputClasses ,relu = False)
+
+    logits = fullyConn3
 
     
     return logits
@@ -36,9 +38,11 @@ def neuralNetworkFull(inputData, outputClasses):
     
     fullyConn1 = fullyConnectedLayer(convolutionOutput, outputShape = 1024 , dropout=False, dropoutKeepProb = 0.5)
 
-    fullyConn2 = fullyConnectedLayer(fullyConn1, outputShape = outputClasses ,relu = False)
+    fullyConn2 = fullyConnectedLayer(fullyConn1, outputShape = 256 , dropout=False, dropoutKeepProb = 0.5)
 
-    logits = fullyConn2
+    fullyConn3 = fullyConnectedLayer(fullyConn2, outputShape = outputClasses ,relu = False)
+
+    logits = fullyConn3
 
     
     return logits, (conv1, conv2)
