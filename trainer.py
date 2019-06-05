@@ -239,7 +239,7 @@ accuracyOperation = tf.reduce_mean(tf.cast(correctPrediction, tf.float32))
 
 
 
-def evaluate(xData, yData, dropout):
+def evaluate(xData, yData):
     examplesSize = len(xData)
     totalAccuracy = 0
     sess = tf.get_default_session()
