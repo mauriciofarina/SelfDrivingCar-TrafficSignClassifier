@@ -267,3 +267,20 @@ By the same problem of the Speed Limit signs, the resolution may not be high eno
 | Label       | 33 | 35 | 1 | 37 | 4 |
 
 
+#### Comparison
+
+The table below shows the average of the predictions for each label in comparison the predictions obtained:
+
+| Label | Validation | Image |
+|-------|------------|-------|
+| 2     | 96.27      | 99.99 |
+| 4     | 98.69      | 99.99 |
+| 13    | 99.16      | 99.99 |
+| 14    | 99.99      | 98.24 |
+| 17    | 99.99      | 99.99 |
+| 22    | 99.99      | 99.99 |
+| 28    | 99.98      | 99.99 |
+| 33    | 99.84      | 99.99 |
+
+
+The model obtained successful results, similar to what was expected by the probabilities for validation set.
