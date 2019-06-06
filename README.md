@@ -85,7 +85,10 @@ In the image below, a original image and its 3 preprocess steps can be observed:
 
 ### Model Architecture
 
-The designed model architecture can be seen on the image below:
+Multiple architectures were tested so that a final model could be obtained. First, the provided Lenet network was tested, resulting in an accuracy of around 0.90. After, many tests were executed on the same network with altered filter sizes, strides, number of neurons, hyperparameters and preprocessed images. With this tests, it was observed that grayscale images resulted in better results than colored ones. Also, it was noticed that a batch size of 128 and a learning rate of 0.001 presented good results at epoch values between 20 to 50. In order to solve the problem of choosing a single value of epochs in that range, an early stop was implemented. In this implementation, instead of saving the last epoch, the training process saves the model at the state of the last most accurate epoch. 
+With that in place, different model were then tested in a search for a better accuracy. In summary, different convolution and fully connected layers were added and or removed. After that, the input values from the convolution part to the fully connected were raised by adding middle convolution layers outputs to it. Finally, the model that obtained the best results was selected.
+
+The final designed model architecture can be seen on the image below:
 
 ![Network Model](./plots/model.png)
 
@@ -170,9 +173,15 @@ In order to prevent overfitting, a dropout regularization added to the model:
 In order to test the trained model, 8 external images were predicted by the network. All images were rescaled to a size of 32x32 and labeled to its respective label. After the execution of the script, all images were predicted correctly. The individually results can be seen below:
 
 
+
+
 #### 2 - Speed limit (50km/h)
 <img src="./InternetImages/2.jpg" width="128">
 <img src="./plots/Internet_2.png">
+
+Speed Limit signs can be tricky some times. Since the image resolution is not high enough, for the numbers to be represented correctly every time, the model may wrongly predict a speed limit sign as another speed limit sign. This effect can be observing the softmax values from this and the next image, which usually have secondary predictions as other speed limits signs labels.
+
+
 
 |             |   1°   |   2°   |   3°   |   4°   |   5°   |
 |-------------|--------|--------|--------|--------|--------|
@@ -190,6 +199,7 @@ In order to test the trained model, 8 external images were predicted by the netw
 | Probability | 99.99 | 6.93e-06 | 1.89e-06 | 5.60e-07 | 2.85e-07 |
 | Label       | 4 | 8 | 1 | 2 | 0 |
 
+
 #### 13 - Yield
 <img src="./InternetImages/13.jpg" width="128">
 <img src="./plots/Internet_13.png">
@@ -204,6 +214,8 @@ In order to test the trained model, 8 external images were predicted by the netw
 #### 14 - Stop
 <img src="./InternetImages/14.jpg" width="128">
 <img src="./plots/Internet_14.png">
+
+The stop sign can some times be predicted as a Priority Road sign. By looking into the two signs, it can be observed that the Stop sign has an octagon shape with 8 vertices and the Priority Road sing has a diamond shape with 4 vertices. However, the Priority Road sign has another yellow diamond shape image inside of it, adding 4 more vertices to it. It is possible that the number of vertices or sides of a sign has a big impact on predictions, and so, by having the same number of well defined sides and vertices, the two signs may have a closer classification in this model.
 
 |             |   1°   |   2°   |   3°   |   4°   |   5°   |
 |-------------|--------|--------|--------|--------|--------|
@@ -225,6 +237,8 @@ In order to test the trained model, 8 external images were predicted by the netw
 #### 22 - Bumpy road
 <img src="./InternetImages/22.jpg" width="128">
 <img src="./plots/Internet_22.png">
+
+By the same problem of the Speed Limit signs, the resolution may not be high enough for representing the inside image of a triangular sign. Causing the same issue on this types of signs. This effect can be observed in this and the next image below.
 
 |             |   1°   |   2°   |   3°   |   4°   |   5°   |
 |-------------|--------|--------|--------|--------|--------|
