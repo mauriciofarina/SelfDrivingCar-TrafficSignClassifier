@@ -13,26 +13,6 @@ The steps of this project are the following:
 1. Analyze the softmax probabilities of the new images
 
 
-[//]: # (Image References)
-
-[image1]: ./plots/datasetGroups.png "Datasets"
-[image2]: ./plots/datasetHistTrain.png "Training Dataset"
-[image3]: ./plots/datasetHistValid.png "Validation Dataset"
-[image4]: ./plots/datasetHistTest.png "Testing Dataset"
-[image5]: ./plots/datasetGroupsMean.png "Datasets Mean"
-[image6]: ./plots/datasetGroupsDeviation.png "Datasets Standard Deviation"
-[image7]: ./plots/preprocess.png "Preprocessing"
-[image8]: ./plots/model.png "Network Model"
-[image9]: ./plots/AccuracyResultsTrain.png "Accuracy Train"
-[image10]: ./plots/AccuracyErrorResultsTrain.png "Error Train"
-[image11]: ./plots/AccuracyResultsValid.png "Accuracy Valid"
-[image12]: ./plots/AccuracyErrorResultsValid.png "Error Valid"
-[image13]: ./plots/AccuracyResultsTest.png "Accuracy Test"
-[image14]: ./plots/AccuracyErrorResultsTest.png "Error Test"
-[image15]: ./plots/TrainingResult.png "Training Results"
-
-
-
 
 ---
 ## Development
@@ -57,26 +37,25 @@ After loading the provided dataset files, the following results were found:
 * The shape of a traffic sign image is (32,32,3)
 * The number of unique classes/labels in the data set is 43
 
-![alt text][image1]
+![Datasets](./plots/datasetGroups.png)
 
 
 The sample distribution for each dataset and its statistics are presented below:
 
 #### Training Dataset
-![alt text][image2]
+![Training Dataset](./plots/datasetHistTrain.png)
 
 #### Validation Dataset
-![alt text][image3]
+![Validation Dataset](./plots/datasetHistValid.png)
 
 #### Testing Dataset
-![alt text][image4]
+![Testing Dataset](./plots/datasetHistTest.png)
 
 #### Datasets Means
-![alt text][image5]
+![Datasets Mean](./plots/datasetGroupsMean.png)
 
 #### Datasets Standard Deviations
-![alt text][image6]
-
+![Datasets Standard Deviation](./plots/datasetGroupsDeviation.png)
 
 
 
@@ -101,16 +80,15 @@ Since data should be normalized for better results, each image was normalized by
 
 In the image below, a original image and its 3 preprocess steps can be observed:
 
-![alt text][image7]
-
-
+![Preprocessing](./plots/preprocess.png)
 
 
 ### Model Architecture
 
 The designed model architecture can be seen on the image below:
 
-![alt text][image8]
+![Network Model](./plots/model.png)
+
 
 
 The final model consisted of the following layers:
@@ -164,76 +142,71 @@ In order to prevent overfitting, a dropout regularization added to the model:
  
  #### Max Accuracy Epoch: 32
  
-  ![alt text][image15]
+![Training Results](./plots/TrainingResult.png)
  
  
  #### Training Set Accuracy: 0.9991
  
- ![alt text][image9]
- 
- ![alt text][image10]
+![Accuracy Train](./plots/AccuracyResultsTrain.png)
+![Error Train](./plots/AccuracyErrorResultsTrain.png)
  
  #### Validation Set Accuracy: 0.9678
  
- ![alt text][image11]
- 
- ![alt text][image12]
+![Accuracy Valid](./plots/AccuracyResultsValid.png)
+![Error Valid](./plots/AccuracyErrorResultsValid.png)
  
  #### Test Set Accuracy: 0.9393
  
- ![alt text][image13]
- 
- ![alt text][image14]
- 
- 
- 
- 
-
+![Accuracy Test](./plots/AccuracyResultsTest.png)
+![Error Test](./plots/AccuracyErrorResultsTest.png)
  
  
  
  
 
-### Test a Model on New Images
-
-#### 1. Choose five German traffic signs found on the web and provide them in the report. For each image, discuss what quality or qualities might be difficult to classify.
-
-Here are five German traffic signs that I found on the web:
+### Testing Model on New Images
 
 
-The first image might be difficult to classify because ...
-
-#### 2. Discuss the model's predictions on these new traffic signs and compare the results to predicting on the test set. At a minimum, discuss what the predictions were, the accuracy on these new predictions, and compare the accuracy to the accuracy on the test set (OPTIONAL: Discuss the results in more detail as described in the "Stand Out Suggestions" part of the rubric).
-
-Here are the results of the prediction:
-
-| Image			        |     Prediction	        					| 
-|:---------------------:|:---------------------------------------------:| 
-| Stop Sign      		| Stop sign   									| 
-| U-turn     			| U-turn 										|
-| Yield					| Yield											|
-| 100 km/h	      		| Bumpy Road					 				|
-| Slippery Road			| Slippery Road      							|
+In order to test the trained model, 8 external images were predicted by the network. All images were rescaled to a size of 32x32 and labeled to its respective label. After the execution of the script, all images were predicted correctly. The individualy results can be seen below:
 
 
-The model was able to correctly guess 4 of the 5 traffic signs, which gives an accuracy of 80%. This compares favorably to the accuracy on the test set of ...
+#### 2 - Speed limit (50km/h)
+<img src="./InternetImages/2.jpg" width="128">
+![2 Results](./plots/Internet_2.png)
 
-#### 3. Describe how certain the model is when predicting on each of the five new images by looking at the softmax probabilities for each prediction. Provide the top 5 softmax probabilities for each image along with the sign type of each probability. (OPTIONAL: as described in the "Stand Out Suggestions" part of the rubric, visualizations can also be provided such as bar charts)
+#### 4 - Speed limit (70km/h)
+<img src="./InternetImages/4.jpg" width="128">
+![4 Results](./plots/Internet_4.png)
 
-The code for making predictions on my final model is located in the 11th cell of the Ipython notebook.
+#### 13 - Yield
+<img src="./InternetImages/13.jpg" width="128">
+![13 Results](./plots/Internet_13.png)
 
-For the first image, the model is relatively sure that this is a stop sign (probability of 0.6), and the image does contain a stop sign. The top five soft max probabilities were
+#### 14 - Stop
+<img src="./InternetImages/14.jpg" width="128">
+![14 Results](./plots/Internet_14.png)
 
-| Probability         	|     Prediction	        					| 
-|:---------------------:|:---------------------------------------------:| 
-| .60         			| Stop sign   									| 
-| .20     				| U-turn 										|
-| .05					| Yield											|
-| .04	      			| Bumpy Road					 				|
-| .01				    | Slippery Road      							|
+#### 17 - No entry
+<img src="./InternetImages/17.jpg" width="128">
+![17 Results](./plots/Internet_17.png)
+
+#### 22 - Bumpy road
+<img src="./InternetImages/22.jpg" width="128">
+![22 Results](./plots/Internet_22.png)
+
+#### 28 - Children crossing
+<img src="./InternetImages/28.jpg" width="128">
+![28 Results](./plots/Internet_28.png)
+
+#### 33 - Turn right ahead
+<img src="./InternetImages/33.jpg" width="128">
+![33 Results](./plots/Internet_33.png)
 
 
-For the second image ... 
+
+
+
+
 
 
 
