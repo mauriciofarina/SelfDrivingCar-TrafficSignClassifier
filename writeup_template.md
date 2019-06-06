@@ -172,36 +172,85 @@ In order to test the trained model, 8 external images were predicted by the netw
 
 #### 2 - Speed limit (50km/h)
 <img src="./InternetImages/2.jpg" width="128">
-![2 Results](./plots/Internet_2.png)
+<img src="./plots/Internet_2.png">
+
+|             |   1°   |   2°   |   3°   |   4°   |   5°   |
+|-------------|--------|--------|--------|--------|--------|
+| Probability | 99.99 | 9.82e-4 | 8.42e-4 | 2.84e-05 | 7.83e-07 |
+| Label       | 2 | 1 | 3 | 5 | 38 |
+
+
 
 #### 4 - Speed limit (70km/h)
 <img src="./InternetImages/4.jpg" width="128">
-![4 Results](./plots/Internet_4.png)
+<img src="./plots/Internet_4.png">
+
+|             |   1°   |   2°   |   3°   |   4°   |   5°   |
+|-------------|--------|--------|--------|--------|--------|
+| Probability | 99.99 | 6.93e-06 | 1.89e-06 | 5.60e-07 | 2.85e-07 |
+| Label       | 4 | 8 | 1 | 2 | 0 |
 
 #### 13 - Yield
 <img src="./InternetImages/13.jpg" width="128">
-![13 Results](./plots/Internet_13.png)
+<img src="./plots/Internet_13.png">
+
+|             |   1°   |   2°   |   3°   |   4°   |   5°   |
+|-------------|--------|--------|--------|--------|--------|
+| Probability | 99.99 | 4.31e-14 | 1.51e-17 | 1.25e-17 | 5.45e-18 |
+| Label       | 13 | 38 | 3 | 1 | 15 |
+
+
 
 #### 14 - Stop
 <img src="./InternetImages/14.jpg" width="128">
-![14 Results](./plots/Internet_14.png)
+<img src="./plots/Internet_14.png">
+
+|             |   1°   |   2°   |   3°   |   4°   |   5°   |
+|-------------|--------|--------|--------|--------|--------|
+| Probability | 98.24 | 1.75 | 2.65e-04 | 4.82e-05 | 3.86e-05 |
+| Label       | 14 | 12 | 33 | 9 | 17 |
+
 
 #### 17 - No entry
 <img src="./InternetImages/17.jpg" width="128">
-![17 Results](./plots/Internet_17.png)
+<img src="./plots/Internet_17.png">
+
+|             |   1°   |   2°   |   3°   |   4°   |   5°   |
+|-------------|--------|--------|--------|--------|--------|
+| Probability | 99.99 | 1.90e-21 | 7.56e-22 | 8.61e-26 | 7.57e-26 |
+| Label       | 17 | 14 | 38 | 34 | 9 |
+
+
 
 #### 22 - Bumpy road
 <img src="./InternetImages/22.jpg" width="128">
-![22 Results](./plots/Internet_22.png)
+<img src="./plots/Internet_22.png">
+
+|             |   1°   |   2°   |   3°   |   4°   |   5°   |
+|-------------|--------|--------|--------|--------|--------|
+| Probability | 99.99 | 5.33e-3 | 1.37e-4 | 5.26e-05 | 2.93e-05 |
+| Label       | 22 | 29 | 3 | 31 | 28 |
+
+
 
 #### 28 - Children crossing
 <img src="./InternetImages/28.jpg" width="128">
-![28 Results](./plots/Internet_28.png)
+<img src="./plots/Internet_28.png">
+
+|             |   1°   |   2°   |   3°   |   4°   |   5°   |
+|-------------|--------|--------|--------|--------|--------|
+| Probability | 99.99 | 1.37e-4 | 1.87e-05 | 7.52e-06 | 2.67e-06 |
+| Label       | 28 | 29 | 24 | 1 | 30 |
+
 
 #### 33 - Turn right ahead
 <img src="./InternetImages/33.jpg" width="128">
-![33 Results](./plots/Internet_33.png)
+<img src="./plots/Internet_33.png">
 
+|             |   1°   |   2°   |   3°   |   4°   |   5°   |
+|-------------|--------|--------|--------|--------|--------|
+| Probability | 99.99 | 2.80e-10 | 4.45e-12 | 1.13e-13 | 9.65e-14 |
+| Label       | 33 | 35 | 1 | 37 | 4 |
 
 
 
