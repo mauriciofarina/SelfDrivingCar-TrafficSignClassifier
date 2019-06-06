@@ -60,17 +60,17 @@ The sample distribution for each dataset and its statistics are presented below:
 
 
 
-### Proprocess
+### Preprocess
 
 In order to obtain better results, 3 steps of preprocessing was implemented:
 
 #### 1. Grayscale Conversion
 
-After multiple tests with differente color maps and channels, it was notice that a single channel grayscale image obtained the best results for this model.
+After multiple tests with different color maps and channels, it was notice that a single channel grayscale image obtained the best results for this model.
 
 #### 2. Histogram Equalization
 
-In order to ajust light conditions, the histogram equalizatiton was applyied to the grayscale images
+In order to adjust light conditions, the histogram equalization was applied to the grayscale images
 
 #### 3. Normalization
 
@@ -125,7 +125,7 @@ In order to prevent overfitting, a dropout regularization added to the model:
 | Fully Connected 2 | 0.8              |
 
 
- ### Model Traning
+ ### Model Training
  
  In order to obtain the final trained model, multiple tests were executed in order to find the best results. The provided learning rate of 0.001 and batch size of 128 resulted in good results and were not changed. In the other hand, the number of epochs was too short for obtaining the necessary 0.93 accuracy, so it was changed to 50 epochs.
  
@@ -167,7 +167,7 @@ In order to prevent overfitting, a dropout regularization added to the model:
 ### Testing Model on New Images
 
 
-In order to test the trained model, 8 external images were predicted by the network. All images were rescaled to a size of 32x32 and labeled to its respective label. After the execution of the script, all images were predicted correctly. The individualy results can be seen below:
+In order to test the trained model, 8 external images were predicted by the network. All images were rescaled to a size of 32x32 and labeled to its respective label. After the execution of the script, all images were predicted correctly. The individually results can be seen below:
 
 
 #### 2 - Speed limit (50km/h)
@@ -251,12 +251,5 @@ In order to test the trained model, 8 external images were predicted by the netw
 |-------------|--------|--------|--------|--------|--------|
 | Probability | 99.99 | 2.80e-10 | 4.45e-12 | 1.13e-13 | 9.65e-14 |
 | Label       | 33 | 35 | 1 | 37 | 4 |
-
-
-
-
-
-
-
 
 
